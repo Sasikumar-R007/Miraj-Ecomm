@@ -1,13 +1,10 @@
-
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User as FirebaseUser, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
 import { User } from '../types';
+import { mockAuth } from '../lib/mockAuth';
 
 interface AuthContextType {
   currentUser: User | null;
-  firebaseUser: FirebaseUser | null;
+  user: User | null; // Add user alias for compatibility
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
@@ -17,55 +14,28 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const user = await mockAuth.signIn(email, password);
+    setCurrentUser(user);
   };
 
   const logout = async () => {
-    await signOut(auth);
+    await mockAuth.signOut();
+    setCurrentUser(null);
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setFirebaseUser(user);
-      
-      if (user) {
-        try {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setCurrentUser({
-              id: user.uid,
-              ...userDoc.data()
-            } as User);
-          } else {
-            // Create a default user profile
-            setCurrentUser({
-              id: user.uid,
-              name: user.displayName || 'User',
-              email: user.email || '',
-              role: 'user'
-            });
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-          setCurrentUser(null);
-        }
-      } else {
-        setCurrentUser(null);
-      }
-      
-      setLoading(false);
-    });
-
-    return unsubscribe;
+    // Check for existing user on mount
+    const user = mockAuth.getCurrentUser();
+    setCurrentUser(user);
+    setLoading(false);
   }, []);
 
   const value = {
     currentUser,
-    firebaseUser,
+    user: currentUser, // Add user alias for compatibility
     login,
     logout,
     loading
