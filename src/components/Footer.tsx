@@ -9,9 +9,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold">ModernStore</h3>
+            <h3 className="text-xl font-bold">Miraj Candles</h3>
             <p className="text-gray-400">
-              Your one-stop destination for modern, high-quality products.
+              Handcrafted premium candles that illuminate your space with luxury and warmth.
             </p>
           </div>
 
@@ -44,9 +44,9 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Customer Service</h4>
             <div className="space-y-2">
-              <p className="text-gray-400">Email: support@modernstore.com</p>
-              <p className="text-gray-400">Phone: (555) 123-4567</p>
-              <p className="text-gray-400">Mon-Fri: 9AM-6PM</p>
+              <p className="text-gray-400">Email: hello@mirajcandles.com</p>
+              <p className="text-gray-400">Phone: (555) CANDLES</p>
+              <p className="text-gray-400">Mon-Fri: 9AM-7PM</p>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Newsletter</h4>
             <p className="text-gray-400">
-              Subscribe to get updates on new products and offers.
+              Subscribe for new candle collections, exclusive offers, and fragrance tips.
             </p>
             <div className="flex">
               <input
@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; 2024 ModernStore. All rights reserved.</p>
+          <p>&copy; 2024 Miraj Candles. All rights reserved.</p>
         </div>
       </div>
     </footer>

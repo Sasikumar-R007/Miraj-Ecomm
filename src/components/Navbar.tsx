@@ -28,8 +28,12 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-black">
-            ModernStore
+          <Link to="/" className="flex items-center space-x-2">
+            <img 
+              src="/api/placeholder/120/40" 
+              alt="Miraj Candles" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
