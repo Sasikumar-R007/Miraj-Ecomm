@@ -1,18 +1,23 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+
+// Context Providers
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+
+// Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-// User Pages
+// Pages
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import Contact from './pages/Contact';
+import Wishlist from './pages/Wishlist';
 
 // Admin Pages
 import AdminLogin from './admin/AdminLogin';
@@ -37,7 +42,9 @@ function App() {
                 <Route path="/products/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
-                
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+
                 {/* Admin Routes */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route

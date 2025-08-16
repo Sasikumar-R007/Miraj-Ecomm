@@ -6,12 +6,15 @@ import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/fi
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import AdminLayout from './AdminLayout';
+import AddProductModal from './AddProductModal';
+import BagLoader from '../components/BagLoader';
 import toast from 'react-hot-toast';
 
 const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -57,15 +60,8 @@ const AdminProducts: React.FC = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded mb-6"></div>
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="bg-white p-6 rounded-lg shadow-sm border">
-                <div className="h-6 bg-gray-200 rounded"></div>
-              </div>
-            ))}
-          </div>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <BagLoader size="large" text="Loading Products..." />
         </div>
       </AdminLayout>
     );
@@ -80,7 +76,10 @@ const AdminProducts: React.FC = () => {
             <h1 className="text-3xl font-bold text-gray-900">Products</h1>
             <p className="text-gray-600 mt-2">Manage your product catalog</p>
           </div>
-          <button className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors">
+          <button 
+            onClick={() => setShowAddModal(true)}
+            className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors"
+          >
             <PlusIcon className="w-5 h-5" />
             Add Product
           </button>
@@ -147,7 +146,7 @@ const AdminProducts: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${product.price}
+                      ₹{product.price}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {product.stock}
@@ -171,6 +170,13 @@ const AdminProducts: React.FC = () => {
             </table>
           </div>
         </motion.div>
+
+        {/* Add Product Modal */}
+        <AddProductModal
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onProductAdded={fetchProducts}
+        />
       </div>
     </AdminLayout>
   );

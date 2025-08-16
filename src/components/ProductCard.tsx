@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
@@ -12,6 +13,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { dispatch } = useCart();
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,14 +27,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
-  // Sample candle images for fallback
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsWishlisted(!isWishlisted);
+    toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+  };
+
+  // Premium candle images
   const sampleImages = [
+    '/api/placeholder/400/400/candle1',
+    '/api/placeholder/400/400/candle2', 
+    '/api/placeholder/400/400/candle3',
+    '/api/placeholder/400/400/candle4',
+    '/api/placeholder/400/400/candle5',
+    '/api/placeholder/400/400/candle6',
     'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=400&h=400&fit=crop&auto=format',
     'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=400&h=400&fit=crop&auto=format',
     'https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=400&h=400&fit=crop&auto=format',
     'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop&auto=format',
     'https://images.unsplash.com/photo-1588854337115-1c67d9247e4d?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=400&fit=crop&auto=format'
+    'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1583829227043-0e3a30b0b6e4?w=400&h=400&fit=crop&auto=format'
   ];
 
   const getRandomSampleImage = () => {
@@ -61,6 +78,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <span className="text-white font-semibold">Out of Stock</span>
             </div>
           )}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={handleWishlist}
+            className="absolute top-3 right-3 p-2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full shadow-md transition-all duration-200"
+          >
+            {isWishlisted ? (
+              <HeartIconSolid className="w-5 h-5 text-red-500" />
+            ) : (
+              <HeartIcon className="w-5 h-5 text-gray-600 hover:text-red-500" />
+            )}
+          </motion.button>
         </div>
 
         <div className="p-4">

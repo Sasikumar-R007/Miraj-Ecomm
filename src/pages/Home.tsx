@@ -16,32 +16,36 @@ const Home: React.FC = () => {
 
   const heroSlides = [
     {
-      title: "Illuminate Your Space",
+      title: "New Arrivals",
       subtitle: "Premium Handcrafted Candles",
-      description: "Discover our exquisite collection of artisan candles, crafted with love and the finest natural ingredients.",
+      description: "Discover our latest collection of artisan candles, crafted with love and the finest natural ingredients.",
       image: "https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=800&h=500&fit=crop&auto=format",
-      buttonText: "Shop Candles"
+      buttonText: "Shop New Collection",
+      badge: "NEW"
     },
     {
-      title: "Pure Soy Wax Collection",
-      subtitle: "Eco-Friendly & Long Lasting",
-      description: "Experience the clean burn and extended life of our premium soy wax candles, made with natural ingredients.",
+      title: "On Discount",
+      subtitle: "Up to 30% Off Soy Wax Collection",
+      description: "Limited time offer! Experience the clean burn and extended life of our premium soy wax candles.",
       image: "https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=800&h=500&fit=crop&auto=format",
-      buttonText: "Explore Soy Wax"
+      buttonText: "Shop Sale",
+      badge: "SALE"
     },
     {
-      title: "Aromatherapy Bliss",
-      subtitle: "Wellness Through Fragrance",
-      description: "Transform your mood and enhance your well-being with our therapeutic aromatherapy candle collection.",
+      title: "Most Selling",
+      subtitle: "Customer Favorites",
+      description: "Our bestselling aromatherapy candles loved by thousands of customers worldwide.",
       image: "https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=800&h=500&fit=crop&auto=format",
-      buttonText: "Find Your Scent"
+      buttonText: "Shop Bestsellers",
+      badge: "BESTSELLER"
     },
     {
-      title: "Perfect Gift Sets",
-      subtitle: "Thoughtfully Curated",
-      description: "Surprise your loved ones with our beautifully packaged candle gift sets for every special occasion.",
+      title: "Premium Gift Sets",
+      subtitle: "Perfect for Every Occasion",
+      description: "Beautifully packaged candle gift sets that create lasting memories for your loved ones.",
       image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&h=500&fit=crop&auto=format",
-      buttonText: "Browse Gifts"
+      buttonText: "Browse Gifts",
+      badge: "GIFT"
     }
   ];
 
@@ -148,6 +152,16 @@ const Home: React.FC = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-white"
                   >
+                    <div className="flex items-center mb-4">
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        heroSlides[currentSlide].badge === 'NEW' ? 'bg-green-500' :
+                        heroSlides[currentSlide].badge === 'SALE' ? 'bg-red-500' :
+                        heroSlides[currentSlide].badge === 'BESTSELLER' ? 'bg-blue-500' :
+                        'bg-purple-500'
+                      } text-white`}>
+                        {heroSlides[currentSlide].badge}
+                      </span>
+                    </div>
                     <h1 className="text-5xl md:text-7xl font-bold mb-6">
                       {heroSlides[currentSlide].title}
                       <span className="block text-orange-300 text-3xl md:text-4xl mt-2">
@@ -307,6 +321,106 @@ const Home: React.FC = () => {
               Shop All Candles
               <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Happy Clients Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Our Happy Clients
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what our customers say about their 
+              experience with Miraj Candles.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Priya Sharma",
+                location: "Mumbai, India",
+                rating: 5,
+                review: "Absolutely love the quality and fragrance of these candles! They burn evenly and the scent lasts for hours. Perfect for creating a relaxing ambiance.",
+                image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&auto=format"
+              },
+              {
+                name: "Rahul Patel",
+                location: "Delhi, India",
+                rating: 5,
+                review: "The best candles I've ever purchased! The soy wax collection is amazing and burns so cleanly. Great value for money.",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&auto=format"
+              },
+              {
+                name: "Anjali Singh",
+                location: "Bangalore, India",
+                rating: 5,
+                review: "Beautiful packaging and exceptional quality. I ordered these as gifts and everyone loved them. Will definitely order again!",
+                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&auto=format"
+              },
+              {
+                name: "Vikram Gupta",
+                location: "Chennai, India",
+                rating: 5,
+                review: "The aromatherapy collection is incredible. Helps me relax after a long day at work. Highly recommend to everyone!",
+                image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format"
+              },
+              {
+                name: "Sneha Verma",
+                location: "Pune, India",
+                rating: 5,
+                review: "Fast shipping and excellent customer service. The candles exceeded my expectations in terms of quality and fragrance.",
+                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&auto=format"
+              },
+              {
+                name: "Arjun Mehta",
+                location: "Hyderabad, India",
+                rating: 5,
+                review: "Premium quality candles at affordable prices. The gift sets are perfect for special occasions. Love the variety!",
+                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format"
+              }
+            ].map((client, index) => (
+              <motion.div
+                key={client.name}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                className="bg-gray-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <div className="flex items-center mb-4">
+                  <img
+                    src={client.image}
+                    alt={client.name}
+                    className="w-12 h-12 rounded-full mr-4 object-cover"
+                  />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">{client.name}</h4>
+                    <p className="text-sm text-gray-600">{client.location}</p>
+                  </div>
+                </div>
+                
+                <div className="flex mb-3">
+                  {[...Array(client.rating)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                
+                <p className="text-gray-700 italic">"{client.review}"</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

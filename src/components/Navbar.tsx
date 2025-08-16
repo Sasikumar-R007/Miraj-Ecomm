@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBagIcon, UserIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ShoppingBagIcon, UserIcon, Bars3Icon, XMarkIcon, HeartIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const { state } = useCart();
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -28,12 +29,10 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?w=120&h=40&fit=crop&auto=format" 
-              alt="Miraj Candles" 
-              className="h-8 w-auto rounded"
-            />
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="bg-orange-500 p-2 rounded-lg">
+              <span className="text-white font-bold text-xl">M</span>
+            </div>
             <span className="text-xl font-bold text-gray-900">Miraj Candles</span>
           </Link>
 
@@ -51,10 +50,32 @@ const Navbar: React.FC = () => {
             >
               Products
             </Link>
+            <Link 
+              to="/contact" 
+              className="text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              Contact
+            </Link>
           </div>
 
-          {/* Cart and User Actions */}
+          {/* Cart, Wishlist and User Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Wishlist */}
+            <Link 
+              to="/wishlist" 
+              className="relative p-2 text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              <HeartIcon className="w-6 h-6" />
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+              >
+                0
+              </motion.span>
+            </Link>
+
+            {/* Cart */}
             <Link 
               to="/cart" 
               className="relative p-2 text-gray-600 hover:text-black transition-colors duration-200"
@@ -71,30 +92,83 @@ const Navbar: React.FC = () => {
               )}
             </Link>
 
+            {/* Profile Dropdown */}
             {currentUser ? (
-              <div className="flex items-center space-x-2">
-                {currentUser.role === 'admin' && (
-                  <Link 
-                    to="/admin" 
-                    className="text-gray-600 hover:text-black transition-colors duration-200"
-                  >
-                    Admin
-                  </Link>
-                )}
+              <div className="relative">
                 <button
-                  onClick={handleLogout}
-                  className="text-gray-600 hover:text-black transition-colors duration-200"
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  className="flex items-center space-x-1 text-gray-600 hover:text-black transition-colors duration-200"
                 >
-                  Logout
+                  <UserIcon className="w-6 h-6" />
+                  <ChevronDownIcon className="w-4 h-4" />
                 </button>
+                
+                <AnimatePresence>
+                  {showProfileDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50"
+                    >
+                      {currentUser.role === 'admin' && (
+                        <Link 
+                          to="/admin" 
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                          onClick={() => setShowProfileDropdown(false)}
+                        >
+                          Admin Dashboard
+                        </Link>
+                      )}
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setShowProfileDropdown(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                      >
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
-              <Link 
-                to="/admin/login" 
-                className="flex items-center text-gray-600 hover:text-black transition-colors duration-200"
-              >
-                <UserIcon className="w-6 h-6" />
-              </Link>
+              <div className="relative">
+                <button
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  className="flex items-center space-x-1 text-gray-600 hover:text-black transition-colors duration-200"
+                >
+                  <UserIcon className="w-6 h-6" />
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+                
+                <AnimatePresence>
+                  {showProfileDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50"
+                    >
+                      <Link 
+                        to="/login" 
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        Login as User
+                      </Link>
+                      <Link 
+                        to="/admin/login" 
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        Login as Admin
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             )}
           </div>
 
@@ -135,6 +209,13 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsOpen(false)}
               >
                 Products
+              </Link>
+              <Link 
+                to="/contact" 
+                className="block text-gray-600 hover:text-black transition-colors duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
               </Link>
               <Link 
                 to="/cart" 
