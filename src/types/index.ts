@@ -11,7 +11,6 @@ export interface Product {
 }
 
 export interface CartItem {
-  id: string;
   product: Product;
   quantity: number;
 }
@@ -25,8 +24,8 @@ export interface Order {
   customerInfo: {
     name: string;
     email: string;
-    phone: string;
     address: string;
+    phone: string;
   };
   createdAt: Date;
 }
@@ -39,9 +38,9 @@ export interface User {
 }
 
 export interface StoreSettings {
-  storeName: string;
+  name: string;
   logo: string;
-  contactInfo: {
+  contact: {
     email: string;
     phone: string;
     address: string;

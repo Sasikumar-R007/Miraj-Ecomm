@@ -1,59 +1,77 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
+import toast from 'react-hot-toast';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { addItem } = useCart();
+  const { dispatch } = useCart();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product);
+    
+    if (product.stock > 0) {
+      dispatch({ type: 'ADD_TO_CART', payload: product });
+      toast.success(`${product.title} added to cart!`);
+    } else {
+      toast.error('Product out of stock');
+    }
   };
 
   return (
     <motion.div
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group"
+      className="card group"
     >
-      <Link to={`/product/${product.id}`}>
-        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
+      <Link to={`/products/${product.id}`}>
+        <div className="relative overflow-hidden">
           <img
             src={product.imageUrl}
             alt={product.title}
-            className="w-full h-64 object-cover object-center group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
           />
+          {product.stock === 0 && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <span className="text-white font-semibold">Out of Stock</span>
+            </div>
+          )}
         </div>
+        
         <div className="p-4">
-          <h3 className="text-lg font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
+          <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-black transition-colors duration-200">
             {product.title}
           </h3>
-          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+          <p className="text-gray-600 text-sm mb-2 line-clamp-2">
             {product.description}
           </p>
-          <div className="mt-3 flex items-center justify-between">
-            <p className="text-xl font-bold text-gray-900">
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-bold text-black">
               ${product.price.toFixed(2)}
-            </p>
+            </span>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
-              className="bg-gray-900 text-white p-2 rounded-lg hover:bg-gray-800 transition-colors"
+              disabled={product.stock === 0}
+              className={`p-2 rounded-lg transition-colors duration-200 ${
+                product.stock > 0
+                  ? 'bg-black text-white hover:bg-gray-800'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
             >
               <ShoppingCartIcon className="w-5 h-5" />
             </motion.button>
           </div>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-xs text-gray-500 mt-1">
             {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
           </p>
         </div>
