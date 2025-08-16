@@ -7,7 +7,7 @@ import { db } from '../lib/firebase';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { useLoading } from '../context/LoadingContext';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 // Mock data for enhanced product details
 const mockProductData = {
@@ -282,7 +282,7 @@ const ProductDetail: React.FC = () => {
 
             <div className="border-t border-b py-4">
               <div className="text-3xl font-bold text-gray-900 mb-2">
-                ${product.price.toFixed(2)}
+                ₹{(product.price * 80).toFixed(0)}
               </div>
               <p className="text-green-600 text-sm">Inclusive of all taxes</p>
               {mockProductData.deliveryInfo.freeDelivery && (

@@ -102,7 +102,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </p>
           <div className="flex items-center justify-between">
             <span className="text-lg font-bold text-black">
-              ${product.price.toFixed(2)}
+              ₹{(product.price * 80).toFixed(0)}
             </span>
             <motion.button
               whileHover={{ scale: 1.05 }}

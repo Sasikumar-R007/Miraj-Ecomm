@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { HeartIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -111,7 +110,7 @@ const Wishlist: React.FC = () => {
                     {item.title}
                   </h3>
                 </Link>
-                
+
                 <div className="flex items-center mb-3">
                   <span className="text-lg font-bold text-orange-500">
                     ₹{item.price}

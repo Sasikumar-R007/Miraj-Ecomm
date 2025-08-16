@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TrashIcon, MinusIcon, PlusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../context/CartContext';
+import { toast } from 'react-toastify'; // Import toast from react-toastify
 
 const Cart: React.FC = () => {
   const { state, removeItem, updateQuantity } = useCart();
@@ -11,8 +11,10 @@ const Cart: React.FC = () => {
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity === 0) {
       removeItem(id);
+      toast.info('Item removed from cart'); // Add toast notification
     } else {
       updateQuantity(id, newQuantity);
+      toast.success('Quantity updated'); // Add toast notification
     }
   };
 
@@ -74,7 +76,7 @@ const Cart: React.FC = () => {
                         alt={item.product.title}
                         className="w-20 h-20 object-cover rounded-lg"
                       />
-                      
+
                       <div className="flex-1">
                         <h3 className="text-lg font-medium text-gray-900">
                           {item.product.title}
@@ -83,7 +85,7 @@ const Cart: React.FC = () => {
                           {item.product.category}
                         </p>
                         <p className="text-xl font-bold text-gray-900 mt-2">
-                          ${item.product.price.toFixed(2)}
+                          ₹{(item.product.price * 80).toFixed(0)}
                         </p>
                       </div>
 
@@ -97,11 +99,11 @@ const Cart: React.FC = () => {
                         >
                           <MinusIcon className="w-4 h-4" />
                         </motion.button>
-                        
+
                         <span className="w-12 text-center font-medium">
                           {item.quantity}
                         </span>
-                        
+
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
@@ -137,11 +139,11 @@ const Cart: React.FC = () => {
               className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-8"
             >
               <h2 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
-              
+
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${state.total.toFixed(2)}</span>
+                  <span>₹{(state.total * 80).toFixed(0)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -149,12 +151,12 @@ const Cart: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>${(state.total * 0.08).toFixed(2)}</span>
+                  <span>₹{(state.total * 0.08 * 80).toFixed(0)}</span>
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-lg font-bold text-gray-900">
                     <span>Total</span>
-                    <span>${(state.total * 1.08).toFixed(2)}</span>
+                    <span>₹{(state.total * 1.08 * 80).toFixed(0)}</span>
                   </div>
                 </div>
               </div>
