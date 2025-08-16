@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 // Context Providers
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { LoadingProvider } from './context/LoadingContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -29,9 +30,10 @@ import ProtectedRoute from './admin/ProtectedRoute';
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
+    <LoadingProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
           <div className="min-h-screen bg-gray-50 flex flex-col">
             <Navbar />
             <main className="flex-1">
@@ -94,8 +96,9 @@ function App() {
             />
           </div>
         </Router>
-      </CartProvider>
-    </AuthProvider>
+        </CartProvider>
+      </AuthProvider>
+    </LoadingProvider>
   );
 }
 

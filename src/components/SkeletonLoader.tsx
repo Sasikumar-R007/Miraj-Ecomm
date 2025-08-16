@@ -39,3 +39,29 @@ export const ProductGridSkeleton: React.FC = () => {
     </div>
   );
 };
+import React from 'react';
+
+export const ProductSkeleton: React.FC = () => (
+  <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-pulse">
+    <div className="w-full h-64 bg-gray-300"></div>
+    <div className="p-4">
+      <div className="h-6 bg-gray-300 rounded mb-2"></div>
+      <div className="h-4 bg-gray-300 rounded mb-3 w-3/4"></div>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="h-8 bg-gray-300 rounded mb-1 w-20"></div>
+          <div className="h-4 bg-gray-300 rounded w-16"></div>
+        </div>
+        <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+      </div>
+    </div>
+  </div>
+);
+
+export const ProductGridSkeleton: React.FC = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {Array.from({ length: 8 }).map((_, index) => (
+      <ProductSkeleton key={index} />
+    ))}
+  </div>
+);

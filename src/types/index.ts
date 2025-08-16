@@ -50,3 +50,45 @@ export interface StoreSettings {
     address: string;
   };
 }
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  imageUrl: string;
+  stock: number;
+  createdAt: Date;
+}
+
+export interface CartItem {
+  id: string;
+  product: Product;
+  quantity: number;
+}
+
+export interface CartState {
+  items: CartItem[];
+  total: number;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: 'admin' | 'user';
+}
+
+export interface Order {
+  id: string;
+  items: CartItem[];
+  total: number;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  customerInfo: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  };
+  createdAt: Date;
+}
