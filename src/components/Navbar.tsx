@@ -43,19 +43,9 @@ const Navbar: React.FC = () => {
             <img 
               src="/images/miraj-logo.png" 
               alt="Miraj Candles" 
-              className="h-12 w-auto object-contain"
-              onError={(e) => {
-                // Fallback to text logo if image fails to load
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling!.style.display = 'block';
-              }}
+              className="h-10 w-auto object-contain"
+              style={{ maxWidth: '150px' }}
             />
-            <div 
-              className="text-2xl font-bold text-orange-600 hidden"
-              style={{ fontFamily: 'serif' }}
-            >
-              Miraj Candles
-            </div>
           </Link>
 
           {/* Desktop Navigation */}
