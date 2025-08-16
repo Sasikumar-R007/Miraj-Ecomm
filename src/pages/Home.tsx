@@ -1,17 +1,19 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { collection, getDocs, limit, query, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
+import BagLoader from '../components/BagLoader';
 
 const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [bestSellers, setBestSellers] = useState<Product[]>([]);
+  const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);
+  const [isLoadingBestSellers, setIsLoadingBestSellers] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroSlides = [
@@ -51,6 +53,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
+      setIsLoadingFeatured(true);
       try {
         const q = query(
           collection(db, 'products'),
@@ -58,20 +61,53 @@ const Home: React.FC = () => {
           limit(4)
         );
         const querySnapshot = await getDocs(q);
-        const products = querySnapshot.docs.map(doc => ({
+        const productsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
-          ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate() || new Date()
+          ...doc.data()
         })) as Product[];
-        setFeaturedProducts(products);
+
+        if (productsData.length === 0) {
+          setFeaturedProducts(sampleProducts.slice(0, 4));
+        } else {
+          setFeaturedProducts(productsData);
+        }
       } catch (error) {
         console.error('Error fetching featured products:', error);
+        setFeaturedProducts(sampleProducts.slice(0, 4));
       } finally {
-        setLoading(false);
+        setIsLoadingFeatured(false);
       }
     };
 
-    fetchFeaturedProducts();
+    const fetchBestSellers = async () => {
+      setIsLoadingBestSellers(true);
+      try {
+        const q = query(
+          collection(db, 'products'),
+          orderBy('sales', 'desc'),
+          limit(4)
+        );
+        const querySnapshot = await getDocs(q);
+        const productsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Product[];
+
+        if (productsData.length === 0) {
+          setBestSellers(sampleProducts.slice(4, 8));
+        } else {
+          setBestSellers(productsData);
+        }
+      } catch (error) {
+        console.error('Error fetching best sellers:', error);
+        setBestSellers(sampleProducts.slice(4, 8));
+      } finally {
+        setIsLoadingBestSellers(false);
+      }
+    };
+
+    // Fetch both concurrently for better performance
+    Promise.all([fetchFeaturedProducts(), fetchBestSellers()]);
   }, []);
 
   // Auto-slide functionality
@@ -92,37 +128,37 @@ const Home: React.FC = () => {
   };
 
   const categories = [
-    { 
-      name: 'Scented Candles', 
-      image: '/images/candles/candle-collection-6.jpg', 
+    {
+      name: 'Scented Candles',
+      image: '/images/candles/candle-collection-6.jpg',
       color: 'bg-orange-500',
       description: 'Luxurious fragrances for every mood',
       icon: '🕯️'
     },
-    { 
-      name: 'Soy Wax', 
-      image: '/images/candles/candle-collection-7.jpg', 
+    {
+      name: 'Soy Wax',
+      image: '/images/candles/candle-collection-7.jpg',
       color: 'bg-green-500',
       description: 'Natural and eco-friendly options',
       icon: '🌿'
     },
-    { 
-      name: 'Gift Sets', 
-      image: '/images/candles/candle-collection-10.jpg', 
+    {
+      name: 'Gift Sets',
+      image: '/images/candles/candle-collection-10.jpg',
       color: 'bg-red-500',
       description: 'Perfect presents for loved ones',
       icon: '🎁'
     },
-    { 
-      name: 'Decor Candles', 
-      image: '/images/candles/candle-collection-8.jpg', 
+    {
+      name: 'Decor Candles',
+      image: '/images/candles/candle-collection-8.jpg',
       color: 'bg-purple-500',
       description: 'Beautiful designs for home styling',
       icon: '🏠'
     },
-    { 
-      name: 'Aromatherapy', 
-      image: '/images/candles/candle-collection-9.jpg', 
+    {
+      name: 'Aromatherapy',
+      image: '/images/candles/candle-collection-9.jpg',
       color: 'bg-blue-500',
       description: 'Therapeutic scents for wellness',
       icon: '💧'
@@ -240,7 +276,7 @@ const Home: React.FC = () => {
               Our Candle Collections
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From handcrafted soy wax to luxury scented candles, discover our complete range 
+              From handcrafted soy wax to luxury scented candles, discover our complete range
               of premium candles designed to illuminate and inspire your space.
             </p>
           </motion.div>
@@ -277,51 +313,67 @@ const Home: React.FC = () => {
       </section>
 
       {/* Featured Products Section */}
-      <section className="py-20 bg-orange-50">
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Bestselling Candles
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our most loved candles, handpicked by customers for their exceptional 
-              fragrance, quality, and burn time.
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Discover our handpicked selection of premium candles, crafted with love and attention to detail.
             </p>
-          </motion.div>
-
-          {loading ? (
-            <ProductGridSkeleton />
+          </div>
+          {isLoadingFeatured ? (
+            <BagLoader size="large" text="Loading featured products..." />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {featuredProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
                 >
                   <ProductCard product={product} />
                 </motion.div>
               ))}
             </div>
           )}
-
-          <div className="text-center mt-16">
-            <Link 
-              to="/products" 
-              className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg transition-colors duration-200"
+          <div className="text-center">
+            <Link
+              to="/products"
+              className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
             >
-              Shop All Candles
+              View All Products
               <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Best Sellers Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Best Sellers</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Our most popular candles that customers love and keep coming back for.
+            </p>
+          </div>
+          {isLoadingBestSellers ? (
+            <BagLoader size="large" text="Loading bestsellers..." />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {bestSellers.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -339,7 +391,7 @@ const Home: React.FC = () => {
               Our Happy Clients
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what our customers say about their 
+              Don't just take our word for it. Here's what our customers say about their
               experience with Miraj Candles.
             </p>
           </motion.div>
@@ -409,7 +461,7 @@ const Home: React.FC = () => {
                     <p className="text-sm text-gray-600">{client.location}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex mb-3">
                   {[...Array(client.rating)].map((_, i) => (
                     <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
@@ -417,7 +469,7 @@ const Home: React.FC = () => {
                     </svg>
                   ))}
                 </div>
-                
+
                 <p className="text-gray-700 italic">"{client.review}"</p>
               </motion.div>
             ))}
@@ -439,16 +491,16 @@ const Home: React.FC = () => {
                 Crafted with Passion
               </h2>
               <p className="text-xl text-gray-300 mb-6">
-                At Miraj Candles, we believe in the transformative power of fragrance. 
-                Each candle is meticulously handcrafted using premium natural waxes and 
+                At Miraj Candles, we believe in the transformative power of fragrance.
+                Each candle is meticulously handcrafted using premium natural waxes and
                 carefully selected fragrance oils.
               </p>
               <p className="text-lg text-gray-400 mb-8">
-                Our commitment to quality ensures that every Miraj candle delivers 
+                Our commitment to quality ensures that every Miraj candle delivers
                 exceptional scent throw, clean burning, and hours of aromatic bliss.
               </p>
-              <Link 
-                to="/about" 
+              <Link
+                to="/about"
                 className="inline-flex items-center border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 Learn Our Story
@@ -487,7 +539,7 @@ const Home: React.FC = () => {
               Stay Illuminated
             </h2>
             <p className="text-lg text-orange-100 mb-8">
-              Subscribe to our newsletter for exclusive offers, new collection launches, 
+              Subscribe to our newsletter for exclusive offers, new collection launches,
               and candle care tips delivered to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">

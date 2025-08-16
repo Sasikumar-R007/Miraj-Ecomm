@@ -5,9 +5,14 @@ import { motion } from 'framer-motion';
 interface BagLoaderProps {
   size?: 'small' | 'medium' | 'large';
   text?: string;
+  fullScreen?: boolean;
 }
 
-const BagLoader: React.FC<BagLoaderProps> = ({ size = 'medium', text = 'Loading...' }) => {
+const BagLoader: React.FC<BagLoaderProps> = ({ 
+  size = 'medium', 
+  text = 'Loading...', 
+  fullScreen = false 
+}) => {
   const sizeClasses = {
     small: 'w-8 h-8',
     medium: 'w-12 h-12',
@@ -20,58 +25,77 @@ const BagLoader: React.FC<BagLoaderProps> = ({ size = 'medium', text = 'Loading.
     large: 'text-lg'
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center space-y-4">
-      <motion.div
-        className={`${sizeClasses[size]} relative`}
-        animate={{
-          rotateY: [0, 180, 360],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {/* Shopping bag SVG */}
-        <svg
-          className="w-full h-full text-orange-500"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z" />
-          <motion.path
-            d="M9 8V12C9 13.1 9.9 14 11 14H13C14.1 14 15 13.1 15 12V8"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-            animate={{
-              pathLength: [0, 1, 0],
-              opacity: [0.3, 1, 0.3]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </svg>
-      </motion.div>
+  const containerClasses = fullScreen
+    ? 'fixed inset-0 bg-white bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50'
+    : 'flex items-center justify-center py-8';
 
-      <motion.p
-        className={`${textSizes[size]} text-gray-600 font-medium`}
-        animate={{
-          opacity: [0.5, 1, 0.5]
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {text}
-      </motion.p>
+  return (
+    <div className={containerClasses}>
+      <div className="text-center">
+        <motion.div
+          className={`${sizeClasses[size]} relative mx-auto mb-4`}
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <svg
+            className="w-full h-full text-orange-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+            />
+            <motion.circle
+              cx="9"
+              cy="20"
+              r="1"
+              fill="currentColor"
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                delay: 0.2
+              }}
+            />
+            <motion.circle
+              cx="20"
+              cy="20"
+              r="1"
+              fill="currentColor"
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                delay: 0.4
+              }}
+            />
+          </svg>
+        </motion.div>
+        <motion.p
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className={`text-gray-600 font-medium ${textSizes[size]}`}
+        >
+          {text}
+        </motion.p>
+      </div>
     </div>
   );
 };

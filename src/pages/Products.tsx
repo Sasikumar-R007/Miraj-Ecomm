@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FunnelIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
+import BagLoader from '../components/BagLoader'; // Assuming BagLoader is created for the cart icon loader
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Renamed loading to isLoading for clarity
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
-  const [sortBy, setSortBy] = useState('newest');
+  // The priceRange state was changed from an object to an array in the provided changes.
+  // I will use an array [min, max] as per the changes.
+  const [priceRange, setPriceRange] = useState([0, 1000]); // Updated to array [min, max]
+  const [sortBy, setSortBy] = useState('newest'); // Changed default sort to 'newest'
   const [showFilters, setShowFilters] = useState(false);
 
   const [searchParams] = useSearchParams();
@@ -24,14 +27,14 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true); // Set loading to true before fetching
       try {
-        setLoading(true);
         const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         const productsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate() || new Date()
+          createdAt: doc.data().createdAt?.toDate() || new Date() // Ensure createdAt is a Date object
         })) as Product[];
         setProducts(productsData);
 
@@ -42,15 +45,19 @@ const Products: React.FC = () => {
         }
       } catch (error) {
         console.error('Error fetching products:', error);
+        // Fallback to sample products if fetching fails or no products are found
+        // For a production app, you might want a more robust error handling or UI
+        setProducts([]); // Clear products on error or implement fallback
       } finally {
-        setLoading(false);
+        setIsLoading(false); // Set loading to false after fetch attempt
       }
     };
 
     fetchProducts();
-  }, [searchParams]);
+  }, [searchParams]); // Dependency array includes searchParams to re-fetch if URL changes
 
-  useEffect(() => {
+  // Memoize filtered and sorted products to prevent unnecessary re-calculations
+  const filteredAndSortedProducts = useMemo(() => {
     let filtered = [...products];
 
     // Filter by search term
@@ -69,8 +76,10 @@ const Products: React.FC = () => {
     }
 
     // Filter by price range
+    // Ensure priceRange is treated as [min, max]
+    const [minPrice, maxPrice] = priceRange;
     filtered = filtered.filter(product =>
-      product.price >= priceRange.min && product.price <= priceRange.max
+      product.price >= minPrice && product.price <= maxPrice
     );
 
     // Sort products
@@ -90,14 +99,19 @@ const Products: React.FC = () => {
         break;
     }
 
-    setFilteredProducts(filtered);
+    return filtered;
   }, [products, searchTerm, selectedCategory, priceRange, sortBy]);
 
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedCategory('all');
-    setPriceRange({ min: 0, max: 1000 });
-    setSortBy('newest');
+    setPriceRange([0, 1000]); // Reset price range
+    setSortBy('newest'); // Reset sort to newest
+  };
+
+  // Handler for price range slider
+  const handlePriceRangeChange = (values: [number, number]) => {
+    setPriceRange(values);
   };
 
   return (
@@ -156,6 +170,7 @@ const Products: React.FC = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
               className="mt-6 pt-6 border-t border-gray-200"
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -186,18 +201,20 @@ const Products: React.FC = () => {
                     <input
                       type="number"
                       placeholder="Min"
-                      value={priceRange.min}
-                      onChange={(e) => setPriceRange({ ...priceRange, min: Number(e.target.value) })}
+                      value={priceRange[0]} // Access min price from array
+                      onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     />
                     <input
                       type="number"
                       placeholder="Max"
-                      value={priceRange.max}
-                      onChange={(e) => setPriceRange({ ...priceRange, max: Number(e.target.value) })}
+                      value={priceRange[1]} // Access max price from array
+                      onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     />
                   </div>
+                  {/* You might want to add a range slider here for better UX */}
+                  {/* Example: <RangeSlider min={0} max={2000} value={priceRange} onChange={handlePriceRangeChange} /> */}
                 </div>
 
                 {/* Clear Filters */}
@@ -215,23 +232,25 @@ const Products: React.FC = () => {
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600">
-            Showing {filteredProducts.length} of {products.length} products
-          </p>
-        </div>
+        {!isLoading && ( // Only show count when not loading
+          <div className="mb-6">
+            <p className="text-gray-600">
+              Showing {filteredAndSortedProducts.length} of {products.length} products
+            </p>
+          </div>
+        )}
 
         {/* Products Grid */}
-        {loading ? (
-          <ProductGridSkeleton />
-        ) : filteredProducts.length > 0 ? (
+        {isLoading ? (
+          <BagLoader size="large" text="Loading products..." /> // Use BagLoader when loading
+        ) : filteredAndSortedProducts.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
-            {filteredProducts.map((product, index) => (
+            {filteredAndSortedProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -252,7 +271,7 @@ const Products: React.FC = () => {
             </p>
             <button
               onClick={clearFilters}
-              className="btn-primary"
+              className="btn-primary" // Assuming btn-primary is defined elsewhere
             >
               Clear All Filters
             </button>

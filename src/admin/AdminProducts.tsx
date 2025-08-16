@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -21,8 +20,8 @@ const AdminProducts: React.FC = () => {
   }, []);
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       const productsData = querySnapshot.docs.map(doc => ({
@@ -57,6 +56,11 @@ const AdminProducts: React.FC = () => {
     product.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setShowAddModal(true);
+  };
+
   if (loading) {
     return (
       <AdminLayout>
@@ -76,8 +80,11 @@ const AdminProducts: React.FC = () => {
             <h1 className="text-3xl font-bold text-gray-900">Products</h1>
             <p className="text-gray-600 mt-2">Manage your product catalog</p>
           </div>
-          <button 
-            onClick={() => setShowAddModal(true)}
+          <button
+            onClick={() => {
+              setEditingProduct(null);
+              setShowAddModal(true);
+            }}
             className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors"
           >
             <PlusIcon className="w-5 h-5" />
@@ -96,7 +103,7 @@ const AdminProducts: React.FC = () => {
           />
         </div>
 
-        {/* Products List */}
+        {/* Products Table */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -153,12 +160,16 @@ const AdminProducts: React.FC = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
-                        <button className="text-indigo-600 hover:text-indigo-900">
+                        <button
+                          onClick={() => handleEditProduct(product)}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
                           <PencilIcon className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteProduct(product.id)}
                           className="text-red-600 hover:text-red-900"
+                          disabled={loading}
                         >
                           <TrashIcon className="w-4 h-4" />
                         </button>
@@ -176,6 +187,7 @@ const AdminProducts: React.FC = () => {
           isOpen={showAddModal}
           onClose={() => setShowAddModal(false)}
           onProductAdded={fetchProducts}
+          productToEdit={editingProduct}
         />
       </div>
     </AdminLayout>
