@@ -37,12 +37,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   // Premium candle images
   const sampleImages = [
-    '/api/placeholder/400/400/candle1',
-    '/api/placeholder/400/400/candle2', 
-    '/api/placeholder/400/400/candle3',
-    '/api/placeholder/400/400/candle4',
-    '/api/placeholder/400/400/candle5',
-    '/api/placeholder/400/400/candle6',
+    '/images/candles/candle-collection-1.png',
+    '/images/candles/candle-collection-2.png',
+    '/images/candles/candle-collection-3.png',
+    '/images/candles/candle-collection-4.png',
+    '/images/candles/candle-collection-5.png',
     'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=400&h=400&fit=crop&auto=format',
     'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=400&h=400&fit=crop&auto=format',
     'https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=400&h=400&fit=crop&auto=format',

@@ -19,7 +19,7 @@ const Home: React.FC = () => {
       title: "New Arrivals",
       subtitle: "Premium Handcrafted Candles",
       description: "Discover our latest collection of artisan candles, crafted with love and the finest natural ingredients.",
-      image: "https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=800&h=500&fit=crop&auto=format",
+      image: "/images/candles/candle-collection-1.png",
       buttonText: "Shop New Collection",
       badge: "NEW"
     },
@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       title: "On Discount",
       subtitle: "Up to 30% Off Soy Wax Collection",
       description: "Limited time offer! Experience the clean burn and extended life of our premium soy wax candles.",
-      image: "https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=800&h=500&fit=crop&auto=format",
+      image: "/images/candles/candle-collection-2.png",
       buttonText: "Shop Sale",
       badge: "SALE"
     },
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
       title: "Most Selling",
       subtitle: "Customer Favorites",
       description: "Our bestselling aromatherapy candles loved by thousands of customers worldwide.",
-      image: "https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=800&h=500&fit=crop&auto=format",
+      image: "/images/candles/candle-collection-4.png",
       buttonText: "Shop Bestsellers",
       badge: "BESTSELLER"
     },
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
       title: "Premium Gift Sets",
       subtitle: "Perfect for Every Occasion",
       description: "Beautifully packaged candle gift sets that create lasting memories for your loved ones.",
-      image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&h=500&fit=crop&auto=format",
+      image: "/images/candles/candle-collection-5.png",
       buttonText: "Browse Gifts",
       badge: "GIFT"
     }
@@ -94,35 +94,35 @@ const Home: React.FC = () => {
   const categories = [
     { 
       name: 'Scented Candles', 
-      image: 'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=300&h=200&fit=crop&auto=format', 
+      image: '/images/candles/candle-collection-5.png', 
       color: 'bg-orange-500',
       description: 'Luxurious fragrances for every mood',
       icon: '🕯️'
     },
     { 
       name: 'Soy Wax', 
-      image: 'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=300&h=200&fit=crop&auto=format', 
+      image: '/images/candles/candle-collection-2.png', 
       color: 'bg-green-500',
       description: 'Natural and eco-friendly options',
       icon: '🌿'
     },
     { 
       name: 'Gift Sets', 
-      image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=300&h=200&fit=crop&auto=format', 
+      image: '/images/candles/candle-collection-1.png', 
       color: 'bg-red-500',
       description: 'Perfect presents for loved ones',
       icon: '🎁'
     },
     { 
       name: 'Decor Candles', 
-      image: 'https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=300&h=200&fit=crop&auto=format', 
+      image: '/images/candles/candle-collection-4.png', 
       color: 'bg-purple-500',
       description: 'Beautiful designs for home styling',
       icon: '🏠'
     },
     { 
       name: 'Aromatherapy', 
-      image: 'https://images.unsplash.com/photo-1588854337115-1c67d9247e4d?w=300&h=200&fit=crop&auto=format', 
+      image: '/images/candles/candle-collection-3.png', 
       color: 'bg-blue-500',
       description: 'Therapeutic scents for wellness',
       icon: '💧'
@@ -464,7 +464,7 @@ const Home: React.FC = () => {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop&auto=format"
+                src="/images/candles/candle-collection-3.png"
                 alt="Candle Making Process"
                 className="rounded-lg shadow-2xl"
               />
