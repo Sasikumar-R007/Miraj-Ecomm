@@ -39,7 +39,6 @@ export const ProductGridSkeleton: React.FC = () => {
     </div>
   );
 };
-import React from 'react';
 
 export const ProductSkeleton: React.FC = () => (
   <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-pulse">
@@ -55,13 +54,5 @@ export const ProductSkeleton: React.FC = () => (
         <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
       </div>
     </div>
-  </div>
-);
-
-export const ProductGridSkeleton: React.FC = () => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    {Array.from({ length: 8 }).map((_, index) => (
-      <ProductSkeleton key={index} />
-    ))}
   </div>
 );
