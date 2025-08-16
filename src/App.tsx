@@ -15,11 +15,11 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 
 // Admin Pages
-import AdminLogin from './admin/Login';
-import AdminDashboard from './admin/Dashboard';
-import AdminProducts from './admin/Products';
-import AdminOrders from './admin/Orders';
-import AdminSettings from './admin/Settings';
+import AdminLogin from './admin/AdminLogin';
+import AdminDashboard from './admin/AdminDashboard';
+import AdminProducts from './admin/AdminProducts';
+import AdminOrders from './admin/AdminOrders';
+import AdminSettings from './admin/AdminSettings';
 import ProtectedRoute from './admin/ProtectedRoute';
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
                 {/* Admin Routes */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route
-                  path="/admin"
+                  path="/admin/dashboard"
                   element={
                     <ProtectedRoute>
                       <AdminDashboard />
