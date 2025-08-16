@@ -25,11 +25,9 @@ const sampleProducts: Product[] = [
   { id: 's12', name: 'Lavender Dream Aromatherapy Candle', price: 33, description: 'Promotes relaxation and sleep', imageUrl: '/images/samples/aromatherapy-2.jpg', category: 'Aromatherapy', stock: 11, sales: 140 },
 ];
 
-// Placeholder for fetchProducts function, replace with actual data fetching logic
-// For demonstration, this will return sampleProducts
+// Optimized fetchProducts function with no artificial delay
 const fetchProducts = async (): Promise<Product[]> => {
-  // Simulate a network request delay
-  await new Promise(resolve => setTimeout(resolve, 300)); // Reduced delay
+  // Removed artificial delay for faster loading
   // In a real app, you would fetch from your database or API here
   // Example:
   // const q = query(collection(db, 'products'));
@@ -83,9 +81,13 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const fetchProductsData = async () => {
-      setIsLoadingFeatured(true);
-      setIsLoadingBestSellers(true);
+      // Use sample data immediately for faster loading
+      setFeaturedProducts(sampleProducts.slice(0, 4));
+      setBestSellers(sampleProducts.slice(4, 8));
+      setIsLoadingFeatured(false);
+      setIsLoadingBestSellers(false);
 
+      // Optionally fetch from Firebase in background for real data
       try {
         const featuredQuery = query(
           collection(db, 'products'),
@@ -113,26 +115,18 @@ const Home: React.FC = () => {
           ...doc.data()
         })) as Product[];
 
-        if (featuredProductsData.length === 0) {
-          setFeaturedProducts(sampleProducts.slice(0, 4));
-        } else {
+        // Update with real data if available
+        if (featuredProductsData.length > 0) {
           setFeaturedProducts(featuredProductsData);
         }
 
-        if (bestSellersProductsData.length === 0) {
-          setBestSellers(sampleProducts.slice(4, 8));
-        } else {
+        if (bestSellersProductsData.length > 0) {
           setBestSellers(bestSellersProductsData);
         }
 
       } catch (error) {
-        console.error('Error fetching products:', error);
-        // Fallback to sample data if fetching fails
-        setFeaturedProducts(sampleProducts.slice(0, 4));
-        setBestSellers(sampleProducts.slice(4, 8));
-      } finally {
-        setIsLoadingFeatured(false);
-        setIsLoadingBestSellers(false);
+        console.error('Error fetching products from Firebase:', error);
+        // Keep sample data if Firebase fetch fails
       }
     };
 
@@ -210,48 +204,6 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Navbar - Assuming a Navbar component exists or will be added */}
-      <nav className="bg-white shadow-md p-4 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center">
-            {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img
-                src="/images/miraj-logo.png" // Ensure this path is correct
-                alt="Miraj Candles Logo"
-                className="h-10 w-auto mr-3" // Adjust size as needed
-              />
-              <span className="text-xl font-bold text-orange-600">Miraj Candles</span>
-            </Link>
-          </div>
-          <div className="flex items-center space-x-6">
-            <Link to="/products" className="text-gray-700 hover:text-orange-500 font-medium">Products</Link>
-            <Link to="/about" className="text-gray-700 hover:text-orange-500 font-medium">About</Link>
-            <Link to="/contact" className="text-gray-700 hover:text-orange-500 font-medium">Contact</Link>
-            {/* Cart Icon with animation */}
-            <div className="relative">
-              <motion.div
-                variants={cartVariants}
-                initial="initial"
-                animate="animate"
-                whileHover="animate" // Trigger animation on hover
-              >
-                <ShoppingCartIcon className="h-6 w-6 text-gray-700 hover:text-orange-500 cursor-pointer" />
-                <motion.span
-                  variants={coinVariants}
-                  className="absolute -top-2 -right-3 text-orange-500 text-xs font-bold"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-5a1 1 0 10-2 0v2a1 1 0 102 0v-2zm-2-3a1 1 0 10-2 0v3a1 1 0 102 0V10zm4 3a1 1 0 10-2 0v2a1 1 0 102 0v-2z" clipRule="evenodd"/>
-                  </svg>
-                </motion.span>
-              </motion.div>
-              {/* Add a count for items in cart if available */}
-              {/* <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-xs font-bold leading-none text-red-100 bg-red-600">3</span> */}
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Hero Slider Section */}
       <section className="relative h-screen overflow-hidden">

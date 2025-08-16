@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -58,7 +57,7 @@ const BagLoader: React.FC<BagLoaderProps> = ({
             >
               <span className="text-green-600 font-bold text-2xl">$</span>
             </motion.div>
-            
+
             {/* Floating coins */}
             <motion.div
               className="absolute top-0 right-0 w-2 h-2 bg-yellow-400 rounded-full"
@@ -94,9 +93,9 @@ const BagLoader: React.FC<BagLoaderProps> = ({
                 scale: [1, 1.1, 1]
               }}
               transition={{
-                duration: 1.1,
+                duration: 0.6,
                 repeat: Infinity,
-                delay: 0.6
+                ease: "easeInOut"
               }}
             />
           </div>

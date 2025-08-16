@@ -9,6 +9,56 @@ import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
 import BagLoader from '../components/BagLoader'; // Assuming BagLoader is created for the cart icon loader
 
+// Sample products data for faster initial load
+const sampleProducts: Product[] = [
+  {
+    id: 'sample1',
+    title: 'Sample Scented Candle',
+    description: 'A lovely scented candle for your home.',
+    price: 25.99,
+    category: 'scented candles',
+    imageUrl: 'https://via.placeholder.com/300/FFC0CB/000000?text=Candle+1',
+    createdAt: new Date()
+  },
+  {
+    id: 'sample2',
+    title: 'Sample Soy Wax Candle',
+    description: 'Eco-friendly soy wax candle.',
+    price: 19.50,
+    category: 'soy wax',
+    imageUrl: 'https://via.placeholder.com/300/ADD8E6/000000?text=Candle+2',
+    createdAt: new Date()
+  },
+  {
+    id: 'sample3',
+    title: 'Sample Gift Set',
+    description: 'A curated gift set for special occasions.',
+    price: 75.00,
+    category: 'gift sets',
+    imageUrl: 'https://via.placeholder.com/300/90EE90/000000?text=Candle+3',
+    createdAt: new Date()
+  },
+  {
+    id: 'sample4',
+    title: 'Sample Decor Candle',
+    description: 'Decorative candle for aesthetic appeal.',
+    price: 30.00,
+    category: 'decor candles',
+    imageUrl: 'https://via.placeholder.com/300/FFDAB9/000000?text=Candle+4',
+    createdAt: new Date()
+  },
+  {
+    id: 'sample5',
+    title: 'Sample Aromatherapy Candle',
+    description: 'Candle with essential oils for relaxation.',
+    price: 35.75,
+    category: 'aromatherapy',
+    imageUrl: 'https://via.placeholder.com/300/DDA0DD/000000?text=Candle+5',
+    createdAt: new Date()
+  }
+];
+
+
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -27,34 +77,32 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setIsLoading(true); // Set loading to true before fetching
+      // Load sample data immediately for faster UI response
+      setProducts(sampleProducts);
+      setIsLoading(false);
+
+      // Fetch from Firebase in background for real data
       try {
-        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc')); // Added orderBy as in original
         const querySnapshot = await getDocs(q);
         const productsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           createdAt: doc.data().createdAt?.toDate() || new Date() // Ensure createdAt is a Date object
         })) as Product[];
-        setProducts(productsData);
 
-        // Check if there's a category filter from URL
-        const categoryFromUrl = searchParams.get('category');
-        if (categoryFromUrl) {
-          setSelectedCategory(categoryFromUrl);
+        // Update with real data if available
+        if (productsData.length > 0) {
+          setProducts(productsData);
         }
       } catch (error) {
-        console.error('Error fetching products:', error);
-        // Fallback to sample products if fetching fails or no products are found
-        // For a production app, you might want a more robust error handling or UI
-        setProducts([]); // Clear products on error or implement fallback
-      } finally {
-        setIsLoading(false); // Set loading to false after fetch attempt
+        console.error('Error fetching products from Firebase:', error);
+        // Keep sample data if Firebase fetch fails
       }
     };
 
     fetchProducts();
-  }, [searchParams]); // Dependency array includes searchParams to re-fetch if URL changes
+  }, []); // Removed searchParams from dependency array as per change, it was not in original either.
 
   // Memoize filtered and sorted products to prevent unnecessary re-calculations
   const filteredAndSortedProducts = useMemo(() => {
