@@ -27,7 +27,7 @@ const BagLoader: React.FC<BagLoaderProps> = ({
 
   const containerClasses = fullScreen
     ? 'fixed inset-0 bg-white bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50'
-    : 'flex items-center justify-center py-8';
+    : 'flex items-center justify-center py-4';
 
   return (
     <div className={containerClasses}>
@@ -36,61 +36,74 @@ const BagLoader: React.FC<BagLoaderProps> = ({
           className={`${sizeClasses[size]} relative mx-auto mb-4`}
           animate={{
             rotate: [0, 360],
-            scale: [1, 1.1, 1]
           }}
           transition={{
-            duration: 2,
+            duration: 1.5,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "linear"
           }}
         >
-          <svg
-            className="w-full h-full text-orange-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-            />
-            <motion.circle
-              cx="9"
-              cy="20"
-              r="1"
-              fill="currentColor"
+          {/* Dollar sign with coins animation */}
+          <div className="relative w-full h-full">
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
               animate={{
-                scale: [1, 1.5, 1],
-                opacity: [0.7, 1, 0.7]
+                scale: [1, 1.2, 1],
               }}
               transition={{
                 duration: 1,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <span className="text-green-600 font-bold text-2xl">$</span>
+            </motion.div>
+            
+            {/* Floating coins */}
+            <motion.div
+              className="absolute top-0 right-0 w-2 h-2 bg-yellow-400 rounded-full"
+              animate={{
+                y: [0, -10, 0],
+                x: [0, 5, 0],
+                scale: [1, 1.3, 1]
+              }}
+              transition={{
+                duration: 1.2,
                 repeat: Infinity,
                 delay: 0.2
               }}
             />
-            <motion.circle
-              cx="20"
-              cy="20"
-              r="1"
-              fill="currentColor"
+            <motion.div
+              className="absolute bottom-0 left-0 w-2 h-2 bg-yellow-500 rounded-full"
               animate={{
-                scale: [1, 1.5, 1],
-                opacity: [0.7, 1, 0.7]
+                y: [0, -8, 0],
+                x: [0, -3, 0],
+                scale: [1, 1.2, 1]
               }}
               transition={{
-                duration: 1,
+                duration: 1.4,
                 repeat: Infinity,
                 delay: 0.4
               }}
             />
-          </svg>
+            <motion.div
+              className="absolute top-1/2 left-0 w-1.5 h-1.5 bg-orange-400 rounded-full"
+              animate={{
+                y: [0, -6, 0],
+                x: [0, -4, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{
+                duration: 1.1,
+                repeat: Infinity,
+                delay: 0.6
+              }}
+            />
+          </div>
         </motion.div>
         <motion.p
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 1, repeat: Infinity }}
           className={`text-gray-600 font-medium ${textSizes[size]}`}
         >
           {text}

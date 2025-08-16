@@ -14,6 +14,7 @@ const AdminProducts: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null); // State for editing product
 
   useEffect(() => {
     fetchProducts();
