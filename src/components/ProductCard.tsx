@@ -15,6 +15,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { dispatch } = useCart();
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,13 +50,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     '/images/candles/candle-collection-10.jpg'
   ];
 
-  const getRandomSampleImage = () => {
-    return sampleImages[Math.floor(Math.random() * sampleImages.length)];
+  const getProductImage = () => {
+    // Use product ID to consistently select the same image for each product
+    const imageIndex = parseInt(product.id.slice(-1)) || 0;
+    return sampleImages[imageIndex % sampleImages.length];
   };
 
   const imageUrl = product.imageUrl && !product.imageUrl.includes('/api/placeholder')
     ? product.imageUrl
-    : getRandomSampleImage();
+    : getProductImage();
 
   return (
     <motion.div
@@ -66,9 +69,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Link to={`/products/${product.id}`}>
         <div className="relative overflow-hidden">
           <img
-            src={imageUrl}
+            src={imageError ? sampleImages[0] : imageUrl}
             alt={product.title}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={() => setImageError(true)}
           />
           {product.stock === 0 && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
