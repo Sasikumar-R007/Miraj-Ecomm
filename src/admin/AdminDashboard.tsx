@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -6,7 +5,7 @@ import {
   CubeIcon,
   UsersIcon,
   CurrencyDollarIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline';
 import { collection, getDocs, query, where, orderBy, limit } from 'firebase/firestore';
@@ -64,7 +63,7 @@ const AdminDashboard: React.FC = () => {
         );
         const recentOrdersSnapshot = await getDocs(recentOrdersQuery);
         const recentOrdersList: Order[] = [];
-        
+
         recentOrdersSnapshot.forEach((doc) => {
           const data = doc.data();
           recentOrdersList.push({
@@ -171,7 +170,7 @@ const AdminDashboard: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center mt-4">
-                <TrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
+                <ArrowTrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-sm text-green-500 font-medium">{stat.change}</span>
                 <span className="text-sm text-gray-500 ml-1">from last month</span>
               </div>
