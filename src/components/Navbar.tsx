@@ -30,10 +30,11 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img 
-              src="/api/placeholder/120/40" 
+              src="https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?w=120&h=40&fit=crop&auto=format" 
               alt="Miraj Candles" 
-              className="h-8 w-auto"
+              className="h-8 w-auto rounded"
             />
+            <span className="text-xl font-bold text-gray-900">Miraj Candles</span>
           </Link>
 
           {/* Desktop Navigation */}

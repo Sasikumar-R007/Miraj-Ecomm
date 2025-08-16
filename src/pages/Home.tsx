@@ -19,28 +19,28 @@ const Home: React.FC = () => {
       title: "Illuminate Your Space",
       subtitle: "Premium Handcrafted Candles",
       description: "Discover our exquisite collection of artisan candles, crafted with love and the finest natural ingredients.",
-      image: "/api/placeholder/800/500",
+      image: "https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=800&h=500&fit=crop&auto=format",
       buttonText: "Shop Candles"
     },
     {
       title: "Pure Soy Wax Collection",
       subtitle: "Eco-Friendly & Long Lasting",
       description: "Experience the clean burn and extended life of our premium soy wax candles, made with natural ingredients.",
-      image: "/api/placeholder/800/500",
+      image: "https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=800&h=500&fit=crop&auto=format",
       buttonText: "Explore Soy Wax"
     },
     {
       title: "Aromatherapy Bliss",
       subtitle: "Wellness Through Fragrance",
       description: "Transform your mood and enhance your well-being with our therapeutic aromatherapy candle collection.",
-      image: "/api/placeholder/800/500",
+      image: "https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=800&h=500&fit=crop&auto=format",
       buttonText: "Find Your Scent"
     },
     {
       title: "Perfect Gift Sets",
       subtitle: "Thoughtfully Curated",
       description: "Surprise your loved ones with our beautifully packaged candle gift sets for every special occasion.",
-      image: "/api/placeholder/800/500",
+      image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&h=500&fit=crop&auto=format",
       buttonText: "Browse Gifts"
     }
   ];
@@ -90,35 +90,35 @@ const Home: React.FC = () => {
   const categories = [
     { 
       name: 'Scented Candles', 
-      image: '/api/placeholder/300/200', 
+      image: 'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=300&h=200&fit=crop&auto=format', 
       color: 'bg-orange-500',
       description: 'Luxurious fragrances for every mood',
       icon: '🕯️'
     },
     { 
       name: 'Soy Wax', 
-      image: '/api/placeholder/300/200', 
+      image: 'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=300&h=200&fit=crop&auto=format', 
       color: 'bg-green-500',
       description: 'Natural and eco-friendly options',
       icon: '🌿'
     },
     { 
       name: 'Gift Sets', 
-      image: '/api/placeholder/300/200', 
+      image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=300&h=200&fit=crop&auto=format', 
       color: 'bg-red-500',
       description: 'Perfect presents for loved ones',
       icon: '🎁'
     },
     { 
       name: 'Decor Candles', 
-      image: '/api/placeholder/300/200', 
+      image: 'https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=300&h=200&fit=crop&auto=format', 
       color: 'bg-purple-500',
       description: 'Beautiful designs for home styling',
       icon: '🏠'
     },
     { 
       name: 'Aromatherapy', 
-      image: '/api/placeholder/300/200', 
+      image: 'https://images.unsplash.com/photo-1588854337115-1c67d9247e4d?w=300&h=200&fit=crop&auto=format', 
       color: 'bg-blue-500',
       description: 'Therapeutic scents for wellness',
       icon: '💧'
@@ -350,7 +350,7 @@ const Home: React.FC = () => {
               className="relative"
             >
               <img
-                src="/api/placeholder/600/400"
+                src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop&auto=format"
                 alt="Candle Making Process"
                 className="rounded-lg shadow-2xl"
               />

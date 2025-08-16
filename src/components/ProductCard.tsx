@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
@@ -17,7 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (product.stock > 0) {
       dispatch({ type: 'ADD_TO_CART', payload: product });
       toast.success(`${product.title} added to cart!`);
@@ -25,6 +24,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       toast.error('Product out of stock');
     }
   };
+
+  // Sample candle images for fallback
+  const sampleImages = [
+    'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1588854337115-1c67d9247e4d?w=400&h=400&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=400&fit=crop&auto=format'
+  ];
+
+  const getRandomSampleImage = () => {
+    return sampleImages[Math.floor(Math.random() * sampleImages.length)];
+  };
+
+  const imageUrl = product.imageUrl && !product.imageUrl.includes('/api/placeholder')
+    ? product.imageUrl
+    : getRandomSampleImage();
 
   return (
     <motion.div
@@ -35,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Link to={`/products/${product.id}`}>
         <div className="relative overflow-hidden">
           <img
-            src={product.imageUrl}
+            src={imageUrl}
             alt={product.title}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -45,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
           )}
         </div>
-        
+
         <div className="p-4">
           <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-black transition-colors duration-200">
             {product.title}
