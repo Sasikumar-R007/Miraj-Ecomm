@@ -94,35 +94,35 @@ const Home: React.FC = () => {
   const categories = [
     { 
       name: 'Scented Candles', 
-      image: '/images/candles/candle-collection-5.png', 
+      image: '/images/candles/candle-collection-6.jpg', 
       color: 'bg-orange-500',
       description: 'Luxurious fragrances for every mood',
       icon: '🕯️'
     },
     { 
       name: 'Soy Wax', 
-      image: '/images/candles/candle-collection-2.png', 
+      image: '/images/candles/candle-collection-7.jpg', 
       color: 'bg-green-500',
       description: 'Natural and eco-friendly options',
       icon: '🌿'
     },
     { 
       name: 'Gift Sets', 
-      image: '/images/candles/candle-collection-1.png', 
+      image: '/images/candles/candle-collection-10.jpg', 
       color: 'bg-red-500',
       description: 'Perfect presents for loved ones',
       icon: '🎁'
     },
     { 
       name: 'Decor Candles', 
-      image: '/images/candles/candle-collection-4.png', 
+      image: '/images/candles/candle-collection-8.jpg', 
       color: 'bg-purple-500',
       description: 'Beautiful designs for home styling',
       icon: '🏠'
     },
     { 
       name: 'Aromatherapy', 
-      image: '/images/candles/candle-collection-3.png', 
+      image: '/images/candles/candle-collection-9.jpg', 
       color: 'bg-blue-500',
       description: 'Therapeutic scents for wellness',
       icon: '💧'

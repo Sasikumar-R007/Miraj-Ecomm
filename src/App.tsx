@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
@@ -7,9 +7,13 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { LoadingProvider } from './context/LoadingContext';
 
+// Lib
+import { addSampleProducts } from './lib/sampleData';
+
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import GlobalLoader from './components/GlobalLoader';
 
 // Pages
 import Home from './pages/Home';
@@ -28,7 +32,14 @@ import AdminOrders from './admin/AdminOrders';
 import AdminSettings from './admin/AdminSettings';
 import ProtectedRoute from './admin/ProtectedRoute';
 
-function App() {
+import './index.css';
+
+const App: React.FC = () => {
+  useEffect(() => {
+    // Initialize sample products when app loads
+    addSampleProducts();
+  }, []);
+
   return (
     <LoadingProvider>
       <AuthProvider>

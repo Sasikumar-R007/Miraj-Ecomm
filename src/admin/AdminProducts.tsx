@@ -53,7 +53,7 @@ const AdminProducts: React.FC = () => {
   };
 
   const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (product.title || product.name).toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -131,11 +131,11 @@ const AdminProducts: React.FC = () => {
                         <img
                           className="h-10 w-10 rounded-lg object-cover"
                           src={product.imageUrl}
-                          alt={product.name}
+                          alt={product.title || product.name}
                         />
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
-                            {product.name}
+                            {product.title || product.name}
                           </div>
                         </div>
                       </div>
@@ -146,7 +146,7 @@ const AdminProducts: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ₹{product.price}
+                      ${product.price.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {product.stock}

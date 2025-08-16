@@ -42,14 +42,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     '/images/candles/candle-collection-3.png',
     '/images/candles/candle-collection-4.png',
     '/images/candles/candle-collection-5.png',
-    'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1544306094-7ad5b7e71c75?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1588854337115-1c67d9247e4d?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1583829227043-0e3a30b0b6e4?w=400&h=400&fit=crop&auto=format'
+    '/images/candles/candle-collection-6.jpg',
+    '/images/candles/candle-collection-7.jpg',
+    '/images/candles/candle-collection-8.jpg',
+    '/images/candles/candle-collection-9.jpg',
+    '/images/candles/candle-collection-10.jpg'
   ];
 
   const getRandomSampleImage = () => {

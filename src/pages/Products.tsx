@@ -20,7 +20,7 @@ const Products: React.FC = () => {
 
   const [searchParams] = useSearchParams();
 
-  const categories = ['all', 'electronics', 'clothing', 'home & garden', 'sports', 'books', 'beauty'];
+  const categories = ['all', 'scented candles', 'soy wax', 'gift sets', 'decor candles', 'aromatherapy'];
 
   useEffect(() => {
     const fetchProducts = async () => {
