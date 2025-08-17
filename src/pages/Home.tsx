@@ -319,8 +319,8 @@ const Home: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {categories.map((category, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {categories.slice(0, 4).map((category, index) => (
               <motion.div
                 key={category.name}
                 initial={{ opacity: 0, y: 50 }}
@@ -346,6 +346,16 @@ const Home: React.FC = () => {
                 </Link>
               </motion.div>
             ))}
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/categories"
+              className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg transition-colors duration-200"
+            >
+              View More Categories
+              <ArrowRightIcon className="w-5 h-5 ml-2" />
+            </Link>
           </div>
         </div>
       </section>

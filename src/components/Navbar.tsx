@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
             <img 
               src="/images/miraj-logo.png" 
               alt="Miraj Candles" 
-              className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
+              className="h-14 w-auto object-contain hover:scale-105 transition-transform duration-200"
             />
           </Link>
 
