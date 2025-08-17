@@ -60,8 +60,14 @@ const Navbar: React.FC = () => {
             <img 
               src="/images/miraj-logo.png" 
               alt="Miraj Candles" 
-              className="h-14 w-auto object-contain hover:scale-105 transition-transform duration-200"
+              className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
+              onError={(e) => {
+                console.log('Logo failed to load');
+                e.currentTarget.style.display = 'none';
+              }}
+              onLoad={() => console.log('Logo loaded successfully')}
             />
+            <span className="ml-3 text-2xl font-bold text-orange-600">Miraj Candles</span>
           </Link>
 
           {/* Desktop Navigation */}
