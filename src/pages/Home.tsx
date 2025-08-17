@@ -62,12 +62,12 @@ const Home: React.FC = () => {
       badge: "SALE"
     },
     {
-      title: "Most Selling",
+      title: "Trending Now",
       subtitle: "Customer Favorites",
-      description: "Our bestselling aromatherapy candles loved by thousands of customers worldwide.",
+      description: "Our most loved aromatherapy candles trending among thousands of customers worldwide.",
       image: "/images/candles/candle-collection-4.png",
-      buttonText: "Shop Bestsellers",
-      badge: "BESTSELLER"
+      buttonText: "Shop Trending",
+      badge: "TRENDING"
     },
     {
       title: "Premium Gift Sets",
@@ -230,7 +230,7 @@ const Home: React.FC = () => {
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                         heroSlides[currentSlide].badge === 'NEW' ? 'bg-green-500' :
                         heroSlides[currentSlide].badge === 'SALE' ? 'bg-red-500' :
-                        heroSlides[currentSlide].badge === 'BESTSELLER' ? 'bg-blue-500' :
+                        heroSlides[currentSlide].badge === 'TRENDING' ? 'bg-blue-500' :
                         'bg-purple-500'
                       } text-white`}>
                         {heroSlides[currentSlide].badge}

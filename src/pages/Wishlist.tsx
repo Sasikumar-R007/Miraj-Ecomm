@@ -1,41 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { HeartIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
+import { useWishlist } from '../context/WishlistContext';
+import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
 
 const Wishlist: React.FC = () => {
-  const [wishlistItems, setWishlistItems] = useState([
-    // Sample wishlist items
-    {
-      id: '1',
-      title: 'Lavender Dreams Candle',
-      price: 899,
-      originalPrice: 1200,
-      image: 'https://images.unsplash.com/photo-1602874801006-2bd9b9157e8d?w=400&h=400&fit=crop&auto=format',
-      inStock: true
-    },
-    {
-      id: '2',
-      title: 'Vanilla Bliss Soy Candle',
-      price: 749,
-      originalPrice: 999,
-      image: 'https://images.unsplash.com/photo-1571842893175-3ed4539c4226?w=400&h=400&fit=crop&auto=format',
-      inStock: true
-    }
-  ]);
-
-  const removeFromWishlist = (id: string) => {
-    setWishlistItems(items => items.filter(item => item.id !== id));
-    toast.success('Removed from wishlist');
-  };
+  const { state: wishlistState, removeFromWishlist } = useWishlist();
+  const { dispatch: cartDispatch } = useCart();
 
   const addToCart = (item: any) => {
-    toast.success(`${item.title} added to cart!`);
+    cartDispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        id: item.id,
+        name: item.name || item.title,
+        price: item.price,
+        quantity: 1,
+        imageUrl: item.imageUrl
+      }
+    });
+    toast.success(`${item.name || item.title} added to cart!`);
   };
 
-  if (wishlistItems.length === 0) {
+  if (wishlistState.items.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -76,13 +66,13 @@ const Wishlist: React.FC = () => {
             My Wishlist
           </h1>
           <p className="text-gray-600">
-            {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} in your wishlist
+            {wishlistState.items.length} {wishlistState.items.length === 1 ? 'item' : 'items'} in your wishlist
           </p>
         </motion.div>
 
         {/* Wishlist Items */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {wishlistItems.map((item, index) => (
+          {wishlistState.items.map((item, index) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 50 }}
@@ -92,8 +82,8 @@ const Wishlist: React.FC = () => {
             >
               <div className="relative">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={item.imageUrl}
+                  alt={item.name || item.title}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <button
@@ -107,7 +97,7 @@ const Wishlist: React.FC = () => {
               <div className="p-4">
                 <Link to={`/products/${item.id}`}>
                   <h3 className="font-semibold text-gray-900 mb-2 hover:text-orange-500 transition-colors duration-200">
-                    {item.title}
+                    {item.name || item.title}
                   </h3>
                 </Link>
 
@@ -115,26 +105,21 @@ const Wishlist: React.FC = () => {
                   <span className="text-lg font-bold text-orange-500">
                     ₹{item.price}
                   </span>
-                  {item.originalPrice && (
-                    <span className="text-sm text-gray-500 line-through ml-2">
-                      ₹{item.originalPrice}
-                    </span>
-                  )}
                 </div>
 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => addToCart(item)}
-                  disabled={!item.inStock}
+                  disabled={!(item.stock > 0)}
                   className={`w-full flex items-center justify-center py-2 px-4 rounded-lg font-medium transition-colors duration-200 ${
-                    item.inStock
+                    item.stock > 0
                       ? 'bg-orange-500 hover:bg-orange-600 text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
                   <ShoppingCartIcon className="w-5 h-5 mr-2" />
-                  {item.inStock ? 'Add to Cart' : 'Out of Stock'}
+                  {item.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                 </motion.button>
               </div>
             </motion.div>

@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShoppingBagIcon, 
   UserIcon, 
   Bars3Icon, 
-  XMarkIcon 
+  XMarkIcon,
+  MagnifyingGlassIcon
 } from '@heroicons/react/24/outline';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -14,9 +15,11 @@ import toast from 'react-hot-toast';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { state } = useCart();
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -28,68 +31,117 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+    }
+  };
+
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Products', href: '/products' },
     { name: 'Contact', href: '/contact' },
   ];
 
+  const isActive = (path: string) => {
+    if (path === '/' && location.pathname === '/') return true;
+    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    return false;
+  };
+
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
               src="/images/miraj-logo.png" 
               alt="Miraj Candles" 
-              className="h-10 w-auto object-contain"
-              style={{ maxWidth: '150px' }}
+              className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-gray-600 hover:text-black transition-colors duration-200"
+                className={`relative px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  isActive(item.href)
+                    ? 'text-orange-600 bg-orange-50'
+                    : 'text-gray-600 hover:text-orange-600 hover:bg-gray-50'
+                }`}
               >
                 {item.name}
+                {isActive(item.href) && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-600"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  />
+                )}
               </Link>
             ))}
           </div>
 
-          {/* Right side */}
+          {/* Search Bar - Desktop */}
+          <div className="hidden md:flex flex-1 max-w-lg mx-8">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search for candles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-4 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 hover:bg-white transition-colors duration-200"
+              />
+              <button
+                type="submit"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500 transition-colors duration-200"
+              >
+                <MagnifyingGlassIcon className="w-5 h-5" />
+              </button>
+            </form>
+          </div>
+
+          {/* Right side - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/wishlist" className="relative p-2 group">
+            <Link to="/wishlist" className="relative p-3 group rounded-lg hover:bg-gray-50 transition-colors duration-200">
               <svg className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </Link>
-            <Link to="/cart" className="relative p-2">
-              <ShoppingBagIcon className="w-6 h-6" />
+            
+            <Link to="/cart" className="relative p-3 group rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <ShoppingBagIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-200" />
               {state.items.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <motion.span 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-medium"
+                >
                   {state.items.length}
-                </span>
+                </motion.span>
               )}
             </Link>
 
             {currentUser ? (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 {currentUser.role === 'admin' && (
                   <Link 
                     to="/admin/dashboard" 
-                    className="text-gray-600 hover:text-black transition-colors duration-200"
+                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                   >
                     Admin
                   </Link>
                 )}
                 <button
                   onClick={handleLogout}
-                  className="text-gray-600 hover:text-black transition-colors duration-200"
+                  className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                 >
                   Logout
                 </button>
@@ -97,16 +149,16 @@ const Navbar: React.FC = () => {
             ) : (
               <Link 
                 to="/admin/login" 
-                className="flex items-center text-gray-600 hover:text-black transition-colors duration-200"
+                className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
               >
-                <UserIcon className="w-6 h-6" />
+                <UserIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-200" />
               </Link>
             )}
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? (
@@ -115,6 +167,25 @@ const Navbar: React.FC = () => {
               <Bars3Icon className="w-6 h-6" />
             )}
           </button>
+        </div>
+
+        {/* Mobile Search Bar */}
+        <div className="md:hidden pb-4">
+          <form onSubmit={handleSearch} className="relative">
+            <input
+              type="text"
+              placeholder="Search for candles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-4 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50"
+            />
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-500 transition-colors duration-200"
+            >
+              <MagnifyingGlassIcon className="w-5 h-5" />
+            </button>
+          </form>
         </div>
       </div>
 
@@ -125,46 +196,53 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-200"
+            className="md:hidden bg-white border-t border-gray-100"
           >
-            <div className="px-4 py-4 space-y-4">
+            <div className="px-4 py-4 space-y-3">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="block text-gray-600 hover:text-black transition-colors duration-200"
+                  className={`block px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
+                    isActive(item.href)
+                      ? 'text-orange-600 bg-orange-50'
+                      : 'text-gray-600 hover:text-orange-600 hover:bg-gray-50'
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+              
               <Link
                 to="/wishlist"
-                className="flex items-center text-gray-600 hover:text-black transition-colors duration-200"
+                className="flex items-center px-4 py-3 text-gray-600 hover:text-red-500 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                 onClick={() => setIsOpen(false)}
               >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
                 Wishlist
               </Link>
+              
               <Link
                 to="/cart"
-                className="flex items-center text-gray-600 hover:text-black transition-colors duration-200"
+                className="flex items-center px-4 py-3 text-gray-600 hover:text-orange-500 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                 onClick={() => setIsOpen(false)}
               >
-                <ShoppingBagIcon className="w-5 h-5 mr-2" />
+                <ShoppingBagIcon className="w-5 h-5 mr-3" />
                 Cart ({state.items.length})
               </Link>
+              
               {currentUser ? (
                 <>
                   {currentUser.role === 'admin' && (
                     <Link
                       to="/admin/dashboard"
-                      className="block text-gray-600 hover:text-black transition-colors duration-200"
+                      className="block px-4 py-3 text-gray-600 hover:text-orange-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                       onClick={() => setIsOpen(false)}
                     >
-                      Admin
+                      Admin Dashboard
                     </Link>
                   )}
                   <button
@@ -172,7 +250,7 @@ const Navbar: React.FC = () => {
                       handleLogout();
                       setIsOpen(false);
                     }}
-                    className="block text-gray-600 hover:text-black transition-colors duration-200"
+                    className="block w-full text-left px-4 py-3 text-gray-600 hover:text-orange-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                   >
                     Logout
                   </button>
@@ -180,7 +258,7 @@ const Navbar: React.FC = () => {
               ) : (
                 <Link
                   to="/admin/login"
-                  className="block text-gray-600 hover:text-black transition-colors duration-200"
+                  className="block px-4 py-3 text-gray-600 hover:text-orange-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                   onClick={() => setIsOpen(false)}
                 >
                   Login

@@ -1,117 +1,185 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FunnelIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { FunnelIcon, MagnifyingGlassIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
-import BagLoader from '../components/BagLoader'; // Assuming BagLoader is created for the cart icon loader
+import BagLoader from '../components/BagLoader';
 
 // Sample products data for faster initial load
 const sampleProducts: Product[] = [
   {
     id: 'sample1',
-    title: 'Sample Scented Candle',
-    description: 'A lovely scented candle for your home.',
+    name: 'Lavender Dreams Candle',
+    title: 'Lavender Dreams Candle',
+    description: 'A soothing lavender scented candle perfect for relaxation.',
     price: 25.99,
-    category: 'scented candles',
-    imageUrl: 'https://via.placeholder.com/300/FFC0CB/000000?text=Candle+1',
+    category: 'Scented Candles',
+    imageUrl: '/images/candles/candle-collection-1.png',
+    stock: 10,
+    sales: 150,
     createdAt: new Date()
   },
   {
     id: 'sample2',
-    title: 'Sample Soy Wax Candle',
-    description: 'Eco-friendly soy wax candle.',
+    name: 'Natural Soy Wax Candle',
+    title: 'Natural Soy Wax Candle',
+    description: 'Eco-friendly soy wax candle with vanilla scent.',
     price: 19.50,
-    category: 'soy wax',
-    imageUrl: 'https://via.placeholder.com/300/ADD8E6/000000?text=Candle+2',
+    category: 'Soy Wax',
+    imageUrl: '/images/candles/candle-collection-2.png',
+    stock: 15,
+    sales: 200,
     createdAt: new Date()
   },
   {
     id: 'sample3',
-    title: 'Sample Gift Set',
+    name: 'Premium Gift Set',
+    title: 'Premium Gift Set',
     description: 'A curated gift set for special occasions.',
     price: 75.00,
-    category: 'gift sets',
-    imageUrl: 'https://via.placeholder.com/300/90EE90/000000?text=Candle+3',
+    category: 'Gift Sets',
+    imageUrl: '/images/candles/candle-collection-3.png',
+    stock: 8,
+    sales: 90,
     createdAt: new Date()
   },
   {
     id: 'sample4',
-    title: 'Sample Decor Candle',
-    description: 'Decorative candle for aesthetic appeal.',
+    name: 'Elegant Decor Candle',
+    title: 'Elegant Decor Candle',
+    description: 'Decorative candle perfect for home styling.',
     price: 30.00,
-    category: 'decor candles',
-    imageUrl: 'https://via.placeholder.com/300/FFDAB9/000000?text=Candle+4',
+    category: 'Decor Candles',
+    imageUrl: '/images/candles/candle-collection-4.png',
+    stock: 12,
+    sales: 85,
     createdAt: new Date()
   },
   {
     id: 'sample5',
-    title: 'Sample Aromatherapy Candle',
-    description: 'Candle with essential oils for relaxation.',
+    name: 'Aromatherapy Blend',
+    title: 'Aromatherapy Blend',
+    description: 'Therapeutic candle with essential oils for wellness.',
     price: 35.75,
-    category: 'aromatherapy',
-    imageUrl: 'https://via.placeholder.com/300/DDA0DD/000000?text=Candle+5',
+    category: 'Aromatherapy',
+    imageUrl: '/images/candles/candle-collection-5.png',
+    stock: 20,
+    sales: 180,
     createdAt: new Date()
   }
 ];
 
-
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // Renamed loading to isLoading for clarity
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  // The priceRange state was changed from an object to an array in the provided changes.
-  // I will use an array [min, max] as per the changes.
-  const [priceRange, setPriceRange] = useState([0, 1000]); // Updated to array [min, max]
-  const [sortBy, setSortBy] = useState('newest'); // Changed default sort to 'newest'
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [sortBy, setSortBy] = useState('newest');
   const [showFilters, setShowFilters] = useState(false);
+  const [showCategories, setShowCategories] = useState(true);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const categories = ['all', 'scented candles', 'soy wax', 'gift sets', 'decor candles', 'aromatherapy'];
+  const categories = [
+    {
+      name: 'Scented Candles',
+      color: 'bg-gradient-to-br from-orange-400 to-orange-600',
+      description: 'Luxurious fragrances for every mood',
+      icon: '🕯️',
+      count: 0
+    },
+    {
+      name: 'Soy Wax',
+      color: 'bg-gradient-to-br from-green-400 to-green-600',
+      description: 'Natural and eco-friendly options',
+      icon: '🌿',
+      count: 0
+    },
+    {
+      name: 'Gift Sets',
+      color: 'bg-gradient-to-br from-red-400 to-red-600',
+      description: 'Perfect presents for loved ones',
+      icon: '🎁',
+      count: 0
+    },
+    {
+      name: 'Decor Candles',
+      color: 'bg-gradient-to-br from-purple-400 to-purple-600',
+      description: 'Beautiful designs for home styling',
+      icon: '🏠',
+      count: 0
+    },
+    {
+      name: 'Aromatherapy',
+      color: 'bg-gradient-to-br from-blue-400 to-blue-600',
+      description: 'Therapeutic scents for wellness',
+      icon: '💧',
+      count: 0
+    }
+  ];
+
+  // Update categories with product counts
+  const categoriesWithCounts = categories.map(category => ({
+    ...category,
+    count: products.filter(product => 
+      product.category.toLowerCase() === category.name.toLowerCase()
+    ).length
+  }));
 
   useEffect(() => {
+    // Check URL parameters for category and search
+    const category = searchParams.get('category');
+    const search = searchParams.get('search');
+    
+    if (category && category !== 'all') {
+      setSelectedCategory(category);
+      setShowCategories(false);
+    }
+    
+    if (search) {
+      setSearchTerm(search);
+      setShowCategories(false);
+    }
+
     const fetchProducts = async () => {
-      // Load sample data immediately for faster UI response
+      // Load sample data immediately
       setProducts(sampleProducts);
       setIsLoading(false);
 
-      // Fetch from Firebase in background for real data
+      // Fetch from Firebase in background
       try {
-        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc')); // Added orderBy as in original
+        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         const productsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate() || new Date() // Ensure createdAt is a Date object
+          createdAt: doc.data().createdAt?.toDate() || new Date()
         })) as Product[];
 
-        // Update with real data if available
         if (productsData.length > 0) {
           setProducts(productsData);
         }
       } catch (error) {
         console.error('Error fetching products from Firebase:', error);
-        // Keep sample data if Firebase fetch fails
       }
     };
 
     fetchProducts();
-  }, []); // Removed searchParams from dependency array as per change, it was not in original either.
+  }, [searchParams]);
 
-  // Memoize filtered and sorted products to prevent unnecessary re-calculations
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = [...products];
 
     // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(product =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (product.name || product.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -124,7 +192,6 @@ const Products: React.FC = () => {
     }
 
     // Filter by price range
-    // Ensure priceRange is treated as [min, max]
     const [minPrice, maxPrice] = priceRange;
     filtered = filtered.filter(product =>
       product.price >= minPrice && product.price <= maxPrice
@@ -139,7 +206,7 @@ const Products: React.FC = () => {
         filtered.sort((a, b) => b.price - a.price);
         break;
       case 'name':
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        filtered.sort((a, b) => (a.name || a.title || '').localeCompare(b.name || b.title || ''));
         break;
       case 'newest':
       default:
@@ -150,29 +217,150 @@ const Products: React.FC = () => {
     return filtered;
   }, [products, searchTerm, selectedCategory, priceRange, sortBy]);
 
+  const handleCategorySelect = (categoryName: string) => {
+    setSelectedCategory(categoryName.toLowerCase());
+    setShowCategories(false);
+    setSearchParams({ category: categoryName.toLowerCase() });
+  };
+
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedCategory('all');
-    setPriceRange([0, 1000]); // Reset price range
-    setSortBy('newest'); // Reset sort to newest
+    setPriceRange([0, 1000]);
+    setSortBy('newest');
+    setShowCategories(true);
+    setSearchParams({});
   };
 
-  // Handler for price range slider
-  const handlePriceRangeChange = (values: [number, number]) => {
-    setPriceRange(values);
+  const goBackToCategories = () => {
+    setShowCategories(true);
+    setSelectedCategory('all');
+    setSearchTerm('');
+    setSearchParams({});
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <BagLoader size="large" text="Loading products..." />
+      </div>
+    );
+  }
+
+  // Show categories view
+  if (showCategories && !searchTerm) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <section className="bg-gradient-to-br from-orange-900 via-orange-800 to-purple-900 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                Shop by Category
+              </h1>
+              <p className="text-xl text-orange-100 max-w-3xl mx-auto">
+                Discover our curated collections of premium candles, each crafted with care and attention to detail
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Search Bar */}
+        <section className="py-8 bg-white shadow-sm">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative">
+              <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search for specific candles..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 text-lg"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Categories Grid */}
+        <section className="py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {categoriesWithCounts.map((category, index) => (
+                <motion.div
+                  key={category.name}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  className="bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer"
+                  onClick={() => handleCategorySelect(category.name)}
+                >
+                  <div className={`${category.color} h-48 relative`}>
+                    <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-6xl transform group-hover:scale-110 transition-transform duration-300">
+                        {category.icon}
+                      </div>
+                    </div>
+                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="bg-white bg-opacity-20 rounded-full p-2">
+                        <ArrowRightIcon className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300">
+                      {category.name}
+                    </h3>
+                    <p className="text-gray-600 mb-4 leading-relaxed">
+                      {category.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-500">
+                        {category.count} products
+                      </span>
+                      <span className="text-orange-500 font-medium group-hover:text-orange-600 transition-colors duration-300">
+                        Explore →
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  // Show products view
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            All Products
-          </h1>
-          <p className="text-lg text-gray-600">
-            Discover our complete collection of premium products
-          </p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              {selectedCategory !== 'all' ? 
+                selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) : 
+                'All Products'
+              }
+            </h1>
+            <p className="text-lg text-gray-600">
+              {searchTerm ? `Search results for "${searchTerm}"` : 'Discover our premium candle collection'}
+            </p>
+          </div>
+          <button
+            onClick={goBackToCategories}
+            className="hidden md:flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors duration-200"
+          >
+            ← Back to Categories
+          </button>
         </div>
 
         {/* Search and Filter Bar */}
@@ -186,7 +374,7 @@ const Products: React.FC = () => {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
 
@@ -194,7 +382,7 @@ const Products: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             >
               <option value="newest">Newest First</option>
               <option value="price-low">Price: Low to High</option>
@@ -230,11 +418,12 @@ const Products: React.FC = () => {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   >
+                    <option value="all">All Categories</option>
                     {categories.map(category => (
-                      <option key={category} value={category}>
-                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                      <option key={category.name} value={category.name.toLowerCase()}>
+                        {category.name}
                       </option>
                     ))}
                   </select>
@@ -249,20 +438,18 @@ const Products: React.FC = () => {
                     <input
                       type="number"
                       placeholder="Min"
-                      value={priceRange[0]} // Access min price from array
+                      value={priceRange[0]}
                       onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                     <input
                       type="number"
                       placeholder="Max"
-                      value={priceRange[1]} // Access max price from array
+                      value={priceRange[1]}
                       onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
-                  {/* You might want to add a range slider here for better UX */}
-                  {/* Example: <RangeSlider min={0} max={2000} value={priceRange} onChange={handlePriceRangeChange} /> */}
                 </div>
 
                 {/* Clear Filters */}
@@ -279,19 +466,25 @@ const Products: React.FC = () => {
           )}
         </div>
 
+        {/* Back to Categories - Mobile */}
+        <div className="md:hidden mb-6">
+          <button
+            onClick={goBackToCategories}
+            className="flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors duration-200"
+          >
+            ← Back to Categories
+          </button>
+        </div>
+
         {/* Results Count */}
-        {!isLoading && ( // Only show count when not loading
-          <div className="mb-6">
-            <p className="text-gray-600">
-              Showing {filteredAndSortedProducts.length} of {products.length} products
-            </p>
-          </div>
-        )}
+        <div className="mb-6">
+          <p className="text-gray-600">
+            Showing {filteredAndSortedProducts.length} of {products.length} products
+          </p>
+        </div>
 
         {/* Products Grid */}
-        {isLoading ? (
-          <BagLoader size="large" text="Loading products..." /> // Use BagLoader when loading
-        ) : filteredAndSortedProducts.length > 0 ? (
+        {filteredAndSortedProducts.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -319,7 +512,7 @@ const Products: React.FC = () => {
             </p>
             <button
               onClick={clearFilters}
-              className="btn-primary" // Assuming btn-primary is defined elsewhere
+              className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
             >
               Clear All Filters
             </button>

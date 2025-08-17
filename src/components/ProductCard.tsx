@@ -1,11 +1,11 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
-import { Product } from '../types';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
+import { Product } from '../types';
 import toast from 'react-hot-toast';
 
 interface ProductCardProps {
@@ -14,7 +14,8 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { dispatch } = useCart();
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  // const [isWishlisted, setIsWishlisted] = useState(false); // Removed to use context state
   const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -29,11 +30,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
-  const handleWishlist = (e: React.MouseEvent) => {
+  const toggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      toast.success('Removed from wishlist');
+    } else {
+      addToWishlist(product);
+      toast.success('Added to wishlist');
+    }
   };
 
   // Premium candle images
@@ -79,18 +85,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <span className="text-white font-semibold">Out of Stock</span>
             </div>
           )}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handleWishlist}
+          <button
+            onClick={toggleWishlist}
             className="absolute top-3 right-3 p-2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full shadow-md transition-all duration-200"
           >
-            {isWishlisted ? (
+            {isInWishlist(product.id) ? (
               <HeartIconSolid className="w-5 h-5 text-red-500" />
             ) : (
               <HeartIcon className="w-5 h-5 text-gray-600 hover:text-red-500" />
             )}
-          </motion.button>
+          </button>
         </div>
 
         <div className="p-4">
