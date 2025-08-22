@@ -19,41 +19,43 @@ const sampleImages = [
   '/images/candles/candle-collection-5.png'
 ];
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { dispatch } = useCart();
-  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const navigate = useNavigate();
+const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [imageError, setImageError] = useState(false);
+  const navigate = useNavigate();
+  const { addItem } = useCart();
+  const { addToWishlist, isInWishlist } = useWishlist();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const sampleImages = [
+    '/images/candles/candle-collection-1.png',
+    '/images/candles/candle-collection-2.png',
+    '/images/candles/candle-collection-3.png',
+    '/images/candles/candle-collection-4.png',
+    '/images/candles/candle-collection-5.png'
+  ];
+
+  const imageUrl = product.imageUrl || sampleImages[Math.floor(Math.random() * sampleImages.length)];
+
+  const addToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (product.stock > 0) {
-      dispatch({ type: 'ADD_TO_CART', payload: product });
+      addItem(product);
       toast.success(`${product.title} added to cart!`);
     } else {
-      toast.error('Product out of stock');
+      toast.error('Product is out of stock!');
     }
   };
 
   const toggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
-      toast.success('Removed from wishlist');
-    } else {
-      addToWishlist(product);
-      toast.success('Added to wishlist');
-    }
+    addToWishlist(product);
   };
 
   const handleProductClick = () => {
     navigate(`/products/${product.id}`);
   };
-
-  const imageUrl = product.imageUrl || '/images/candles/candle-collection-1.png';
 
   return (
     <motion.div
@@ -100,7 +102,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleAddToCart}
+              onClick={addToCart}
               disabled={product.stock === 0}
               className={`p-2 rounded-lg transition-colors duration-200 ${
                 product.stock > 0

@@ -13,14 +13,8 @@ const Wishlist: React.FC = () => {
 
   const addToCart = (item: any) => {
     cartDispatch({
-      type: 'ADD_ITEM',
-      payload: {
-        id: item.id,
-        name: item.name || item.title,
-        price: item.price,
-        quantity: 1,
-        imageUrl: item.imageUrl
-      }
+      type: 'ADD_TO_CART',
+      payload: item
     });
     toast.success(`${item.name || item.title} added to cart!`);
   };

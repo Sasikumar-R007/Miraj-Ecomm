@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import { useLoading } from '../context/LoadingContext';
 import toast from 'react-hot-toast';
 
@@ -144,11 +145,12 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { setLoading } = useLoading();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [localWishlisted, setLocalWishlisted] = useState(false);
   const [selectedTab, setSelectedTab] = useState('description');
 
   useEffect(() => {
@@ -176,50 +178,45 @@ const ProductDetail: React.FC = () => {
   }, [id, navigate, setLoading]);
 
   const handleAddToCart = () => {
-    if (product) {
+    if (product && product.stock > 0) {
       for (let i = 0; i < quantity; i++) {
         addItem(product);
       }
-      toast.success(`${product.title} added to cart!`);
+      toast.success(`${quantity} x ${product.title} added to cart!`);
+    } else {
+      toast.error('Product is out of stock!');
     }
   };
 
   const handleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+    if (product) {
+      if (isInWishlist(product.id)) {
+        removeFromWishlist(product.id);
+      } else {
+        addToWishlist(product);
+      }
+    }
   };
 
   const handleOrderNow = () => {
-    if (product) {
+    if (product && product.stock > 0) {
       // Add to cart first
       for (let i = 0; i < quantity; i++) {
         addItem(product);
       }
       
-      // Show order processing animation
-      toast.loading('Processing your order...', {
+      // Show success message
+      toast.success('Product added to cart! Redirecting to checkout...', {
         duration: 2000,
-        style: {
-          background: '#10B981',
-          color: 'white',
-        },
+        icon: '🛒',
       });
 
-      // Simulate order processing
+      // Navigate to cart/checkout
       setTimeout(() => {
-        toast.success('Order placed successfully! 🎉', {
-          duration: 3000,
-          style: {
-            background: '#10B981',
-            color: 'white',
-          },
-        });
-        
-        // Navigate to checkout after a delay
-        setTimeout(() => {
-          navigate('/checkout');
-        }, 1000);
-      }, 2000);
+        navigate('/cart');
+      }, 1500);
+    } else {
+      toast.error('Product is out of stock!');
     }
   };
 
@@ -308,7 +305,7 @@ const ProductDetail: React.FC = () => {
                 onClick={handleWishlist}
                 className="absolute top-4 right-4 p-2 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full shadow-lg transition-all duration-200"
               >
-                <HeartIcon className={`w-6 h-6 ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
+                <HeartIcon className={`w-6 h-6 ${isInWishlist(product.id) ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
               </button>
               <button
                 onClick={handleShare}
@@ -454,13 +451,9 @@ const ProductDetail: React.FC = () => {
                     onClick={handleOrderNow}
                     className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 flex items-center justify-center shadow-lg"
                   >
-                    <motion.div
-                      className="mr-2"
-                      animate={{ rotate: [0, 360] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    >
-                      ⚡
-                    </motion.div>
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
                     Order Now
                   </motion.button>
                 </div>

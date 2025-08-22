@@ -86,5 +86,28 @@ export const useCart = () => {
   if (!context) {
     throw new Error('useCart must be used within a CartProvider');
   }
-  return context;
+
+  const addItem = (product: Product) => {
+    context.dispatch({ type: 'ADD_TO_CART', payload: product });
+  };
+
+  const removeItem = (productId: string) => {
+    context.dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
+  };
+
+  const updateQuantity = (productId: string, quantity: number) => {
+    context.dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity } });
+  };
+
+  const clearCart = () => {
+    context.dispatch({ type: 'CLEAR_CART' });
+  };
+
+  return {
+    ...context,
+    addItem,
+    removeItem,
+    updateQuantity,
+    clearCart
+  };
 };
