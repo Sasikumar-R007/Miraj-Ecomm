@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { collection, getDocs, limit, query, orderBy } from 'firebase/firestore';
@@ -38,6 +38,7 @@ const fetchProducts = async (): Promise<Product[]> => {
 
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);
@@ -93,14 +94,6 @@ const Home: React.FC = () => {
     setBestSellers(productsWithIds.slice(4, 8));
     setIsLoadingFeatured(false);
     setIsLoadingBestSellers(false);
-
-      } catch (error) {
-        console.error('Error fetching products from Firebase:', error);
-        // Keep sample data if Firebase fetch fails
-      }
-    };
-
-    fetchProductsData();
   }, []);
 
 
@@ -123,39 +116,42 @@ const Home: React.FC = () => {
 
   const categories = [
     {
-      name: 'Scented Candles',
+      name: 'Kids Stationaries',
       image: '/images/candles/candle-collection-6.jpg',
-      color: 'bg-orange-500',
-      description: 'Luxurious fragrances for every mood',
-      icon: '🕯️'
+      color: 'bg-gradient-to-br from-pink-400 to-pink-600',
+      description: 'Fun and colorful stationery for kids',
+      icon: '📚',
+      hasSubcategories: false
     },
     {
-      name: 'Soy Wax',
+      name: 'Religious Items',
       image: '/images/candles/candle-collection-7.jpg',
-      color: 'bg-green-500',
-      description: 'Natural and eco-friendly options',
-      icon: '🌿'
+      color: 'bg-gradient-to-br from-yellow-400 to-orange-500',
+      description: 'Sacred items for spiritual practices',
+      icon: '🕉️',
+      hasSubcategories: false
     },
     {
-      name: 'Gift Sets',
-      image: '/images/candles/candle-collection-10.jpg',
-      color: 'bg-red-500',
-      description: 'Perfect presents for loved ones',
-      icon: '🎁'
-    },
-    {
-      name: 'Decor Candles',
+      name: 'Candles',
       image: '/images/candles/candle-collection-8.jpg',
-      color: 'bg-purple-500',
-      description: 'Beautiful designs for home styling',
-      icon: '🏠'
+      color: 'bg-gradient-to-br from-orange-400 to-red-500',
+      description: 'Premium handcrafted candles',
+      icon: '🕯️',
+      hasSubcategories: true,
+      subcategories: [
+        { name: 'Scented Candles', description: 'Luxurious fragrances for every mood' },
+        { name: 'Soy Wax', description: 'Natural and eco-friendly options' },
+        { name: 'Decor Candles', description: 'Beautiful designs for home styling' },
+        { name: 'Aromatherapy', description: 'Therapeutic scents for wellness' }
+      ]
     },
     {
-      name: 'Aromatherapy',
-      image: '/images/candles/candle-collection-9.jpg',
-      color: 'bg-blue-500',
-      description: 'Therapeutic scents for wellness',
-      icon: '💧'
+      name: 'Gifts',
+      image: '/images/candles/candle-collection-10.jpg',
+      color: 'bg-gradient-to-br from-purple-400 to-purple-600',
+      description: 'Perfect presents for loved ones',
+      icon: '🎁',
+      hasSubcategories: false
     }
   ];
 
@@ -290,42 +286,140 @@ const Home: React.FC = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {categories.slice(0, 4).map((category, index) => (
+            {categories.map((category, index) => (
               <motion.div
                 key={category.name}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.15,
+                  type: "spring",
+                  stiffness: 100
+                }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer"
+                whileHover={{ 
+                  y: -15, 
+                  scale: 1.05,
+                  rotateY: 5,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer transform perspective-1000"
               >
-                <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`}>
-                  <div className={`${category.color} h-64 relative`}>
-                    <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                      <div className="text-4xl mb-3">{category.icon}</div>
-                      <h3 className="text-white text-xl font-bold mb-2">
-                        {category.name}
-                      </h3>
-                      <p className="text-white text-sm opacity-90">
-                        {category.description}
-                      </p>
+                {category.hasSubcategories ? (
+                  <div onClick={() => navigate('/candles-subcategories')}>
+                    <div className={`${category.color} h-64 relative`}>
+                      <motion.div 
+                        className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-10 transition-all duration-500"
+                        whileHover={{ background: "linear-gradient(45deg, rgba(0,0,0,0.1), rgba(255,255,255,0.1))" }}
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                        <motion.div 
+                          className="text-5xl mb-4"
+                          whileHover={{ 
+                            scale: 1.2, 
+                            rotate: 360,
+                            transition: { duration: 0.8 }
+                          }}
+                        >
+                          {category.icon}
+                        </motion.div>
+                        <motion.h3 
+                          className="text-white text-xl font-bold mb-2"
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          {category.name}
+                        </motion.h3>
+                        <p className="text-white text-sm opacity-90 mb-2">
+                          {category.description}
+                        </p>
+                        <motion.div
+                          className="text-xs text-orange-200 bg-white bg-opacity-20 px-2 py-1 rounded-full"
+                          initial={{ opacity: 0 }}
+                          whileHover={{ opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          Has Subcategories
+                        </motion.div>
+                      </div>
+                      <motion.div
+                        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100"
+                        initial={{ x: 20, opacity: 0 }}
+                        whileHover={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        <ArrowRightIcon className="w-6 h-6 text-white" />
+                      </motion.div>
                     </div>
                   </div>
-                </Link>
+                ) : (
+                  <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`}>
+                    <div className={`${category.color} h-64 relative`}>
+                      <motion.div 
+                        className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-10 transition-all duration-500"
+                        whileHover={{ background: "linear-gradient(45deg, rgba(0,0,0,0.1), rgba(255,255,255,0.1))" }}
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                        <motion.div 
+                          className="text-5xl mb-4"
+                          whileHover={{ 
+                            scale: 1.2, 
+                            rotate: 360,
+                            transition: { duration: 0.8 }
+                          }}
+                        >
+                          {category.icon}
+                        </motion.div>
+                        <motion.h3 
+                          className="text-white text-xl font-bold mb-2"
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          {category.name}
+                        </motion.h3>
+                        <p className="text-white text-sm opacity-90">
+                          {category.description}
+                        </p>
+                      </div>
+                      <motion.div
+                        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100"
+                        initial={{ x: 20, opacity: 0 }}
+                        whileHover={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        <ArrowRightIcon className="w-6 h-6 text-white" />
+                      </motion.div>
+                    </div>
+                  </Link>
+                )}
               </motion.div>
             ))}
           </div>
 
           <div className="text-center">
-            <Link
-              to="/categories"
-              className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg transition-colors duration-200"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              View More Categories
-              <ArrowRightIcon className="w-5 h-5 ml-2" />
-            </Link>
+              <Link
+                to="/categories"
+                className="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                <motion.span
+                  initial={{ x: -5 }}
+                  animate={{ x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  All Categories
+                </motion.span>
+                <motion.div
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowRightIcon className="w-5 h-5 ml-2" />
+                </motion.div>
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>

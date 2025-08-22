@@ -20,11 +20,12 @@ import GlobalLoader from './components/GlobalLoader';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
+import Categories from './pages/Categories';
+import CandleSubcategories from './pages/CandleSubcategories';
 import Cart from './pages/Cart';
+import Wishlist from './pages/Wishlist';
 import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
-import Wishlist from './pages/Wishlist';
-import Categories from './pages/Categories'; // Import Categories page
 
 // Admin Pages
 import AdminLogin from './admin/AdminLogin';
@@ -56,11 +57,12 @@ const App: React.FC = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/products/:id" element={<ProductDetail />} />
+                    <Route path="/categories" element={<Categories />} />
+                    <Route path="/candles-subcategories" element={<CandleSubcategories />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/categories" element={<Categories />} /> {/* Added Categories route */}
-                    <Route path="/wishlist" element={<Wishlist />} />
 
                     {/* Admin Routes */}
                     <Route path="/admin/login" element={<AdminLogin />} />

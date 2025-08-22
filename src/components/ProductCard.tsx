@@ -12,6 +12,14 @@ interface ProductCardProps {
   product: Product;
 }
 
+const sampleImages = [
+  '/images/candles/candle-collection-1.png',
+  '/images/candles/candle-collection-2.png',
+  '/images/candles/candle-collection-3.png',
+  '/images/candles/candle-collection-4.png',
+  '/images/candles/candle-collection-5.png'
+];
+
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { dispatch } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();

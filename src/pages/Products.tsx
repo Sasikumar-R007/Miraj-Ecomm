@@ -147,14 +147,53 @@ const Products: React.FC = () => {
       setShowCategories(false);
     }
 
-    // Load sample data immediately with proper IDs
-    const productsWithIds = sampleProducts.map((product, index) => ({
-      ...product,
-      id: `sample_${index + 1}`,
-      createdAt: new Date()
-    }));
+    // Expanded sample data for all categories
+    const expandedSampleProducts = [
+      ...sampleProducts.map((product, index) => ({
+        ...product,
+        id: `sample_${index + 1}`,
+        createdAt: new Date()
+      })),
+      // Add more products for different categories
+      {
+        id: 'kids1',
+        name: 'Colorful Pencil Set',
+        title: 'Colorful Pencil Set',
+        description: 'Fun and vibrant pencil set for kids',
+        price: 12.99,
+        category: 'Kids Stationaries',
+        imageUrl: '/images/candles/candle-collection-1.png',
+        stock: 25,
+        sales: 45,
+        createdAt: new Date()
+      },
+      {
+        id: 'religious1',
+        name: 'Sacred Oil Lamp',
+        title: 'Sacred Oil Lamp',
+        description: 'Traditional oil lamp for spiritual practices',
+        price: 35.00,
+        category: 'Religious Items',
+        imageUrl: '/images/candles/candle-collection-2.png',
+        stock: 10,
+        sales: 25,
+        createdAt: new Date()
+      },
+      {
+        id: 'gift1',
+        name: 'Premium Gift Box',
+        title: 'Premium Gift Box',
+        description: 'Elegant gift box for special occasions',
+        price: 65.00,
+        category: 'Gifts',
+        imageUrl: '/images/candles/candle-collection-3.png',
+        stock: 15,
+        sales: 35,
+        createdAt: new Date()
+      }
+    ];
     
-    setProducts(productsWithIds);
+    setProducts(expandedSampleProducts);
     setIsLoading(false);
   }, [searchParams]);
 

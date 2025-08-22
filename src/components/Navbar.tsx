@@ -109,25 +109,50 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Right side - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="/wishlist" className="relative p-3 group rounded-lg hover:bg-gray-50 transition-colors duration-200">
-              <svg className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </Link>
-            
-            <Link to="/cart" className="relative p-3 group rounded-lg hover:bg-gray-50 transition-colors duration-200">
-              <ShoppingBagIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-200" />
-              {state.items.length > 0 && (
-                <motion.span 
+          <div className="hidden md:flex items-center space-x-2">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/wishlist" className="relative p-3 group rounded-lg hover:bg-red-50 transition-all duration-200 transform hover:shadow-md">
+                <motion.svg 
+                  className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors duration-200" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </motion.svg>
+                <motion.div
+                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-medium"
+                  transition={{ delay: 0.1 }}
                 >
-                  {state.items.length}
-                </motion.span>
-              )}
-            </Link>
+                  ♥
+                </motion.div>
+              </Link>
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/cart" className="relative p-3 group rounded-lg hover:bg-orange-50 transition-all duration-200 transform hover:shadow-md">
+                <motion.div
+                  whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ShoppingBagIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-200" />
+                </motion.div>
+                {state.items.length > 0 && (
+                  <motion.span 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                    className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-medium"
+                  >
+                    {state.items.length}
+                  </motion.span>
+                )}
+              </Link>
+            </motion.div>
 
             {currentUser ? (
               <div className="flex items-center space-x-3">

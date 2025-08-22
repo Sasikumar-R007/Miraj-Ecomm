@@ -9,6 +9,70 @@ import { useCart } from '../context/CartContext';
 import { useLoading } from '../context/LoadingContext';
 import toast from 'react-hot-toast';
 
+// Sample products data
+const sampleProducts = [
+  {
+    id: 'sample1',
+    name: 'Lavender Dreams Candle',
+    title: 'Lavender Dreams Candle',
+    description: 'A soothing lavender scented candle perfect for relaxation.',
+    price: 25.99,
+    category: 'Scented Candles',
+    imageUrl: '/images/candles/candle-collection-1.png',
+    stock: 10,
+    sales: 150,
+    createdAt: new Date()
+  },
+  {
+    id: 'sample2',
+    name: 'Natural Soy Wax Candle',
+    title: 'Natural Soy Wax Candle',
+    description: 'Eco-friendly soy wax candle with vanilla scent.',
+    price: 19.50,
+    category: 'Soy Wax',
+    imageUrl: '/images/candles/candle-collection-2.png',
+    stock: 15,
+    sales: 200,
+    createdAt: new Date()
+  },
+  {
+    id: 'sample3',
+    name: 'Premium Gift Set',
+    title: 'Premium Gift Set',
+    description: 'A curated gift set for special occasions.',
+    price: 75.00,
+    category: 'Gift Sets',
+    imageUrl: '/images/candles/candle-collection-3.png',
+    stock: 8,
+    sales: 90,
+    createdAt: new Date()
+  },
+  {
+    id: 'sample4',
+    name: 'Elegant Decor Candle',
+    title: 'Elegant Decor Candle',
+    description: 'Decorative candle perfect for home styling.',
+    price: 30.00,
+    category: 'Decor Candles',
+    imageUrl: '/images/candles/candle-collection-4.png',
+    stock: 12,
+    sales: 85,
+    createdAt: new Date()
+  },
+  {
+    id: 'sample5',
+    name: 'Aromatherapy Blend',
+    title: 'Aromatherapy Blend',
+    description: 'Therapeutic candle with essential oils for wellness.',
+    price: 35.75,
+    category: 'Aromatherapy',
+    imageUrl: '/images/candles/candle-collection-5.png',
+    stock: 20,
+    sales: 180,
+    createdAt: new Date()
+  }
+];
+
 // Mock data for enhanced product details
 const mockProductData = {
   rating: 4.5,
@@ -123,6 +187,40 @@ const ProductDetail: React.FC = () => {
   const handleWishlist = () => {
     setIsWishlisted(!isWishlisted);
     toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+  };
+
+  const handleOrderNow = () => {
+    if (product) {
+      // Add to cart first
+      for (let i = 0; i < quantity; i++) {
+        addItem(product);
+      }
+      
+      // Show order processing animation
+      toast.loading('Processing your order...', {
+        duration: 2000,
+        style: {
+          background: '#10B981',
+          color: 'white',
+        },
+      });
+
+      // Simulate order processing
+      setTimeout(() => {
+        toast.success('Order placed successfully! 🎉', {
+          duration: 3000,
+          style: {
+            background: '#10B981',
+            color: 'white',
+          },
+        });
+        
+        // Navigate to checkout after a delay
+        setTimeout(() => {
+          navigate('/checkout');
+        }, 1000);
+      }, 2000);
+    }
   };
 
   const handleShare = () => {
@@ -350,9 +448,21 @@ const ProductDetail: React.FC = () => {
                     Add to Cart
                   </motion.button>
 
-                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 px-6 rounded-lg font-medium transition-colors duration-200">
-                    Buy Now
-                  </button>
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleOrderNow}
+                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 flex items-center justify-center shadow-lg"
+                  >
+                    <motion.div
+                      className="mr-2"
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    >
+                      ⚡
+                    </motion.div>
+                    Order Now
+                  </motion.button>
                 </div>
               </div>
             )}
