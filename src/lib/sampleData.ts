@@ -4,6 +4,7 @@ import { db } from './firebase';
 import { Product } from '../types';
 
 export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
+  // Kids Stationaries
   {
     name: "Cute Animal Multi-Color Pens",
     title: "Cute Animal Multi-Color Pens",
@@ -11,7 +12,7 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 12.99,
     originalPrice: 16.99,
     discount: 24,
-    imageUrl: "/images/stationery/cute-animal-pens.jpg",
+    imageUrl: "/images/candles/candle-collection-1.png",
     category: "Kids Stationaries",
     stock: 30,
     features: ["Multiple colors", "Cute animal designs", "Child-safe materials", "Easy grip"]
@@ -23,7 +24,7 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 24.99,
     originalPrice: 32.99,
     discount: 24,
-    imageUrl: "/images/stationery/complete-set.jpg",
+    imageUrl: "/images/candles/candle-collection-2.png",
     category: "Kids Stationaries",
     stock: 20,
     features: ["Complete set", "Bear character theme", "All essential tools", "Gift packaging"]
@@ -35,7 +36,7 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 18.99,
     originalPrice: 24.99,
     discount: 24,
-    imageUrl: "/images/stationery/space-fountain-pens.jpg",
+    imageUrl: "/images/candles/candle-collection-3.png",
     category: "Kids Stationaries",
     stock: 25,
     features: ["Space theme", "Fountain pen design", "Erasable ink", "Kid-friendly"]
@@ -47,7 +48,7 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 19.99,
     originalPrice: 26.99,
     discount: 26,
-    imageUrl: "/images/stationery/twin-markers.jpg",
+    imageUrl: "/images/candles/candle-collection-4.png",
     category: "Kids Stationaries",
     stock: 35,
     features: ["24 colors", "Twin tips", "Vibrant colors", "Art quality"]
@@ -59,11 +60,89 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 15.99,
     originalPrice: 21.99,
     discount: 27,
-    imageUrl: "/images/stationery/character-cases.jpg",
+    imageUrl: "/images/candles/candle-collection-5.png",
     category: "Kids Stationaries",
     stock: 28,
     features: ["Character designs", "Spacious storage", "Durable material", "Kid-friendly"]
   },
+  
+  // Religious Items
+  {
+    name: "Sacred Oil Lamp",
+    title: "Sacred Oil Lamp",
+    description: "Traditional brass oil lamp for spiritual practices and religious ceremonies. Beautifully crafted for divine ambiance.",
+    price: 35.00,
+    originalPrice: 45.00,
+    discount: 22,
+    imageUrl: "/images/candles/candle-collection-6.jpg",
+    category: "Religious Items",
+    stock: 10,
+    features: ["Brass construction", "Traditional design", "Spiritual practices", "Handcrafted"]
+  },
+  {
+    name: "Temple Incense Set",
+    title: "Temple Incense Set",
+    description: "Premium incense sticks collection for meditation and worship. Includes jasmine, sandalwood, and rose varieties.",
+    price: 28.50,
+    originalPrice: 35.50,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-7.jpg",
+    category: "Religious Items",
+    stock: 25,
+    features: ["Multiple fragrances", "Long burning", "Natural ingredients", "Temple quality"]
+  },
+  {
+    name: "Divine Prayer Candles",
+    title: "Divine Prayer Candles",
+    description: "Set of blessed prayer candles for spiritual meditation and divine connection. Made with pure wax and positive intentions.",
+    price: 32.00,
+    originalPrice: 40.00,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-8.jpg",
+    category: "Religious Items",
+    stock: 18,
+    features: ["Blessed candles", "Pure wax", "Meditation aid", "Spiritual connection"]
+  },
+  
+  // Gifts
+  {
+    name: "Premium Gift Box",
+    title: "Premium Gift Box",
+    description: "Elegant gift box containing a curated selection of premium items. Perfect for birthdays, anniversaries, and special occasions.",
+    price: 65.00,
+    originalPrice: 80.00,
+    discount: 19,
+    imageUrl: "/images/candles/candle-collection-9.jpg",
+    category: "Gifts",
+    stock: 15,
+    features: ["Curated selection", "Premium packaging", "Special occasions", "Elegant presentation"]
+  },
+  {
+    name: "Luxury Hamper Collection",
+    title: "Luxury Hamper Collection",
+    description: "Luxurious hamper with gourmet treats, premium candles, and elegant accessories. The perfect indulgent gift.",
+    price: 85.00,
+    originalPrice: 105.00,
+    discount: 19,
+    imageUrl: "/images/candles/candle-collection-10.jpg",
+    category: "Gifts",
+    stock: 8,
+    features: ["Gourmet treats", "Premium items", "Luxury packaging", "Indulgent experience"]
+  },
+  {
+    name: "Celebration Gift Set",
+    title: "Celebration Gift Set",
+    description: "Festive gift set perfect for celebrations and milestones. Includes decorative items and sweet treats.",
+    price: 45.00,
+    originalPrice: 58.00,
+    discount: 22,
+    imageUrl: "/images/candles/candle-collection-1.png",
+    category: "Gifts",
+    stock: 20,
+    features: ["Festive theme", "Celebration ready", "Decorative items", "Sweet treats"]
+  },
+
+  // Scented Candles
   {
     name: "Luxury Gradient Candles",
     title: "Luxury Gradient Candles",
@@ -71,58 +150,10 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 45.99,
     originalPrice: 55.99,
     discount: 18,
-    imageUrl: "/images/candles/gradient-red-white.jpg",
+    imageUrl: "/images/candles/candle-collection-2.png",
     category: "Scented Candles",
     stock: 15,
     features: ["Hand-dipped gradient", "Premium wax blend", "Romantic ambiance", "Long burn time"]
-  },
-  {
-    name: "Natural Soy Wax Collection",
-    title: "Natural Soy Wax Collection",
-    description: "Clean-burning soy wax candles in elegant glass containers. Made with natural ingredients for a pure experience.",
-    price: 38.99,
-    originalPrice: 47.99,
-    discount: 19,
-    imageUrl: "/images/candles/white-soy-candles.jpg",
-    category: "Soy Wax",
-    stock: 20,
-    features: ["100% natural soy wax", "Glass containers", "Clean burning", "Eco-friendly"]
-  },
-  {
-    name: "Decorative Tea Light Set",
-    title: "Decorative Tea Light Set",
-    description: "Colorful decorative tea lights with intricate patterns and metallic accents. Creates beautiful ambient lighting.",
-    price: 34.99,
-    originalPrice: 44.99,
-    discount: 22,
-    imageUrl: "/images/candles/decorative-tealights.jpg",
-    category: "Decor Candles",
-    stock: 25,
-    features: ["Metallic patterns", "Colorful designs", "Tea light size", "Ambient lighting"]
-  },
-  {
-    name: "Nature's Kiss Aromatherapy",
-    title: "Nature's Kiss Aromatherapy",
-    description: "Therapeutic candle in elegant black container. Infused with essential oils for relaxation and wellness.",
-    price: 52.99,
-    originalPrice: 65.99,
-    discount: 20,
-    imageUrl: "/images/candles/natures-kiss.jpg",
-    category: "Aromatherapy",
-    stock: 18,
-    features: ["Essential oils", "Therapeutic benefits", "Black glass container", "Wellness formula"]
-  },
-  {
-    name: "Lavender Dreams Collection",
-    title: "Lavender Dreams Collection",
-    description: "Soothing lavender-scented candles perfect for relaxation and stress relief. Made with pure lavender essential oil.",
-    price: 42.99,
-    originalPrice: 52.99,
-    discount: 19,
-    imageUrl: "/images/candles/candle-collection-1.png",
-    category: "Aromatherapy",
-    stock: 22,
-    features: ["Pure lavender oil", "Stress relief", "Long burn time", "Calming scent"]
   },
   {
     name: "Vanilla Spice Warmth",
@@ -131,22 +162,10 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     price: 38.99,
     originalPrice: 47.99,
     discount: 19,
-    imageUrl: "/images/candles/candle-collection-2.png",
+    imageUrl: "/images/candles/candle-collection-3.png",
     category: "Scented Candles",
     stock: 30,
     features: ["Vanilla spice blend", "Cozy atmosphere", "Premium wax", "Long-lasting"]
-  },
-  {
-    name: "Ocean Breeze Serenity",
-    title: "Ocean Breeze Serenity",
-    description: "Fresh ocean-inspired candles that bring the calming essence of the sea to your home.",
-    price: 46.99,
-    originalPrice: 58.99,
-    discount: 20,
-    imageUrl: "/images/candles/candle-collection-3.png",
-    category: "Aromatherapy",
-    stock: 16,
-    features: ["Ocean-fresh scent", "Calming effect", "Natural ingredients", "Blue tones"]
   },
   {
     name: "Citrus Burst Energy",
@@ -161,28 +180,180 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     features: ["Citrus blend", "Energizing scent", "Mood lifting", "Bright colors"]
   },
   {
+    name: "French Lavender Elegance",
+    title: "French Lavender Elegance",
+    description: "Premium French lavender scented candles with sophisticated floral notes. Creates a serene and calming atmosphere.",
+    price: 48.99,
+    originalPrice: 58.99,
+    discount: 17,
+    imageUrl: "/images/candles/candle-collection-5.png",
+    category: "Scented Candles",
+    stock: 22,
+    features: ["French lavender", "Sophisticated scent", "Calming atmosphere", "Premium quality"]
+  },
+
+  // Soy Wax
+  {
+    name: "Natural Soy Wax Collection",
+    title: "Natural Soy Wax Collection",
+    description: "Clean-burning soy wax candles in elegant glass containers. Made with natural ingredients for a pure experience.",
+    price: 38.99,
+    originalPrice: 47.99,
+    discount: 19,
+    imageUrl: "/images/candles/candle-collection-6.jpg",
+    category: "Soy Wax",
+    stock: 20,
+    features: ["100% natural soy wax", "Glass containers", "Clean burning", "Eco-friendly"]
+  },
+  {
+    name: "Organic Soy Candle Trio",
+    title: "Organic Soy Candle Trio",
+    description: "Set of three organic soy candles in different calming scents. Environmentally conscious and long-lasting.",
+    price: 44.99,
+    originalPrice: 55.99,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-7.jpg",
+    category: "Soy Wax",
+    stock: 18,
+    features: ["Organic soy wax", "Three scents", "Eco-friendly", "Long burning"]
+  },
+  {
+    name: "Minimalist Soy Wax Candles",
+    title: "Minimalist Soy Wax Candles",
+    description: "Clean, modern design soy wax candles perfect for contemporary homes. Subtle fragrances and elegant appearance.",
+    price: 36.99,
+    originalPrice: 45.99,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-8.jpg",
+    category: "Soy Wax",
+    stock: 25,
+    features: ["Modern design", "Subtle fragrance", "Contemporary style", "Clean burning"]
+  },
+
+  // Gift Sets
+  {
     name: "Rose Garden Romance",
     title: "Rose Garden Romance",
     description: "Romantic rose-scented candles that create an enchanting ambiance for special moments and intimate evenings.",
     price: 55.99,
     originalPrice: 69.99,
     discount: 20,
-    imageUrl: "/images/candles/candle-collection-5.png",
+    imageUrl: "/images/candles/candle-collection-9.jpg",
     category: "Gift Sets",
     stock: 14,
     features: ["Rose garden scent", "Romantic ambiance", "Premium quality", "Gift-ready packaging"]
   },
   {
-    name: "Premium Gift Set",
-    title: "Premium Gift Set",
-    description: "Curated collection of our finest candles in beautiful gift packaging. Perfect for special occasions.",
+    name: "Premium Candle Gift Set",
+    title: "Premium Candle Gift Set",
+    description: "Curated collection of our finest candles in beautiful gift packaging. Perfect for special occasions and holidays.",
     price: 75.00,
     originalPrice: 95.00,
     discount: 21,
-    imageUrl: "/images/candles/candle-collection-6.jpg",
+    imageUrl: "/images/candles/candle-collection-10.jpg",
     category: "Gift Sets",
     stock: 12,
     features: ["Curated selection", "Gift packaging", "Premium quality", "Special occasions"]
+  },
+  {
+    name: "Seasonal Collection Box",
+    title: "Seasonal Collection Box",
+    description: "Seasonal candle collection featuring scents that capture the essence of each season. Perfect gift for candle lovers.",
+    price: 68.00,
+    originalPrice: 85.00,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-1.png",
+    category: "Gift Sets",
+    stock: 16,
+    features: ["Seasonal scents", "Complete collection", "Candle lover gift", "Seasonal essence"]
+  },
+
+  // Decor Candles
+  {
+    name: "Decorative Tea Light Set",
+    title: "Decorative Tea Light Set",
+    description: "Colorful decorative tea lights with intricate patterns and metallic accents. Creates beautiful ambient lighting.",
+    price: 34.99,
+    originalPrice: 44.99,
+    discount: 22,
+    imageUrl: "/images/candles/candle-collection-2.png",
+    category: "Decor Candles",
+    stock: 25,
+    features: ["Metallic patterns", "Colorful designs", "Tea light size", "Ambient lighting"]
+  },
+  {
+    name: "Sculptural Pillar Candles",
+    title: "Sculptural Pillar Candles",
+    description: "Artistic pillar candles with unique shapes and textures. Perfect for modern home decor and special displays.",
+    price: 42.99,
+    originalPrice: 52.99,
+    discount: 19,
+    imageUrl: "/images/candles/candle-collection-3.png",
+    category: "Decor Candles",
+    stock: 20,
+    features: ["Artistic design", "Unique shapes", "Modern decor", "Special displays"]
+  },
+  {
+    name: "Geometric Floating Candles",
+    title: "Geometric Floating Candles",
+    description: "Modern geometric floating candles that create stunning water displays. Perfect for events and contemporary decor.",
+    price: 29.99,
+    originalPrice: 37.99,
+    discount: 21,
+    imageUrl: "/images/candles/candle-collection-4.png",
+    category: "Decor Candles",
+    stock: 30,
+    features: ["Geometric design", "Floating candles", "Water displays", "Event perfect"]
+  },
+
+  // Aromatherapy
+  {
+    name: "Nature's Kiss Aromatherapy",
+    title: "Nature's Kiss Aromatherapy",
+    description: "Therapeutic candle in elegant black container. Infused with essential oils for relaxation and wellness.",
+    price: 52.99,
+    originalPrice: 65.99,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-5.png",
+    category: "Aromatherapy",
+    stock: 18,
+    features: ["Essential oils", "Therapeutic benefits", "Black glass container", "Wellness formula"]
+  },
+  {
+    name: "Lavender Dreams Collection",
+    title: "Lavender Dreams Collection",
+    description: "Soothing lavender-scented candles perfect for relaxation and stress relief. Made with pure lavender essential oil.",
+    price: 42.99,
+    originalPrice: 52.99,
+    discount: 19,
+    imageUrl: "/images/candles/candle-collection-6.jpg",
+    category: "Aromatherapy",
+    stock: 22,
+    features: ["Pure lavender oil", "Stress relief", "Long burn time", "Calming scent"]
+  },
+  {
+    name: "Ocean Breeze Serenity",
+    title: "Ocean Breeze Serenity",
+    description: "Fresh ocean-inspired candles that bring the calming essence of the sea to your home. Perfect for meditation.",
+    price: 46.99,
+    originalPrice: 58.99,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-7.jpg",
+    category: "Aromatherapy",
+    stock: 16,
+    features: ["Ocean-fresh scent", "Calming effect", "Natural ingredients", "Meditation aid"]
+  },
+  {
+    name: "Eucalyptus Zen Collection",
+    title: "Eucalyptus Zen Collection",
+    description: "Refreshing eucalyptus aromatherapy candles that promote mental clarity and respiratory wellness.",
+    price: 49.99,
+    originalPrice: 62.99,
+    discount: 21,
+    imageUrl: "/images/candles/candle-collection-8.jpg",
+    category: "Aromatherapy",
+    stock: 19,
+    features: ["Eucalyptus oil", "Mental clarity", "Respiratory wellness", "Zen experience"]
   }
 ];
 

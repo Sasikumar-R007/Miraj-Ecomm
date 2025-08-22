@@ -10,69 +10,8 @@ import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
 import BagLoader from '../components/BagLoader';
 
-// Sample products data for faster initial load
-const sampleProducts: Product[] = [
-  {
-    id: 'sample1',
-    name: 'Lavender Dreams Candle',
-    title: 'Lavender Dreams Candle',
-    description: 'A soothing lavender scented candle perfect for relaxation.',
-    price: 25.99,
-    category: 'Scented Candles',
-    imageUrl: '/images/candles/candle-collection-1.png',
-    stock: 10,
-    sales: 150,
-    createdAt: new Date()
-  },
-  {
-    id: 'sample2',
-    name: 'Natural Soy Wax Candle',
-    title: 'Natural Soy Wax Candle',
-    description: 'Eco-friendly soy wax candle with vanilla scent.',
-    price: 19.50,
-    category: 'Soy Wax',
-    imageUrl: '/images/candles/candle-collection-2.png',
-    stock: 15,
-    sales: 200,
-    createdAt: new Date()
-  },
-  {
-    id: 'sample3',
-    name: 'Premium Gift Set',
-    title: 'Premium Gift Set',
-    description: 'A curated gift set for special occasions.',
-    price: 75.00,
-    category: 'Gift Sets',
-    imageUrl: '/images/candles/candle-collection-3.png',
-    stock: 8,
-    sales: 90,
-    createdAt: new Date()
-  },
-  {
-    id: 'sample4',
-    name: 'Elegant Decor Candle',
-    title: 'Elegant Decor Candle',
-    description: 'Decorative candle perfect for home styling.',
-    price: 30.00,
-    category: 'Decor Candles',
-    imageUrl: '/images/candles/candle-collection-4.png',
-    stock: 12,
-    sales: 85,
-    createdAt: new Date()
-  },
-  {
-    id: 'sample5',
-    name: 'Aromatherapy Blend',
-    title: 'Aromatherapy Blend',
-    description: 'Therapeutic candle with essential oils for wellness.',
-    price: 35.75,
-    category: 'Aromatherapy',
-    imageUrl: '/images/candles/candle-collection-5.png',
-    stock: 20,
-    sales: 180,
-    createdAt: new Date()
-  }
-];
+// Import sample products from data file
+import { sampleProducts as importedSampleProducts } from '../lib/sampleData';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -82,7 +21,7 @@ const Products: React.FC = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState('newest');
   const [showFilters, setShowFilters] = useState(false);
-  const [showCategories, setShowCategories] = useState(true);
+  const [showCategories, setShowCategories] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -121,6 +60,27 @@ const Products: React.FC = () => {
       description: 'Therapeutic scents for wellness',
       icon: '💧',
       count: 0
+    },
+    {
+      name: 'Kids Stationaries',
+      color: 'bg-gradient-to-br from-pink-400 to-pink-600',
+      description: 'Fun and colorful stationery for kids',
+      icon: '✏️',
+      count: 0
+    },
+    {
+      name: 'Religious Items',
+      color: 'bg-gradient-to-br from-yellow-400 to-yellow-600',
+      description: 'Sacred items for spiritual practices',
+      icon: '🕉️',
+      count: 0
+    },
+    {
+      name: 'Gifts',
+      color: 'bg-gradient-to-br from-indigo-400 to-indigo-600',
+      description: 'Special gifts for every occasion',
+      icon: '🎈',
+      count: 0
     }
   ];
 
@@ -147,53 +107,15 @@ const Products: React.FC = () => {
       setShowCategories(false);
     }
 
-    // Expanded sample data for all categories
-    const expandedSampleProducts = [
-      ...sampleProducts.map((product, index) => ({
-        ...product,
-        id: `sample_${index + 1}`,
-        createdAt: new Date()
-      })),
-      // Add more products for different categories
-      {
-        id: 'kids1',
-        name: 'Colorful Pencil Set',
-        title: 'Colorful Pencil Set',
-        description: 'Fun and vibrant pencil set for kids',
-        price: 12.99,
-        category: 'Kids Stationaries',
-        imageUrl: '/images/candles/candle-collection-1.png',
-        stock: 25,
-        sales: 45,
-        createdAt: new Date()
-      },
-      {
-        id: 'religious1',
-        name: 'Sacred Oil Lamp',
-        title: 'Sacred Oil Lamp',
-        description: 'Traditional oil lamp for spiritual practices',
-        price: 35.00,
-        category: 'Religious Items',
-        imageUrl: '/images/candles/candle-collection-2.png',
-        stock: 10,
-        sales: 25,
-        createdAt: new Date()
-      },
-      {
-        id: 'gift1',
-        name: 'Premium Gift Box',
-        title: 'Premium Gift Box',
-        description: 'Elegant gift box for special occasions',
-        price: 65.00,
-        category: 'Gifts',
-        imageUrl: '/images/candles/candle-collection-3.png',
-        stock: 15,
-        sales: 35,
-        createdAt: new Date()
-      }
-    ];
+    // Map imported sample products to Product type
+    const mappedProducts: Product[] = importedSampleProducts.map((product, index) => ({
+      id: `product_${index + 1}`,
+      ...product,
+      createdAt: new Date(),
+      sales: Math.floor(Math.random() * 300) + 50 // Random sales number
+    }));
     
-    setProducts(expandedSampleProducts);
+    setProducts(mappedProducts);
     setIsLoading(false);
   }, [searchParams]);
 
@@ -271,120 +193,29 @@ const Products: React.FC = () => {
     );
   }
 
-  // Show categories view
-  if (showCategories && !searchTerm) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        {/* Header */}
-        <section className="bg-gradient-to-br from-orange-900 via-orange-800 to-purple-900 py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-                Shop by Category
-              </h1>
-              <p className="text-xl text-orange-100 max-w-3xl mx-auto">
-                Discover our curated collections of premium candles, each crafted with care and attention to detail
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Search Bar */}
-        <section className="py-8 bg-white shadow-sm">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative">
-              <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search for specific candles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 text-lg"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Categories Grid */}
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {categoriesWithCounts.map((category, index) => (
-                <motion.div
-                  key={category.name}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -10, scale: 1.02 }}
-                  className="bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer"
-                  onClick={() => handleCategorySelect(category.name)}
-                >
-                  <div className={`${category.color} h-48 relative`}>
-                    <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl transform group-hover:scale-110 transition-transform duration-300">
-                        {category.icon}
-                      </div>
-                    </div>
-                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-white bg-opacity-20 rounded-full p-2">
-                        <ArrowRightIcon className="w-5 h-5 text-white" />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300">
-                      {category.name}
-                    </h3>
-                    <p className="text-gray-600 mb-4 leading-relaxed">
-                      {category.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">
-                        {category.count} products
-                      </span>
-                      <span className="text-orange-500 font-medium group-hover:text-orange-600 transition-colors duration-300">
-                        Explore →
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
+  
 
   // Show products view
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <div className="mb-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               {selectedCategory !== 'all' ? 
                 selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) : 
                 'All Products'
               }
             </h1>
-            <p className="text-lg text-gray-600">
-              {searchTerm ? `Search results for "${searchTerm}"` : 'Discover our premium candle collection'}
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {searchTerm ? `Search results for "${searchTerm}"` : 'Discover our complete collection of premium products'}
             </p>
-          </div>
-          <button
-            onClick={goBackToCategories}
-            className="hidden md:flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors duration-200"
-          >
-            ← Back to Categories
-          </button>
+          </motion.div>
         </div>
 
         {/* Search and Filter Bar */}
@@ -490,15 +321,7 @@ const Products: React.FC = () => {
           )}
         </div>
 
-        {/* Back to Categories - Mobile */}
-        <div className="md:hidden mb-6">
-          <button
-            onClick={goBackToCategories}
-            className="flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors duration-200"
-          >
-            ← Back to Categories
-          </button>
-        </div>
+        
 
         {/* Results Count */}
         <div className="mb-6">
