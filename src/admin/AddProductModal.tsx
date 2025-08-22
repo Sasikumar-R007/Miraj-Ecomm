@@ -33,7 +33,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
     'Soy Wax',
     'Gift Sets',
     'Decor Candles',
-    'Aromatherapy'
+    'Aromatherapy',
+    'Kids Stationaries'
   ];
 
   const sampleImages = [

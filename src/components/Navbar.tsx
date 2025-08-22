@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const { state } = useCart();
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -110,49 +111,25 @@ const Navbar: React.FC = () => {
 
           {/* Right side - Desktop */}
           <div className="hidden md:flex items-center space-x-2">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link to="/wishlist" className="relative p-3 group rounded-lg hover:bg-red-50 transition-all duration-200 transform hover:shadow-md">
-                <motion.svg 
-                  className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors duration-200" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </motion.svg>
-                <motion.div
-                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  ♥
-                </motion.div>
-              </Link>
-            </motion.div>
+            <Link to="/wishlist" className="relative p-3 group rounded-xl hover:bg-red-50 transition-all duration-300 hover:shadow-lg">
+              <svg 
+                className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors duration-300" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </Link>
             
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link to="/cart" className="relative p-3 group rounded-lg hover:bg-orange-50 transition-all duration-200 transform hover:shadow-md">
-                <motion.div
-                  whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <ShoppingBagIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-200" />
-                </motion.div>
-                {state.items.length > 0 && (
-                  <motion.span 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    whileHover={{ scale: 1.1 }}
-                    className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-medium"
-                  >
-                    {state.items.length}
-                  </motion.span>
-                )}
-              </Link>
-            </motion.div>
+            <Link to="/cart" className="relative p-3 group rounded-xl hover:bg-orange-50 transition-all duration-300 hover:shadow-lg">
+              <ShoppingBagIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-300" />
+              {state.items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-medium">
+                  {state.items.length}
+                </span>
+              )}
+            </Link>
 
             {currentUser ? (
               <div className="flex items-center space-x-3">
@@ -172,12 +149,12 @@ const Navbar: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <Link 
-                to="/admin/login" 
-                className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="p-3 rounded-xl hover:bg-blue-50 transition-all duration-300 hover:shadow-lg group"
               >
-                <UserIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-200" />
-              </Link>
+                <UserIcon className="w-6 h-6 text-gray-600 group-hover:text-blue-500 transition-colors duration-300" />
+              </button>
             )}
           </div>
 
@@ -290,6 +267,87 @@ const Navbar: React.FC = () => {
                 </Link>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Login Modal */}
+      <AnimatePresence>
+        {showLoginModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowLoginModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Miraj</h2>
+                <p className="text-gray-600">Choose how you'd like to continue</p>
+              </div>
+
+              <div className="space-y-4">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setShowLoginModal(false);
+                    navigate('/user/login');
+                  }}
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                >
+                  Login as Customer
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setShowLoginModal(false);
+                    navigate('/user/register');
+                  }}
+                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                >
+                  Register as Customer
+                </motion.button>
+
+                <div className="relative my-6">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">or</span>
+                  </div>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setShowLoginModal(false);
+                    navigate('/admin/login');
+                  }}
+                  className="w-full border-2 border-gray-300 text-gray-700 py-4 rounded-xl font-medium hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
+                >
+                  Admin Login
+                </motion.button>
+              </div>
+
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              >
+                <XMarkIcon className="w-6 h-6" />
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

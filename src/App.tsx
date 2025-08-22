@@ -26,6 +26,9 @@ import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
 import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
+import UserLogin from './pages/UserLogin'; // Import UserLogin page
+import UserRegister from './pages/UserRegister'; // Import UserRegister page
+
 
 // Admin Pages
 import AdminLogin from './admin/AdminLogin';
@@ -63,6 +66,8 @@ const App: React.FC = () => {
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/user/login" element={<UserLogin />} />
+                    <Route path="/user/register" element={<UserRegister />} />
 
                     {/* Admin Routes */}
                     <Route path="/admin/login" element={<AdminLogin />} />

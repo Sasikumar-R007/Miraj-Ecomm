@@ -5,6 +5,66 @@ import { Product } from '../types';
 
 export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
   {
+    name: "Cute Animal Multi-Color Pens",
+    title: "Cute Animal Multi-Color Pens",
+    description: "Adorable animal-shaped multi-color pens with owl, avocado, flamingo, and pineapple designs. Perfect for kids' creative writing.",
+    price: 12.99,
+    originalPrice: 16.99,
+    discount: 24,
+    imageUrl: "/images/stationery/cute-animal-pens.jpg",
+    category: "Kids Stationaries",
+    stock: 30,
+    features: ["Multiple colors", "Cute animal designs", "Child-safe materials", "Easy grip"]
+  },
+  {
+    name: "Complete Stationery Gift Set",
+    title: "Complete Stationery Gift Set",
+    description: "Comprehensive stationery set with cute bear characters. Includes rulers, scissors, glue stick, and various writing tools.",
+    price: 24.99,
+    originalPrice: 32.99,
+    discount: 24,
+    imageUrl: "/images/stationery/complete-set.jpg",
+    category: "Kids Stationaries",
+    stock: 20,
+    features: ["Complete set", "Bear character theme", "All essential tools", "Gift packaging"]
+  },
+  {
+    name: "Space Theme Fountain Pen Set",
+    title: "Space Theme Fountain Pen Set",
+    description: "Adorable space-themed fountain pen set with astronaut bear design. Includes erasable ink cartridges.",
+    price: 18.99,
+    originalPrice: 24.99,
+    discount: 24,
+    imageUrl: "/images/stationery/space-fountain-pens.jpg",
+    category: "Kids Stationaries",
+    stock: 25,
+    features: ["Space theme", "Fountain pen design", "Erasable ink", "Kid-friendly"]
+  },
+  {
+    name: "24-Color Twin Marker Set",
+    title: "24-Color Twin Marker Set",
+    description: "Professional-quality twin tip markers in 24 vibrant colors. Perfect for drawing, coloring, and art projects.",
+    price: 19.99,
+    originalPrice: 26.99,
+    discount: 26,
+    imageUrl: "/images/stationery/twin-markers.jpg",
+    category: "Kids Stationaries",
+    stock: 35,
+    features: ["24 colors", "Twin tips", "Vibrant colors", "Art quality"]
+  },
+  {
+    name: "Fun Character Pencil Cases",
+    title: "Fun Character Pencil Cases",
+    description: "Cute character-themed pencil cases featuring space panda, space dinosaur, and astronaut designs.",
+    price: 15.99,
+    originalPrice: 21.99,
+    discount: 27,
+    imageUrl: "/images/stationery/character-cases.jpg",
+    category: "Kids Stationaries",
+    stock: 28,
+    features: ["Character designs", "Spacious storage", "Durable material", "Kid-friendly"]
+  },
+  {
     name: "Luxury Gradient Candles",
     title: "Luxury Gradient Candles",
     description: "Elegant ombre candles with beautiful red-to-white gradient. Perfect for romantic dinners and special occasions.",
