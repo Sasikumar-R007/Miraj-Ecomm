@@ -157,7 +157,7 @@ const ProductDetail: React.FC = () => {
     if (!id) return;
 
     setLoading(true);
-    
+
     // Create products with proper IDs from sample data
     const productsWithIds = sampleProducts.map((product, index) => ({
       ...product,
@@ -167,13 +167,13 @@ const ProductDetail: React.FC = () => {
 
     // Find the product by ID
     const foundProduct = productsWithIds.find(p => p.id === id);
-    
+
     if (foundProduct) {
       setProduct(foundProduct);
     } else {
       navigate('/products');
     }
-    
+
     setLoading(false);
   }, [id, navigate, setLoading]);
 
@@ -204,7 +204,7 @@ const ProductDetail: React.FC = () => {
       for (let i = 0; i < quantity; i++) {
         addItem(product);
       }
-      
+
       // Show success message
       toast.success('Product added to cart! Redirecting to checkout...', {
         duration: 2000,
@@ -445,7 +445,7 @@ const ProductDetail: React.FC = () => {
                     Add to Cart
                   </motion.button>
 
-                  <motion.button 
+                  <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleOrderNow}
@@ -501,8 +501,8 @@ const ProductDetail: React.FC = () => {
               <div className="prose max-w-none">
                 <p className="text-gray-600 leading-relaxed mb-4">{product.description}</p>
                 <p className="text-gray-600 leading-relaxed">
-                  Our premium candles are crafted with the finest natural soy wax and essential oils, 
-                  providing a clean, long-lasting burn that fills your space with delightful fragrance. 
+                  Our premium candles are crafted with the finest natural soy wax and essential oils,
+                  providing a clean, long-lasting burn that fills your space with delightful fragrance.
                   Each candle is hand-poured in small batches to ensure quality and consistency.
                 </p>
               </div>
@@ -540,7 +540,7 @@ const ProductDetail: React.FC = () => {
                       <div key={stars} className="flex items-center mb-2">
                         <span className="text-sm text-gray-600 w-12">{stars} star</span>
                         <div className="flex-1 h-2 bg-gray-200 rounded-full mx-3">
-                          <div 
+                          <div
                             className="h-full bg-yellow-400 rounded-full"
                             style={{ width: `${(count / mockProductData.totalReviews) * 100}%` }}
                           ></div>

@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FunnelIcon, MagnifyingGlassIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
@@ -96,12 +95,12 @@ const Products: React.FC = () => {
     // Check URL parameters for category and search
     const category = searchParams.get('category');
     const search = searchParams.get('search');
-    
+
     if (category && category !== 'all') {
       setSelectedCategory(category);
       setShowCategories(false);
     }
-    
+
     if (search) {
       setSearchTerm(search);
       setShowCategories(false);
@@ -114,7 +113,7 @@ const Products: React.FC = () => {
       createdAt: new Date(),
       sales: Math.floor(Math.random() * 300) + 50 // Random sales number
     }));
-    
+
     setProducts(mappedProducts);
     setIsLoading(false);
   }, [searchParams]);
@@ -193,7 +192,7 @@ const Products: React.FC = () => {
     );
   }
 
-  
+
 
   // Show products view
   return (
@@ -321,7 +320,7 @@ const Products: React.FC = () => {
           )}
         </div>
 
-        
+
 
         {/* Categories Grid */}
         {showCategories && (
@@ -334,7 +333,7 @@ const Products: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
               <p className="text-gray-600">Explore our curated collections</p>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {categoriesWithCounts.map((category, index) => (
                 <motion.div
