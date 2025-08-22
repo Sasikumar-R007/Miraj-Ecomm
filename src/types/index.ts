@@ -9,9 +9,10 @@ export interface Product {
   imageUrl: string;
   category: string;
   stock: number;
+  sales?: number;
   features?: string[];
   createdAt?: Date;
-  updatedAt?: Date;
+  updatedDate?: Date;
 }
 
 export interface CartItem {
