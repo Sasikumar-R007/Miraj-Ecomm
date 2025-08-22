@@ -1,4 +1,3 @@
-
 {
   "name": "miraj-candles-workspace",
   "version": "1.0.0",
@@ -13,7 +12,10 @@
   },
   "workspaces": [
     "client",
-    "server", 
+    "server",
     "admin"
-  ]
+  ],
+  "dependencies": {
+    "react-toastify": "^11.0.5"
+  }
 }
