@@ -88,33 +88,27 @@ const ProductDetail: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('description');
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      if (!id) return;
+    if (!id) return;
 
-      setLoading(true);
-      try {
-        const docRef = doc(db, 'products', id);
-        const docSnap = await getDoc(docRef);
+    setLoading(true);
+    
+    // Create products with proper IDs from sample data
+    const productsWithIds = sampleProducts.map((product, index) => ({
+      ...product,
+      id: `sample_${index + 1}`,
+      createdAt: new Date()
+    }));
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setProduct({
-            id: docSnap.id,
-            ...data,
-            createdAt: data.createdAt?.toDate() || new Date(),
-          } as Product);
-        } else {
-          navigate('/products');
-        }
-      } catch (error) {
-        console.error('Error fetching product:', error);
-        navigate('/products');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
+    // Find the product by ID
+    const foundProduct = productsWithIds.find(p => p.id === id);
+    
+    if (foundProduct) {
+      setProduct(foundProduct);
+    } else {
+      navigate('/products');
+    }
+    
+    setLoading(false);
   }, [id, navigate, setLoading]);
 
   const handleAddToCart = () => {

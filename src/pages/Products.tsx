@@ -147,30 +147,15 @@ const Products: React.FC = () => {
       setShowCategories(false);
     }
 
-    const fetchProducts = async () => {
-      // Load sample data immediately
-      setProducts(sampleProducts);
-      setIsLoading(false);
-
-      // Fetch from Firebase in background
-      try {
-        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const productsData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate() || new Date()
-        })) as Product[];
-
-        if (productsData.length > 0) {
-          setProducts(productsData);
-        }
-      } catch (error) {
-        console.error('Error fetching products from Firebase:', error);
-      }
-    };
-
-    fetchProducts();
+    // Load sample data immediately with proper IDs
+    const productsWithIds = sampleProducts.map((product, index) => ({
+      ...product,
+      id: `sample_${index + 1}`,
+      createdAt: new Date()
+    }));
+    
+    setProducts(productsWithIds);
+    setIsLoading(false);
   }, [searchParams]);
 
   const filteredAndSortedProducts = useMemo(() => {

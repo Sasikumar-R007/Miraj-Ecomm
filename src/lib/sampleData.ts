@@ -5,64 +5,52 @@ import { Product } from '../types';
 
 export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
   {
-    name: "Floral Botanical Candle Set",
-    title: "Floral Botanical Candle Set",
-    description: "Beautiful handcrafted candles with real dried flowers embedded in natural soy wax. Perfect for creating a romantic and elegant atmosphere.",
-    price: 89.99,
-    originalPrice: 119.99,
-    discount: 25,
-    imageUrl: "/images/candles/candle-collection-6.jpg",
-    category: "Scented Candles",
-    stock: 15,
-    features: ["Natural soy wax", "Real dried flowers", "Long-lasting burn", "Gift packaging included"]
-  },
-  {
-    name: "Beeswax Pillar Candles",
-    title: "Beeswax Pillar Candles",
-    description: "Premium beeswax pillar candles with natural honeycomb texture. Burns cleanly with a subtle honey scent.",
-    price: 64.99,
-    originalPrice: 79.99,
-    discount: 19,
-    imageUrl: "/images/candles/candle-collection-7.jpg",
-    category: "Soy Wax",
-    stock: 12,
-    features: ["100% natural beeswax", "Honeycomb texture", "Long burn time", "Clean burning"]
-  },
-  {
-    name: "Ombre Gradient Candles",
-    title: "Ombre Gradient Candles",
-    description: "Stylish ombre gradient candles that transition from deep burgundy to soft pink. Perfect for modern home decor.",
+    name: "Luxury Gradient Candles",
+    title: "Luxury Gradient Candles",
+    description: "Elegant ombre candles with beautiful red-to-white gradient. Perfect for romantic dinners and special occasions.",
     price: 45.99,
     originalPrice: 55.99,
     discount: 18,
-    imageUrl: "/images/candles/candle-collection-8.jpg",
-    category: "Decor Candles",
-    stock: 20,
-    features: ["Hand-dipped gradient", "Premium wax blend", "Modern design", "Unscented"]
+    imageUrl: "/images/candles/gradient-red-white.jpg",
+    category: "Scented Candles",
+    stock: 15,
+    features: ["Hand-dipped gradient", "Premium wax blend", "Romantic ambiance", "Long burn time"]
   },
   {
-    name: "Ceramic Tea Light Holders",
-    title: "Ceramic Tea Light Holders",
-    description: "Elegant ceramic tea light holders with intricate cut-out patterns that create beautiful light displays.",
+    name: "Natural Soy Wax Collection",
+    title: "Natural Soy Wax Collection",
+    description: "Clean-burning soy wax candles in elegant glass containers. Made with natural ingredients for a pure experience.",
+    price: 38.99,
+    originalPrice: 47.99,
+    discount: 19,
+    imageUrl: "/images/candles/white-soy-candles.jpg",
+    category: "Soy Wax",
+    stock: 20,
+    features: ["100% natural soy wax", "Glass containers", "Clean burning", "Eco-friendly"]
+  },
+  {
+    name: "Decorative Tea Light Set",
+    title: "Decorative Tea Light Set",
+    description: "Colorful decorative tea lights with intricate patterns and metallic accents. Creates beautiful ambient lighting.",
     price: 34.99,
     originalPrice: 44.99,
     discount: 22,
-    imageUrl: "/images/candles/candle-collection-9.jpg",
-    category: "Aromatherapy",
+    imageUrl: "/images/candles/decorative-tealights.jpg",
+    category: "Decor Candles",
     stock: 25,
-    features: ["Handcrafted ceramic", "Intricate patterns", "Tea lights included", "Ambient lighting"]
+    features: ["Metallic patterns", "Colorful designs", "Tea light size", "Ambient lighting"]
   },
   {
-    name: "Botanical Pillar Candles",
-    title: "Botanical Pillar Candles",
-    description: "Artistic pillar candles featuring dried botanicals and herbs. Each candle is unique with different botanical arrangements.",
+    name: "Nature's Kiss Aromatherapy",
+    title: "Nature's Kiss Aromatherapy",
+    description: "Therapeutic candle in elegant black container. Infused with essential oils for relaxation and wellness.",
     price: 52.99,
     originalPrice: 65.99,
     discount: 20,
-    imageUrl: "/images/candles/candle-collection-10.jpg",
-    category: "Gift Sets",
+    imageUrl: "/images/candles/natures-kiss.jpg",
+    category: "Aromatherapy",
     stock: 18,
-    features: ["Real botanicals", "Artistic design", "Natural fragrance", "Unique patterns"]
+    features: ["Essential oils", "Therapeutic benefits", "Black glass container", "Wellness formula"]
   },
   {
     name: "Lavender Dreams Collection",
@@ -123,6 +111,18 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     category: "Gift Sets",
     stock: 14,
     features: ["Rose garden scent", "Romantic ambiance", "Premium quality", "Gift-ready packaging"]
+  },
+  {
+    name: "Premium Gift Set",
+    title: "Premium Gift Set",
+    description: "Curated collection of our finest candles in beautiful gift packaging. Perfect for special occasions.",
+    price: 75.00,
+    originalPrice: 95.00,
+    discount: 21,
+    imageUrl: "/images/candles/candle-collection-6.jpg",
+    category: "Gift Sets",
+    stock: 12,
+    features: ["Curated selection", "Gift packaging", "Premium quality", "Special occasions"]
   }
 ];
 

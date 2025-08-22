@@ -42,29 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
-  // Premium candle images
-  const sampleImages = [
-    '/images/candles/candle-collection-1.png',
-    '/images/candles/candle-collection-2.png',
-    '/images/candles/candle-collection-3.png',
-    '/images/candles/candle-collection-4.png',
-    '/images/candles/candle-collection-5.png',
-    '/images/candles/candle-collection-6.jpg',
-    '/images/candles/candle-collection-7.jpg',
-    '/images/candles/candle-collection-8.jpg',
-    '/images/candles/candle-collection-9.jpg',
-    '/images/candles/candle-collection-10.jpg'
-  ];
-
-  const getProductImage = () => {
-    // Use product ID to consistently select the same image for each product
-    const imageIndex = parseInt(product.id.slice(-1)) || 0;
-    return sampleImages[imageIndex % sampleImages.length];
-  };
-
-  const imageUrl = product.imageUrl && !product.imageUrl.includes('/api/placeholder')
-    ? product.imageUrl
-    : getProductImage();
+  const imageUrl = product.imageUrl || '/images/candles/candle-collection-1.png';
 
   return (
     <motion.div

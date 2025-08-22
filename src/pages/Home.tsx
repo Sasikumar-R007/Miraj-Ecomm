@@ -80,49 +80,19 @@ const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-    const fetchProductsData = async () => {
-      // Use sample data immediately for faster loading
-      setFeaturedProducts(sampleProducts.slice(0, 4));
-      setBestSellers(sampleProducts.slice(4, 8));
-      setIsLoadingFeatured(false);
-      setIsLoadingBestSellers(false);
+    // Create products with proper IDs
+    const productsWithIds = sampleProducts.map((product, index) => ({
+      ...product,
+      id: `sample_${index + 1}`,
+      createdAt: new Date(),
+      sales: Math.floor(Math.random() * 300) + 50
+    }));
 
-      // Optionally fetch from Firebase in background for real data
-      try {
-        const featuredQuery = query(
-          collection(db, 'products'),
-          orderBy('createdAt', 'desc'),
-          limit(4)
-        );
-        const bestSellersQuery = query(
-          collection(db, 'products'),
-          orderBy('sales', 'desc'),
-          limit(4)
-        );
-
-        const [featuredSnapshot, bestSellersSnapshot] = await Promise.all([
-          getDocs(featuredQuery),
-          getDocs(bestSellersQuery)
-        ]);
-
-        const featuredProductsData = featuredSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Product[];
-
-        const bestSellersProductsData = bestSellersSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Product[];
-
-        // Update with real data if available
-        if (featuredProductsData.length > 0) {
-          setFeaturedProducts(featuredProductsData);
-        }
-
-        if (bestSellersProductsData.length > 0) {
-          setBestSellers(bestSellersProductsData);
-        }
+    // Use sample data immediately for faster loading
+    setFeaturedProducts(productsWithIds.slice(0, 4));
+    setBestSellers(productsWithIds.slice(4, 8));
+    setIsLoadingFeatured(false);
+    setIsLoadingBestSellers(false);
 
       } catch (error) {
         console.error('Error fetching products from Firebase:', error);
