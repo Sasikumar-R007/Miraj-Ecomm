@@ -21,7 +21,7 @@ const Products: React.FC = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState('newest');
   const [showFilters, setShowFilters] = useState(false);
-  const [showCategories, setShowCategories] = useState(false);
+  const [showCategories, setShowCategories] = useState(true);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -323,6 +323,50 @@ const Products: React.FC = () => {
 
         
 
+        {/* Categories Grid */}
+        {showCategories && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-12"
+          >
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+              <p className="text-gray-600">Explore our curated collections</p>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {categoriesWithCounts.map((category, index) => (
+                <motion.div
+                  key={category.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onClick={() => handleCategorySelect(category.name)}
+                  className="cursor-pointer group"
+                >
+                  <div className={`${category.color} rounded-xl p-6 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl`}>
+                    <div className="text-center">
+                      <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        {category.icon}
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">{category.name}</h3>
+                      <p className="text-white/90 text-sm mb-3">{category.description}</p>
+                      <div className="bg-white/20 rounded-full px-3 py-1 text-sm font-medium">
+                        {category.count} products
+                      </div>
+                    </div>
+                    <div className="mt-4 flex items-center justify-center text-white/80 group-hover:text-white transition-colors duration-300">
+                      <span className="text-sm font-medium mr-2">Explore</span>
+                      <ArrowRightIcon className="w-4 h-4" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
@@ -331,7 +375,7 @@ const Products: React.FC = () => {
         </div>
 
         {/* Products Grid */}
-        {filteredAndSortedProducts.length > 0 ? (
+        {!showCategories && filteredAndSortedProducts.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -349,7 +393,7 @@ const Products: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
-        ) : (
+        ) : !showCategories ? (
           <div className="text-center py-12">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               No products found
@@ -364,7 +408,7 @@ const Products: React.FC = () => {
               Clear All Filters
             </button>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

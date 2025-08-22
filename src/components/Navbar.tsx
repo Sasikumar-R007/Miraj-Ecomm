@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
-              src="/images/miraj-logo.png" 
+              src="/images/miraj-logo-new.png" 
               alt="Miraj Candles" 
               className="h-16 w-auto object-contain hover:scale-105 transition-transform duration-200"
             />

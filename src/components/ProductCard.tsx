@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import { Product } from '../types';
 import toast from 'react-hot-toast';
 
 interface ProductCardProps {
@@ -23,7 +22,7 @@ const sampleImages = [
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { dispatch } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  // const [isWishlisted, setIsWishlisted] = useState(false); // Removed to use context state
+  const navigate = useNavigate();
   const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -48,6 +47,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       addToWishlist(product);
       toast.success('Added to wishlist');
     }
+  };
+
+  const handleProductClick = () => {
+    navigate(`/products/${product.id}`);
   };
 
   const imageUrl = product.imageUrl || '/images/candles/candle-collection-1.png';
