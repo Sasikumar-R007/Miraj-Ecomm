@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -19,7 +19,6 @@ const AdminOrders: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-      setLoading(true);
       const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       const ordersData = querySnapshot.docs.map(doc => ({
@@ -31,8 +30,6 @@ const AdminOrders: React.FC = () => {
     } catch (error) {
       console.error('Error fetching orders:', error);
       toast.error('Failed to fetch orders');
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 
 const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null); // State for editing product
@@ -21,7 +21,6 @@ const AdminProducts: React.FC = () => {
   }, []);
 
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
@@ -34,8 +33,6 @@ const AdminProducts: React.FC = () => {
     } catch (error) {
       console.error('Error fetching products:', error);
       toast.error('Failed to fetch products');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -62,15 +59,7 @@ const AdminProducts: React.FC = () => {
     setShowAddModal(true);
   };
 
-  if (loading) {
-    return (
-      <AdminLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <BagLoader size="large" text="Loading Products..." />
-        </div>
-      </AdminLayout>
-    );
-  }
+  
 
   return (
     <AdminLayout>

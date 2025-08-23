@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -19,7 +19,6 @@ const AdminOrders: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-      setLoading(true);
       const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       const ordersData = querySnapshot.docs.map(doc => ({
@@ -31,8 +30,6 @@ const AdminOrders: React.FC = () => {
     } catch (error) {
       console.error('Error fetching orders:', error);
       toast.error('Failed to fetch orders');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -70,22 +67,7 @@ const AdminOrders: React.FC = () => {
     filter === 'all' || order.status === filter
   );
 
-  if (loading) {
-    return (
-      <AdminLayout>
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded mb-6"></div>
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="bg-white p-6 rounded-lg shadow-sm border">
-                <div className="h-6 bg-gray-200 rounded"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </AdminLayout>
-    );
-  }
+  
 
   return (
     <AdminLayout>
