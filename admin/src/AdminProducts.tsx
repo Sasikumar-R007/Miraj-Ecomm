@@ -30,7 +30,8 @@ const AdminProducts: React.FC = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+      // Fetch only first 50 products for faster loading
+      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(50));
       const querySnapshot = await getDocs(q);
       const productsData = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -144,8 +145,11 @@ const AdminProducts: React.FC = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <BagLoader size="large" text="Loading Products..." />
+        <div className="flex items-center justify-center min-h-[200px]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-gray-300 border-t-black rounded-full animate-spin mx-auto mb-2"></div>
+            <div className="text-gray-600">Loading Products...</div>
+          </div>
         </div>
       </AdminLayout>
     );

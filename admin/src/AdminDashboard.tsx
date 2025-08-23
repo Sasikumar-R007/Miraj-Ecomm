@@ -35,16 +35,25 @@ const AdminDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        // Parallel fetching for better performance
+        // Ultra-fast parallel fetching with minimal data
         const [productsSnapshot, ordersSnapshot] = await Promise.all([
-          getDocs(query(collection(db, 'products'), limit(50))),
-          getDocs(query(collection(db, 'orders'), orderBy('createdAt', 'desc'), limit(20)))
+          getDocs(query(collection(db, 'products'), limit(25))),
+          getDocs(query(collection(db, 'orders'), orderBy('createdAt', 'desc'), limit(15)))
         ]);
 
-        const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Product[];
-        const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Order[];
+        const products = productsSnapshot.docs.map(doc => ({ 
+          id: doc.id, 
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate() || new Date()
+        })) as Product[];
 
-        // Calculate stats efficiently
+        const orders = ordersSnapshot.docs.map(doc => ({ 
+          id: doc.id, 
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate() || new Date()
+        })) as Order[];
+
+        // Fast calculations
         const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
         const pendingOrders = orders.filter(order => order.status === 'pending').length;
 
