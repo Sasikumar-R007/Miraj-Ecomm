@@ -66,6 +66,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
         updatedAt: new Date()
       };
 
+      // Quick validation before submit
+      if (!formData.name || !formData.price || !formData.category) {
+        toast.error('Please fill in all required fields');
+        setLoading(false);
+        return;
+      }
+
       await addDoc(collection(db, 'products'), productData);
       
       // Immediate success feedback
@@ -75,7 +82,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
       resetForm();
       
       // Refresh products in background
-      setTimeout(() => onProductAdded(), 100);
+      setTimeout(() => onProductAdded(), 50);
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product');

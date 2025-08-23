@@ -61,20 +61,24 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
         stock: parseInt(formData.stock),
         category: formData.category,
         imageUrl: formData.imageUrl || sampleImages[Math.floor(Math.random() * sampleImages.length)],
-        features: formData.features,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
+        features: formData.features.filter(f => f.trim() !== ''),
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       await addDoc(collection(db, 'products'), productData);
+      
+      // Immediate success feedback
       toast.success('Product added successfully!');
-      onProductAdded();
+      setLoading(false);
       onClose();
       resetForm();
+      
+      // Refresh products in background
+      setTimeout(() => onProductAdded(), 100);
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product');
-    } finally {
       setLoading(false);
     }
   };

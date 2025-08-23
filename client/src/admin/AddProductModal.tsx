@@ -11,9 +11,10 @@ interface AddProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   onProductAdded: () => void;
+  productToEdit?: Product | null;
 }
 
-const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onProductAdded }) => {
+const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onProductAdded, productToEdit }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -61,20 +62,24 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
         stock: parseInt(formData.stock),
         category: formData.category,
         imageUrl: formData.imageUrl || sampleImages[Math.floor(Math.random() * sampleImages.length)],
-        features: formData.features,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
+        features: formData.features.filter(f => f.trim() !== ''),
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       await addDoc(collection(db, 'products'), productData);
+      
+      // Immediate success feedback
       toast.success('Product added successfully!');
-      onProductAdded();
+      setLoading(false);
       onClose();
       resetForm();
+      
+      // Refresh products in background
+      setTimeout(() => onProductAdded(), 100);
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product');
-    } finally {
       setLoading(false);
     }
   };
@@ -136,7 +141,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Add New Product</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {productToEdit ? 'Edit Product' : 'Add New Product'}
+                </h2>
                 <button
                   onClick={onClose}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
@@ -146,8 +153,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
               </div>
 
               {loading ? (
-                <div className="flex items-center justify-center py-12">
-                  <BagLoader size="large" text="Adding Product..." />
+                <div className="flex items-center justify-center py-8">
+                  <div className="flex items-center space-x-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+                    <span className="text-gray-600">Adding Product...</span>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
