@@ -1,5 +1,5 @@
 modules = ["nodejs-20", "web"]
-run = "npm run dev"
+run = "node index.js"
 [nix]
 channel = "stable-25_05"
 
@@ -42,6 +42,19 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd client && npm install && npm run dev"
 
+[[workflows.workflow]]
+name = "Full Stack Development"
+author = 46804835
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client && npm install && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm install && npm run dev"
+
 [[ports]]
 localPort = 5000
 externalPort = 80
@@ -59,4 +72,4 @@ localPort = 5003
 externalPort = 3002
 
 [deployment]
-run = ["sh", "-c", "npm run dev"]
+run = ["sh", "-c", "node index.js"]
