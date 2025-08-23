@@ -4,7 +4,7 @@ run = "node index.js"
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Run Development Server"
+runButton = "Full Stack Development"
 
 [[workflows.workflow]]
 name = "Development Server"
@@ -54,6 +54,10 @@ args = "cd client && npm install && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd server && npm install && npm run dev"
+
+[[ports]]
+localPort = 3000
+externalPort = 3003
 
 [[ports]]
 localPort = 5000
