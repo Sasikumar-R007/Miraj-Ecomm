@@ -15,7 +15,9 @@ const AdminSettings: React.FC = () => {
     email: user?.email || '',
     phone: '',
     company: '',
+    profilePicture: user?.profilePicture || '',
   });
+  const [previewImage, setPreviewImage] = useState(user?.profilePicture || '');
 
   const tabs = [
     { id: 'profile', name: 'Profile', icon: UserIcon },
@@ -30,7 +32,22 @@ const AdminSettings: React.FC = () => {
   };
 
   const handleSaveProfile = () => {
+    // Here you would normally save to your backend/Firebase
+    localStorage.setItem('adminProfile', JSON.stringify(formData));
     toast.success('Profile updated successfully');
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setPreviewImage(result);
+        setFormData(prev => ({ ...prev, profilePicture: result }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const renderTabContent = () => {
@@ -40,6 +57,51 @@ const AdminSettings: React.FC = () => {
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Profile Information</h3>
+              
+              {/* Profile Picture Upload */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Profile Picture
+                </label>
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <div className="h-20 w-20 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                      {previewImage ? (
+                        <img
+                          src={previewImage}
+                          alt="Profile"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <UserIcon className="h-8 w-8 text-gray-400" />
+                      )}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="cursor-pointer bg-white border border-gray-300 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                      <span>Upload Photo</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                    {previewImage && (
+                      <button
+                        onClick={() => {
+                          setPreviewImage('');
+                          setFormData(prev => ({ ...prev, profilePicture: '' }));
+                        }}
+                        className="block text-sm text-red-600 hover:text-red-500"
+                      >
+                        Remove Photo
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">

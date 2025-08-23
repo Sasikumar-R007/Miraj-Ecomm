@@ -131,10 +131,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
+            <div className="p-6 flex-1 overflow-y-auto scrollbar-hide">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Add New Product</h2>
                 <button

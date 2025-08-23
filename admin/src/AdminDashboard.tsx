@@ -28,58 +28,35 @@ const AdminDashboard: React.FC = () => {
     pendingOrders: 0,
   });
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+  const [lowStockProducts, setLowStockProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
+      setLoading(true);
       try {
-        // Fetch products
-        const productsSnapshot = await getDocs(collection(db, 'products'));
-        const totalProducts = productsSnapshot.size;
+        // Parallel fetching for better performance
+        const [productsSnapshot, ordersSnapshot] = await Promise.all([
+          getDocs(query(collection(db, 'products'), limit(50))),
+          getDocs(query(collection(db, 'orders'), orderBy('createdAt', 'desc'), limit(20)))
+        ]);
 
-        // Fetch orders
-        const ordersSnapshot = await getDocs(collection(db, 'orders'));
-        const orders: Order[] = [];
-        let totalRevenue = 0;
-        let pendingOrders = 0;
+        const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Product[];
+        const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Order[];
 
-        ordersSnapshot.forEach((doc) => {
-          const data = doc.data();
-          const order: Order = {
-            id: doc.id,
-            ...data,
-            createdAt: data.createdAt?.toDate() || new Date(),
-          } as Order;
-          orders.push(order);
-          totalRevenue += order.total;
-          if (order.status === 'pending') pendingOrders++;
-        });
-
-        // Get recent orders
-        const recentOrdersQuery = query(
-          collection(db, 'orders'),
-          orderBy('createdAt', 'desc'),
-          limit(5)
-        );
-        const recentOrdersSnapshot = await getDocs(recentOrdersQuery);
-        const recentOrdersList: Order[] = [];
-
-        recentOrdersSnapshot.forEach((doc) => {
-          const data = doc.data();
-          recentOrdersList.push({
-            id: doc.id,
-            ...data,
-            createdAt: data.createdAt?.toDate() || new Date(),
-          } as Order);
-        });
+        // Calculate stats efficiently
+        const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+        const pendingOrders = orders.filter(order => order.status === 'pending').length;
 
         setStats({
-          totalProducts,
+          totalProducts: products.length,
           totalOrders: orders.length,
           totalRevenue,
-          pendingOrders,
+          pendingOrders
         });
-        setRecentOrders(recentOrdersList);
+
+        setLowStockProducts(products.filter(product => product.stock < 10).slice(0, 5));
+        setRecentOrders(orders.slice(0, 5));
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       } finally {

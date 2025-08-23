@@ -126,11 +126,24 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           <div className="flex-shrink-0 p-4 border-t border-gray-200">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center">
-                  <span className="text-sm font-medium text-white">
-                    {currentUser?.name?.charAt(0).toUpperCase() || 'A'}
-                  </span>
-                </div>
+                {(() => {
+                  const savedProfile = localStorage.getItem('adminProfile');
+                  const profilePicture = savedProfile ? JSON.parse(savedProfile).profilePicture : null;
+                  
+                  return profilePicture ? (
+                    <img
+                      src={profilePicture}
+                      alt="Admin Profile"
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center">
+                      <span className="text-sm font-medium text-white">
+                        {currentUser?.name?.charAt(0).toUpperCase() || 'A'}
+                      </span>
+                    </div>
+                  );
+                })()}
               </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-700">{currentUser?.name || 'Admin'}</p>
@@ -170,8 +183,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           </div>
         </div>
 
-        <main className="flex-1">
-          <div className="py-6">
+        <main className="flex-1 min-h-screen">
+          <div className="py-6 pb-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
