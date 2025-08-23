@@ -77,12 +77,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onPr
       
       // Immediate success feedback
       toast.success('Product added successfully!');
+      
+      // Refresh products immediately
+      onProductAdded();
+      
       setLoading(false);
       onClose();
       resetForm();
-      
-      // Refresh products in background
-      setTimeout(() => onProductAdded(), 50);
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product');

@@ -21,6 +21,7 @@ const AdminProducts: React.FC = () => {
   }, []);
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
       const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
@@ -33,6 +34,8 @@ const AdminProducts: React.FC = () => {
     } catch (error) {
       console.error('Error fetching products:', error);
       toast.error('Failed to fetch products');
+    } finally {
+      setLoading(false);
     }
   };
 
