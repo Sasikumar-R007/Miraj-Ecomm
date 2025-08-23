@@ -8,6 +8,8 @@ import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
 import BagLoader from '../components/BagLoader';
+import { BsStars, BsBoxSeam, BsBookHalf, BsShieldFillCheck } from 'react-icons/bs';
+
 
 // Sample products to be used as a fallback if data fetching fails or returns empty
 const sampleProducts: Product[] = [
@@ -120,15 +122,15 @@ const Home: React.FC = () => {
       image: '/images/candles/candle-collection-6.jpg',
       color: 'bg-gradient-to-br from-pink-400 to-pink-600',
       description: 'Fun and colorful stationery for kids',
-      icon: '📚',
+      icon: <BsBoxSeam className="h-8 w-8" />,
       hasSubcategories: false
     },
     {
-      name: 'Religious Items',
+      name: 'Religious Products',
       image: '/images/candles/candle-collection-7.jpg',
       color: 'bg-gradient-to-br from-yellow-400 to-orange-500',
       description: 'Sacred items for spiritual practices',
-      icon: '🕉️',
+      icon: <BsShieldFillCheck className="h-8 w-8" />,
       hasSubcategories: false
     },
     {
@@ -136,7 +138,7 @@ const Home: React.FC = () => {
       image: '/images/candles/candle-collection-8.jpg',
       color: 'bg-gradient-to-br from-orange-400 to-red-500',
       description: 'Premium handcrafted candles',
-      icon: '🕯️',
+      icon: <BsStars className="h-8 w-8" />,
       hasSubcategories: true,
       subcategories: [
         { name: 'Scented Candles', description: 'Luxurious fragrances for every mood' },
@@ -150,7 +152,7 @@ const Home: React.FC = () => {
       image: '/images/candles/candle-collection-10.jpg',
       color: 'bg-gradient-to-br from-purple-400 to-purple-600',
       description: 'Perfect presents for loved ones',
-      icon: '🎁',
+      icon: <BsBookHalf className="h-8 w-8" />,
       hasSubcategories: false
     }
   ];
@@ -277,7 +279,7 @@ const Home: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Our Candle Collections
+              Our Categories
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               From handcrafted soy wax to luxury scented candles, discover our complete range
@@ -316,7 +318,7 @@ const Home: React.FC = () => {
                       />
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
                         <motion.div 
-                          className="text-5xl mb-4"
+                          className="mb-4"
                           whileHover={{ 
                             scale: 1.2, 
                             rotate: 360,
@@ -362,7 +364,7 @@ const Home: React.FC = () => {
                       />
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
                         <motion.div 
-                          className="text-5xl mb-4"
+                          className="mb-4"
                           whileHover={{ 
                             scale: 1.2, 
                             rotate: 360,
