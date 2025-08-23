@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TrashIcon, MinusIcon, PlusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../context/CartContext';
-import { toast } from 'react-toastify'; // Import toast from react-toastify
+import toast from 'react-hot-toast';
 
 const Cart: React.FC = () => {
   const { state, removeItem, updateQuantity } = useCart();
@@ -11,10 +11,10 @@ const Cart: React.FC = () => {
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity === 0) {
       removeItem(id);
-      toast.info('Item removed from cart'); // Add toast notification
+      toast.success('Item removed from cart');
     } else {
       updateQuantity(id, newQuantity);
-      toast.success('Quantity updated'); // Add toast notification
+      toast.success('Quantity updated');
     }
   };
 
