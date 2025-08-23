@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { MongoService } from '../services/mongoService';
 import { Product } from '../types';
 import AdminLayout from './AdminLayout';
 import AddProductModal from './AddProductModal';
@@ -23,13 +22,7 @@ const AdminProducts: React.FC = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
-      const querySnapshot = await getDocs(q);
-      const productsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate() || new Date()
-      })) as Product[];
+      const productsData = await MongoService.getProducts();
       setProducts(productsData);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -43,7 +36,7 @@ const AdminProducts: React.FC = () => {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      await deleteDoc(doc(db, 'products', productId));
+      await MongoService.deleteProduct(productId);
       setProducts(products.filter(product => product.id !== productId));
       toast.success('Product deleted successfully');
     } catch (error) {
@@ -62,7 +55,7 @@ const AdminProducts: React.FC = () => {
     setShowAddModal(true);
   };
 
-  
+
 
   return (
     <AdminLayout>
