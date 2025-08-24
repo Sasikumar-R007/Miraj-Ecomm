@@ -8,9 +8,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold">Miraj Candles</h3>
+            <h3 className="text-xl font-bold">Miraj Store</h3>
             <p className="text-gray-400">
-              Handcrafted premium candles that illuminate your space with luxury and warmth.
+              Your one-stop destination for candles, kids stationery, religious products, and thoughtful gifts.
             </p>
           </div>
 
@@ -43,9 +43,13 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Customer Service</h4>
             <div className="space-y-2">
-              <p className="text-gray-400">Email: hello@mirajcandles.com</p>
-              <p className="text-gray-400">Phone: (555) CANDLES</p>
-              <p className="text-gray-400">Mon-Fri: 9AM-7PM</p>
+              <p className="text-gray-400">Email: info@mirajcandles.com</p>
+              <p className="text-gray-400">Phone: +91 8015324928</p>
+              <p className="text-gray-400">WhatsApp: +91 8015324928</p>
+              <p className="text-gray-400 text-sm">
+                Mon-Sat: 9:30 AM - 6:00 PM<br />
+                Sunday: 9:30 AM - 1:30 PM
+              </p>
             </div>
           </div>
 
@@ -53,7 +57,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Newsletter</h4>
             <p className="text-gray-400">
-              Subscribe for new candle collections, exclusive offers, and fragrance tips.
+              Subscribe for new product arrivals, exclusive offers, and special deals.
             </p>
             <div className="flex">
               <input
@@ -69,7 +73,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; 2024 Miraj Candles. All rights reserved.</p>
+          <p>&copy; 2024 Miraj Store. All rights reserved.</p>
         </div>
       </div>
     </footer>
