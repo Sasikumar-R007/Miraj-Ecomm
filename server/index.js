@@ -1,33 +1,35 @@
+
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import connectToDatabase from './lib/mongodb.js';
-
-dotenv.config();
+import mongoose from 'mongoose';
+import Product from './models/Product.js';
+import User from './models/User.js';
+import Order from './models/Order.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// MongoDB connection
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://your-username:your-password@cluster0.mongodb.net/miraj-candles?retryWrites=true&w=majority';
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
+
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5000', 'http://localhost:5001', 'https://*.replit.dev', 'https://*.repl.co'],
+  origin: ['http://localhost:5000', 'http://localhost:5001', 'https://*.replit.dev', 'https://*.replit.app'],
   credentials: true
 }));
 app.use(express.json());
 
-// Connect to MongoDB
-connectToDatabase();
-
-// Basic route
-app.get('/', (req, res) => {
-  res.json({ message: 'Miraj Candles Server is running with MongoDB!' });
-});
-
-// API routes
+// Products API
 app.get('/api/products', async (req, res) => {
   try {
-    const { default: Product } = await import('./models/Product.js');
-    const products = await Product.find({});
+    const products = await Product.find().sort({ createdAt: -1 });
     res.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -37,19 +39,17 @@ app.get('/api/products', async (req, res) => {
 
 app.post('/api/products', async (req, res) => {
   try {
-    const { default: Product } = await import('./models/Product.js');
     const product = new Product(req.body);
-    await product.save();
-    res.status(201).json(product);
+    const savedProduct = await product.save();
+    res.status(201).json(savedProduct);
   } catch (error) {
     console.error('Error creating product:', error);
-    res.status(400).json({ error: 'Failed to create product' });
+    res.status(500).json({ error: 'Failed to create product' });
   }
 });
 
 app.put('/api/products/:id', async (req, res) => {
   try {
-    const { default: Product } = await import('./models/Product.js');
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
@@ -57,13 +57,12 @@ app.put('/api/products/:id', async (req, res) => {
     res.json(product);
   } catch (error) {
     console.error('Error updating product:', error);
-    res.status(400).json({ error: 'Failed to update product' });
+    res.status(500).json({ error: 'Failed to update product' });
   }
 });
 
 app.delete('/api/products/:id', async (req, res) => {
   try {
-    const { default: Product } = await import('./models/Product.js');
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
@@ -75,10 +74,10 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
+// Orders API
 app.get('/api/orders', async (req, res) => {
   try {
-    const { default: Order } = await import('./models/Order.js');
-    const orders = await Order.find({}).populate('items.productId');
+    const orders = await Order.find().populate('items.productId').sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -88,38 +87,33 @@ app.get('/api/orders', async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
   try {
-    const { default: Order } = await import('./models/Order.js');
     const order = new Order(req.body);
-    await order.save();
-    res.status(201).json(order);
+    const savedOrder = await order.save();
+    res.status(201).json(savedOrder);
   } catch (error) {
     console.error('Error creating order:', error);
-    res.status(400).json({ error: 'Failed to create order' });
+    res.status(500).json({ error: 'Failed to create order' });
   }
 });
 
 app.put('/api/orders/:id/status', async (req, res) => {
   try {
-    const { default: Order } = await import('./models/Order.js');
-    const order = await Order.findByIdAndUpdate(
-      req.params.id, 
-      { status: req.body.status }, 
-      { new: true }
-    );
+    const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
     res.json(order);
   } catch (error) {
     console.error('Error updating order status:', error);
-    res.status(400).json({ error: 'Failed to update order status' });
+    res.status(500).json({ error: 'Failed to update order status' });
   }
 });
 
+// Users API
 app.get('/api/users', async (req, res) => {
   try {
-    const { default: User } = await import('./models/User.js');
-    const users = await User.find({});
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
     res.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -129,17 +123,17 @@ app.get('/api/users', async (req, res) => {
 
 app.post('/api/users', async (req, res) => {
   try {
-    const { default: User } = await import('./models/User.js');
     const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
+    const savedUser = await user.save();
+    const { password, ...userWithoutPassword } = savedUser.toObject();
+    res.status(201).json(userWithoutPassword);
   } catch (error) {
     console.error('Error creating user:', error);
-    res.status(400).json({ error: 'Failed to create user' });
+    res.status(500).json({ error: 'Failed to create user' });
   }
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://0.0.0.0:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
   console.log('Connected to MongoDB');
 });

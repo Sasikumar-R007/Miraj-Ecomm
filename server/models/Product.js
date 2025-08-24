@@ -6,6 +6,10 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -17,9 +21,16 @@ const ProductSchema = new mongoose.Schema({
   originalPrice: {
     type: Number,
   },
-  images: [{
+  discount: {
+    type: Number,
+    default: 0,
+  },
+  imageUrl: {
     type: String,
     required: true,
+  },
+  images: [{
+    type: String,
   }],
   category: {
     type: String,
@@ -28,26 +39,28 @@ const ProductSchema = new mongoose.Schema({
   subcategory: {
     type: String,
   },
-  inStock: {
+  stock: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  features: [{
+    type: String,
+  }],
+  status: {
+    type: String,
+    enum: ['new', 'sale', 'discounted', 'featured', 'bestseller', 'trending'],
+    default: 'new',
+  },
+  isActive: {
     type: Boolean,
     default: true,
   },
-  stockQuantity: {
-    type: Number,
-    default: 0,
-  },
-  sales: {
-    type: Number,
-    default: 0,
-  },
-  featured: {
-    type: Boolean,
-    default: false,
-  },
-  tags: [String],
   weight: String,
-  burnTime: String,
-  scent: String,
+  dimensions: String,
+  materials: [String],
+  careInstructions: String,
+  tags: [String],
 }, {
   timestamps: true,
 });
