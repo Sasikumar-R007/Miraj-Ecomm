@@ -14,7 +14,7 @@ const CandleSubcategories: React.FC = () => {
       color: 'bg-gradient-to-br from-orange-400 to-orange-600',
       description: 'Luxurious fragrances for every mood and occasion',
       icon: '🌸',
-      productCount: 25
+      productCount: 12
     },
     {
       name: 'Soy Wax',
@@ -22,7 +22,7 @@ const CandleSubcategories: React.FC = () => {
       color: 'bg-gradient-to-br from-green-400 to-green-600',
       description: 'Natural and eco-friendly candle options',
       icon: '🌿',
-      productCount: 18
+      productCount: 8
     },
     {
       name: 'Decor Candles',
@@ -30,7 +30,7 @@ const CandleSubcategories: React.FC = () => {
       color: 'bg-gradient-to-br from-purple-400 to-purple-600',
       description: 'Beautiful designs for home styling',
       icon: '🏠',
-      productCount: 20
+      productCount: 6
     },
     {
       name: 'Aromatherapy',
@@ -38,7 +38,7 @@ const CandleSubcategories: React.FC = () => {
       color: 'bg-gradient-to-br from-blue-400 to-blue-600',
       description: 'Therapeutic scents for wellness and relaxation',
       icon: '💧',
-      productCount: 15
+      productCount: 8
     },
     {
       name: 'Luxury Collection',
@@ -46,7 +46,7 @@ const CandleSubcategories: React.FC = () => {
       color: 'bg-gradient-to-br from-yellow-400 to-yellow-600',
       description: 'Premium handcrafted luxury candles',
       icon: '✨',
-      productCount: 8
+      productCount: 4
     },
     {
       name: 'Gift Sets',
@@ -54,7 +54,7 @@ const CandleSubcategories: React.FC = () => {
       color: 'bg-gradient-to-br from-red-400 to-red-600',
       description: 'Curated candle gift sets for special occasions',
       icon: '🎁',
-      productCount: 12
+      productCount: 3
     }
   ];
 

@@ -1,58 +1,47 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const Categories: React.FC = () => {
+  const navigate = useNavigate();
   const allCategories = [
     {
-      name: 'Scented Candles',
+      name: 'Kids Stationaries',
       image: '/images/candles/candle-collection-6.jpg',
-      color: 'bg-gradient-to-br from-orange-400 to-orange-600',
-      description: 'Luxurious fragrances for every mood and occasion',
-      icon: '🕯️',
-      productCount: 25
+      color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
+      description: 'Fun and colorful stationery for kids',
+      icon: '📝',
+      productCount: 25,
+      hasSubcategories: false
     },
     {
-      name: 'Soy Wax',
+      name: 'Religious Products',
       image: '/images/candles/candle-collection-7.jpg',
-      color: 'bg-gradient-to-br from-green-400 to-green-600',
-      description: 'Natural and eco-friendly candle options',
-      icon: '🌿',
-      productCount: 18
+      color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600',
+      description: 'Sacred items for spiritual practices',
+      icon: '🕉️',
+      productCount: 18,
+      hasSubcategories: false
     },
     {
-      name: 'Gift Sets',
-      image: '/images/candles/candle-collection-10.jpg',
-      color: 'bg-gradient-to-br from-red-400 to-red-600',
-      description: 'Perfect presents for your loved ones',
-      icon: '🎁',
-      productCount: 12
-    },
-    {
-      name: 'Decor Candles',
+      name: 'Candles',
       image: '/images/candles/candle-collection-8.jpg',
-      color: 'bg-gradient-to-br from-purple-400 to-purple-600',
-      description: 'Beautiful designs for home styling',
-      icon: '🏠',
-      productCount: 20
+      color: 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600',
+      description: 'Premium handcrafted candles',
+      icon: '🕯️',
+      productCount: 98,
+      hasSubcategories: true
     },
     {
-      name: 'Aromatherapy',
-      image: '/images/candles/candle-collection-9.jpg',
-      color: 'bg-gradient-to-br from-blue-400 to-blue-600',
-      description: 'Therapeutic scents for wellness and relaxation',
-      icon: '💧',
-      productCount: 15
-    },
-    {
-      name: 'Luxury Collection',
-      image: '/images/candles/candle-collection-1.png',
-      color: 'bg-gradient-to-br from-yellow-400 to-yellow-600',
-      description: 'Premium handcrafted luxury candles',
-      icon: '✨',
-      productCount: 8
+      name: 'Gifts',
+      image: '/images/candles/candle-collection-10.jpg',
+      color: 'bg-gradient-to-br from-purple-400 via-indigo-500 to-blue-600',
+      description: 'Perfect presents for loved ones',
+      icon: '🎁',
+      productCount: 15,
+      hasSubcategories: false
     }
   ];
 
@@ -90,7 +79,15 @@ const Categories: React.FC = () => {
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer"
               >
-                <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`}>
+                <div 
+                  onClick={() => {
+                    if (category.hasSubcategories) {
+                      navigate('/candles-subcategories');
+                    } else {
+                      navigate(`/products?category=${category.name.toLowerCase().replace(' ', '-')}`);
+                    }
+                  }}
+                >
                   <div className={`${category.color} h-48 relative`}>
                     <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -121,7 +118,7 @@ const Categories: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                </Link>
+                </div>
               </motion.div>
             ))}
           </div>
