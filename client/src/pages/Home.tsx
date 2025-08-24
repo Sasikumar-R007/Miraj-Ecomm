@@ -250,7 +250,7 @@ const Home: React.FC = () => {
                 >
                   {heroSlides[currentSlide].badge}
                 </motion.div>
-                
+
                 <motion.h1
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -263,7 +263,7 @@ const Home: React.FC = () => {
                     {heroSlides[currentSlide].subtitle}
                   </span>
                 </motion.h1>
-                
+
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -272,7 +272,7 @@ const Home: React.FC = () => {
                 >
                   {heroSlides[currentSlide].description}
                 </motion.p>
-                
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -334,8 +334,8 @@ const Home: React.FC = () => {
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index 
-                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 w-8' 
+                  currentSlide === index
+                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 w-8'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
               />
@@ -385,21 +385,21 @@ const Home: React.FC = () => {
                     <div className="relative h-80 bg-white">
                       {/* Gradient Background */}
                       <div className={`absolute inset-0 ${category.color} opacity-90`}></div>
-                      
+
                       {/* Category Image */}
                       <div className="absolute top-6 left-1/2 transform -translate-x-1/2">
                         <motion.div
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg border-4 border-white/30"
                         >
-                          <img 
-                            src={category.categoryImage} 
+                          <img
+                            src={category.categoryImage}
                             alt={category.name}
                             className="w-full h-full object-cover"
                           />
                         </motion.div>
                       </div>
-                      
+
                       {/* Content */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pt-24">
                         <motion.h3
@@ -420,7 +420,7 @@ const Home: React.FC = () => {
                           Has Subcategories
                         </motion.div>
                       </div>
-                      
+
                       {/* Arrow */}
                       <motion.div
                         className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100"
@@ -439,21 +439,21 @@ const Home: React.FC = () => {
                     <div className="relative h-80 bg-white">
                       {/* Gradient Background */}
                       <div className={`absolute inset-0 ${category.color} opacity-90`}></div>
-                      
+
                       {/* Category Image */}
                       <div className="absolute top-6 left-1/2 transform -translate-x-1/2">
                         <motion.div
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg border-4 border-white/30"
                         >
-                          <img 
-                            src={category.categoryImage} 
+                          <img
+                            src={category.categoryImage}
                             alt={category.name}
                             className="w-full h-full object-cover"
                           />
                         </motion.div>
                       </div>
-                      
+
                       {/* Content */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pt-24">
                         <motion.h3
@@ -466,7 +466,7 @@ const Home: React.FC = () => {
                           {category.description}
                         </p>
                       </div>
-                      
+
                       {/* Arrow */}
                       <motion.div
                         className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100"
@@ -540,10 +540,10 @@ const Home: React.FC = () => {
           )}
           <div className="text-center">
             <Link
-              to="/products"
+              to="/featured"
               className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
             >
-              View All Products
+              View All Featured Products
               <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
@@ -577,10 +577,10 @@ const Home: React.FC = () => {
           )}
           <div className="text-center">
             <Link
-              to="/products"
+              to="/bestsellers"
               className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
             >
-              View All Products
+              View All Best Sellers
               <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
@@ -651,7 +651,7 @@ const Home: React.FC = () => {
           <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-white to-transparent rounded-full -translate-x-48 -translate-y-48"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-white to-transparent rounded-full translate-x-48 translate-y-48"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -674,7 +674,7 @@ const Home: React.FC = () => {
                   Crafted with Passion
                 </h2>
               </div>
-              
+
               <div className="space-y-6">
                 <p className="text-xl text-gray-200 leading-relaxed">
                   At Miraj Candles, we believe in the transformative power of fragrance.
@@ -686,7 +686,7 @@ const Home: React.FC = () => {
                   exceptional scent throw, clean burning, and hours of aromatic bliss.
                 </p>
               </div>
-              
+
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -731,7 +731,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      
+
     </div>
   );
 };

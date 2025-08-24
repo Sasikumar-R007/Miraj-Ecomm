@@ -34,6 +34,9 @@ import NewArrivals from './pages/NewArrivals';
 import SaleProducts from './pages/SaleProducts';
 import TrendingProducts from './pages/TrendingProducts';
 import GiftProducts from './pages/GiftProducts';
+// Import the new pages
+import FeaturedProducts from './pages/FeaturedProducts';
+import BestSellers from './pages/BestSellers';
 
 
 // Admin Pages
@@ -72,6 +75,8 @@ const App: React.FC = () => {
                     <Route path="/sale" element={<SaleProducts />} />
                     <Route path="/trending" element={<TrendingProducts />} />
                     <Route path="/gifts" element={<GiftProducts />} />
+                    <Route path="/featured" element={<FeaturedProducts />} />
+                    <Route path="/bestsellers" element={<BestSellers />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/checkout" element={<Checkout />} />
