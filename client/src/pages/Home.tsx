@@ -47,6 +47,34 @@ const Home: React.FC = () => {
   const [isLoadingBestSellers, setIsLoadingBestSellers] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Sample testimonials data
+  const testimonials = [
+    {
+      id: 1,
+      name: 'Sarah Johnson',
+      location: 'New York, NY',
+      rating: 5,
+      review: 'Absolutely love these candles! The scents are amazing and they last so long.',
+      image: '/images/miraj-logo.png'
+    },
+    {
+      id: 2,
+      name: 'Michael Chen',
+      location: 'Los Angeles, CA',
+      rating: 5,
+      review: 'Best quality candles I have ever purchased. Highly recommend!',
+      image: '/images/miraj-logo.png'
+    },
+    {
+      id: 3,
+      name: 'Emily Davis',
+      location: 'Chicago, IL',
+      rating: 5,
+      review: 'These candles create the perfect ambiance for my home. Love them!',
+      image: '/images/miraj-logo.png'
+    }
+  ];
+
   const heroSlides = [
     {
       title: "New Arrivals",
@@ -293,15 +321,15 @@ const Home: React.FC = () => {
                 key={category.name}
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  duration: 0.6, 
+                transition={{
+                  duration: 0.6,
                   delay: index * 0.15,
                   type: "spring",
                   stiffness: 100
                 }}
                 viewport={{ once: true }}
-                whileHover={{ 
-                  y: -15, 
+                whileHover={{
+                  y: -15,
                   scale: 1.05,
                   rotateY: 5,
                   transition: { duration: 0.3 }
@@ -312,22 +340,22 @@ const Home: React.FC = () => {
                 {category.hasSubcategories ? (
                   <div onClick={() => navigate('/candles-subcategories')}>
                     <div className={`${category.color} h-64 relative`}>
-                      <motion.div 
+                      <motion.div
                         className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-10 transition-all duration-500"
                         whileHover={{ background: "linear-gradient(45deg, rgba(0,0,0,0.1), rgba(255,255,255,0.1))" }}
                       />
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                        <motion.div 
+                        <motion.div
                           className="mb-4"
-                          whileHover={{ 
-                            scale: 1.2, 
+                          whileHover={{
+                            scale: 1.2,
                             rotate: 360,
                             transition: { duration: 0.8 }
                           }}
                         >
                           {category.icon}
                         </motion.div>
-                        <motion.h3 
+                        <motion.h3
                           className="text-white text-xl font-bold mb-2"
                           whileHover={{ scale: 1.1 }}
                         >
@@ -358,22 +386,22 @@ const Home: React.FC = () => {
                 ) : (
                   <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`}>
                     <div className={`${category.color} h-64 relative`}>
-                      <motion.div 
+                      <motion.div
                         className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-10 transition-all duration-500"
                         whileHover={{ background: "linear-gradient(45deg, rgba(0,0,0,0.1), rgba(255,255,255,0.1))" }}
                       />
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                        <motion.div 
+                        <motion.div
                           className="mb-4"
-                          whileHover={{ 
-                            scale: 1.2, 
+                          whileHover={{
+                            scale: 1.2,
                             rotate: 360,
                             transition: { duration: 0.8 }
                           }}
                         >
                           {category.icon}
                         </motion.div>
-                        <motion.h3 
+                        <motion.h3
                           className="text-white text-xl font-bold mb-2"
                           whileHover={{ scale: 1.1 }}
                         >
@@ -511,50 +539,7 @@ const Home: React.FC = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Priya Sharma",
-                location: "Mumbai, India",
-                rating: 5,
-                review: "Absolutely love the quality and fragrance of these candles! They burn evenly and the scent lasts for hours. Perfect for creating a relaxing ambiance.",
-                image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&auto=format"
-              },
-              {
-                name: "Rahul Patel",
-                location: "Delhi, India",
-                rating: 5,
-                review: "The best candles I've ever purchased! The soy wax collection is amazing and burns so cleanly. Great value for money.",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&auto=format"
-              },
-              {
-                name: "Anjali Singh",
-                location: "Bangalore, India",
-                rating: 5,
-                review: "Beautiful packaging and exceptional quality. I ordered these as gifts and everyone loved them. Will definitely order again!",
-                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&auto=format"
-              },
-              {
-                name: "Vikram Gupta",
-                location: "Chennai, India",
-                rating: 5,
-                review: "The aromatherapy collection is incredible. Helps me relax after a long day at work. Highly recommend to everyone!",
-                image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format"
-              },
-              {
-                name: "Sneha Verma",
-                location: "Pune, India",
-                rating: 5,
-                review: "Fast shipping and excellent customer service. The candles exceeded my expectations in terms of quality and fragrance.",
-                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&auto=format"
-              },
-              {
-                name: "Arjun Mehta",
-                location: "Hyderabad, India",
-                rating: 5,
-                review: "Premium quality candles at affordable prices. The gift sets are perfect for special occasions. Love the variety!",
-                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format"
-              }
-            ].map((client, index) => (
+            {testimonials.map((client, index) => (
               <motion.div
                 key={client.name}
                 initial={{ opacity: 0, y: 50 }}

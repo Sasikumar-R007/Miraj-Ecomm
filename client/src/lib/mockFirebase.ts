@@ -33,9 +33,3 @@ export const addDoc = async (collection: any, data: any) => ({ id: Date.now().to
 export const db = mockDb;
 export const auth = mockAuth;
 export const storage = {};
-
-export default {
-  auth: mockAuth,
-  db: mockDb,
-  storage: {}
-};
