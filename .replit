@@ -1,5 +1,5 @@
 modules = ["nodejs-20", "web"]
-run = "cd client && npm run dev"
+run = "npm run dev"
 [nix]
 channel = "stable-25_05"
 
@@ -111,4 +111,4 @@ localPort = 5003
 externalPort = 3002
 
 [deployment]
-run = ["sh", "-c", "node index.js"]
+run = ["sh", "-c", "npm run dev"]
