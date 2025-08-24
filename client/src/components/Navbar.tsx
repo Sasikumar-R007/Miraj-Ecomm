@@ -60,11 +60,19 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img 
-              src="/images/miraj-logo-new.png" 
-              alt="Miraj Candles" 
-              className="h-16 w-auto object-contain hover:scale-105 transition-transform duration-200"
-            />
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <div className="hidden sm:block">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                  Miraj
+                </h1>
+                <p className="text-xs text-gray-500 -mt-1">Candles</p>
+              </div>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
