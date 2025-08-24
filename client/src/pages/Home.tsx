@@ -175,6 +175,7 @@ const Home: React.FC = () => {
   const categories = [
     {
       name: 'Kids Stationaries',
+      displayName: 'Kids Stationaries', // Added displayName for correct URL
       image: '/images/candles/candle-collection-6.jpg',
       categoryImage: '/images/categories/kids-stationery.jpg',
       color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
@@ -183,6 +184,7 @@ const Home: React.FC = () => {
     },
     {
       name: 'Religious Products',
+      displayName: 'Religious Products', // Added displayName for correct URL
       image: '/images/candles/candle-collection-7.jpg',
       categoryImage: '/images/categories/religious-products.jpg',
       color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600',
@@ -191,6 +193,7 @@ const Home: React.FC = () => {
     },
     {
       name: 'Candles',
+      displayName: 'Candles',
       image: '/images/candles/candle-collection-8.jpg',
       categoryImage: '/images/categories/candles.jpg',
       color: 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600',
@@ -205,6 +208,7 @@ const Home: React.FC = () => {
     },
     {
       name: 'Gifts',
+      displayName: 'Gifts',
       image: '/images/candles/candle-collection-10.jpg',
       categoryImage: '/images/categories/gifts.jpg',
       color: 'bg-gradient-to-br from-purple-400 via-indigo-500 to-blue-600',
@@ -406,7 +410,7 @@ const Home: React.FC = () => {
                           className="text-white text-2xl font-bold mb-3"
                           whileHover={{ scale: 1.05 }}
                         >
-                          {category.name}
+                          {category.displayName}
                         </motion.h3>
                         <p className="text-white/90 text-sm mb-4 leading-relaxed">
                           {category.description}
@@ -460,7 +464,7 @@ const Home: React.FC = () => {
                           className="text-white text-2xl font-bold mb-3"
                           whileHover={{ scale: 1.05 }}
                         >
-                          {category.name}
+                          {category.displayName}
                         </motion.h3>
                         <p className="text-white/90 text-sm leading-relaxed">
                           {category.description}
