@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   ShoppingBagIcon,
@@ -9,6 +9,7 @@ import {
   ClockIcon,
 } from '@heroicons/react/24/outline';
 import AdminLayout from './AdminLayout';
+import { mongoService, Product, Order } from './lib/mongoService';
 
 interface DashboardStats {
   totalProducts: number;
@@ -18,51 +19,40 @@ interface DashboardStats {
 }
 
 const AdminDashboard: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+
   // Use static demo data for instant loading
   const stats: DashboardStats = {
-    totalProducts: 156,
-    totalOrders: 2847,
-    totalRevenue: 45820.50,
-    pendingOrders: 12,
+    totalProducts: products.length,
+    totalOrders: orders.length,
+    totalRevenue: orders.reduce((sum, order) => sum + order.total, 0),
+    pendingOrders: orders.filter(order => order.status === 'processing' || order.status === 'pending').length,
   };
 
-  const recentOrders = [
-    {
-      id: 'ORD12345',
-      customerInfo: { name: 'John Smith' },
-      total: 89.99,
-      status: 'pending',
-      createdAt: new Date('2024-01-15'),
-    },
-    {
-      id: 'ORD12346',
-      customerInfo: { name: 'Sarah Johnson' },
-      total: 156.50,
-      status: 'shipped',
-      createdAt: new Date('2024-01-14'),
-    },
-    {
-      id: 'ORD12347',
-      customerInfo: { name: 'Mike Davis' },
-      total: 234.00,
-      status: 'delivered',
-      createdAt: new Date('2024-01-13'),
-    },
-    {
-      id: 'ORD12348',
-      customerInfo: { name: 'Emily Wilson' },
-      total: 67.25,
-      status: 'pending',
-      createdAt: new Date('2024-01-12'),
-    },
-    {
-      id: 'ORD12349',
-      customerInfo: { name: 'David Brown' },
-      total: 198.75,
-      status: 'shipped',
-      createdAt: new Date('2024-01-11'),
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [productsData, ordersData] = await Promise.all([
+          mongoService.getProducts(),
+          mongoService.getOrders()
+        ]);
+
+        setProducts(productsData);
+        setOrders(ordersData);
+        setRecentOrders(ordersData.slice(0, 5));
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const statCards = [
     {

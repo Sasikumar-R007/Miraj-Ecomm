@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDownTrayIcon, FunnelIcon, CalendarIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { collection, getDocs, query, orderBy, where, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { Order } from '../types';
 import AdminLayout from './AdminLayout';
 import BagLoader from '../components/BagLoader';
 import toast from 'react-hot-toast';
+import { mongoService, Order } from './lib/mongoService';
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -28,44 +27,13 @@ const AdminOrders: React.FC = () => {
   }, []);
 
   const fetchOrders = async () => {
-    setLoading(true);
     try {
-      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
-      const querySnapshot = await getDocs(q);
-      const ordersData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate() || new Date()
-      })) as Order[];
-      setOrders(ordersData);
+      setLoading(true);
+      const data = await mongoService.getOrders();
+      setOrders(data);
     } catch (error) {
       console.error('Error fetching orders:', error);
       toast.error('Failed to fetch orders');
-      // Mock data for demo
-      setOrders([
-        {
-          id: '1',
-          userId: 'user1',
-          customerName: 'John Doe',
-          customerEmail: 'john@example.com',
-          items: [{ id: 'p1', name: 'Lavender Candle', quantity: 2, price: 25 }],
-          total: 50,
-          status: 'delivered',
-          createdAt: new Date('2024-01-15'),
-          shippingAddress: '123 Main St, City, State'
-        },
-        {
-          id: '2',
-          userId: 'user2',
-          customerName: 'Jane Smith',
-          customerEmail: 'jane@example.com',
-          items: [{ id: 'p2', name: 'Vanilla Candle', quantity: 1, price: 30 }],
-          total: 30,
-          status: 'shipped',
-          createdAt: new Date('2024-01-18'),
-          shippingAddress: '456 Oak Ave, City, State'
-        }
-      ]);
     } finally {
       setLoading(false);
     }
@@ -107,13 +75,13 @@ const AdminOrders: React.FC = () => {
       headers.join(','),
       ...filteredOrders.map(order => [
         order.id,
-        `"${order.customerName}"`,
-        order.customerEmail,
+        `"${order.customerInfo.name}"`,
+        order.customerInfo.email,
         `"${order.items.map(item => `${item.name} (${item.quantity})`).join('; ')}"`,
-        order.total,
+        order.total.toFixed(2),
         order.status,
         new Date(order.createdAt).toLocaleDateString(),
-        `"${order.shippingAddress}"`
+        `"${order.shippingAddress.street}, ${order.shippingAddress.city}, ${order.shippingAddress.state}"`
       ].join(','))
     ].join('\n');
 
@@ -128,12 +96,12 @@ const AdminOrders: React.FC = () => {
   };
 
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         order.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = order.customerInfo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         order.customerInfo.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          order.id.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     if (statusFilter !== 'all' && order.status !== statusFilter) return false;
-    
+
     if (productFilter) {
       const matchesProduct = order.items.some(item => 
         item.name.toLowerCase().includes(productFilter.toLowerCase())
@@ -304,14 +272,14 @@ const AdminOrders: React.FC = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{order.customerName}</div>
-                        <div className="text-sm text-gray-500">{order.customerEmail}</div>
+                        <div className="text-sm font-medium text-gray-900">{order.customerInfo.name}</div>
+                        <div className="text-sm text-gray-500">{order.customerInfo.email}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">
                         {order.items.map(item => (
-                          <div key={item.id} className="mb-1">
+                          <div key={item.productId} className="mb-1">
                             {item.name} × {item.quantity}
                           </div>
                         ))}

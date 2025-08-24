@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { Product } from './types'; // Assuming Product type is correctly defined here or imported
-import { MongoService } from './lib/mongoService'; // Assuming MongoService is available
+import { mongoService } from './lib/mongoService'; // Assuming MongoService is available
 import AdminLayout from './AdminLayout';
 import AddProductModal from './AddProductModal';
 
@@ -15,6 +15,7 @@ const AdminProducts: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [error, setError] = useState<string | null>(null); // State to hold errors
 
   const productStatuses = ['new', 'sale', 'discounted', 'featured', 'bestseller', 'trending'];
 
@@ -24,11 +25,13 @@ const AdminProducts: React.FC = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
+    setError(null); // Clear previous errors
     try {
-      const productsData = await MongoService.getProducts();
-      setProducts(productsData);
+      const data = await mongoService.getProducts();
+      setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setError('Failed to fetch products');
       toast.error('Failed to fetch products');
     } finally {
       setLoading(false);
@@ -39,7 +42,7 @@ const AdminProducts: React.FC = () => {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      await MongoService.deleteProduct(productId);
+      await mongoService.deleteProduct(productId);
       setProducts(products.filter(product => product._id !== productId));
       toast.success('Product deleted successfully');
     } catch (error) {
@@ -56,7 +59,7 @@ const AdminProducts: React.FC = () => {
   const handleStatusChange = async (productId: string, newStatus: string) => {
     try {
       // Assuming updateProduct returns the updated product object
-      const updatedProduct = await MongoService.updateProduct(productId, { status: newStatus });
+      const updatedProduct = await mongoService.updateProduct(productId, { status: newStatus });
       setProducts(products.map(p => p._id === productId ? updatedProduct : p));
       toast.success('Product status updated successfully');
       setShowStatusModal(false);
@@ -66,6 +69,19 @@ const AdminProducts: React.FC = () => {
       toast.error('Failed to update product status');
     }
   };
+
+  const handleAddProduct = async (productData: Omit<Product, 'id' | 'createdAt'>) => {
+    try {
+      const newProduct = await mongoService.createProduct(productData);
+      setProducts([...products, newProduct]);
+      setShowAddModal(false);
+    } catch (error) {
+      console.error('Error adding product:', error);
+      setError('Failed to add product');
+      toast.error('Failed to add product');
+    }
+  };
+
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = (product.title || product.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -149,6 +165,16 @@ const AdminProducts: React.FC = () => {
               <div className="w-8 h-8 border-2 border-gray-300 border-t-black rounded-full animate-spin mx-auto mb-2"></div>
               <div className="text-gray-600">Loading Products...</div>
             </div>
+          </div>
+        ) : error ? (
+          <div className="bg-white p-6 rounded-lg shadow-sm border text-center">
+            <p className="text-red-500">{error}</p>
+            <button
+              onClick={fetchProducts}
+              className="mt-4 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              Retry Fetching Products
+            </button>
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
