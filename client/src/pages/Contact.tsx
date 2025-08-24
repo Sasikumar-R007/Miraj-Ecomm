@@ -1,9 +1,27 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { PhoneIcon, EnvelopeIcon, MapPinIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { PhoneIcon, EnvelopeIcon, MapPinIcon, ClockIcon, PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const Contact: React.FC = () => {
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const totalImages = uploadedImages.length + files.length;
+    
+    if (totalImages > 5) {
+      alert('You can upload maximum 5 images');
+      return;
+    }
+    
+    setUploadedImages(prev => [...prev, ...files]);
+  };
+
+  const removeImage = (index: number) => {
+    setUploadedImages(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,7 +57,7 @@ const Contact: React.FC = () => {
                   <PhoneIcon className="w-6 h-6 text-orange-500 mr-4" />
                   <div>
                     <p className="font-semibold text-gray-900">Phone</p>
-                    <p className="text-gray-600">+91 98765 43210</p>
+                    <p className="text-gray-600">+91 8015324928</p>
                   </div>
                 </div>
 
@@ -47,7 +65,7 @@ const Contact: React.FC = () => {
                   <PhoneIcon className="w-6 h-6 text-green-500 mr-4" />
                   <div>
                     <p className="font-semibold text-gray-900">WhatsApp</p>
-                    <p className="text-gray-600">+91 98765 43210</p>
+                    <p className="text-gray-600">+91 8015324928</p>
                   </div>
                 </div>
 
@@ -64,9 +82,10 @@ const Contact: React.FC = () => {
                   <div>
                     <p className="font-semibold text-gray-900">Address</p>
                     <p className="text-gray-600">
-                      123 Candle Street, Fragrance District<br />
-                      Mumbai, Maharashtra 400001<br />
-                      India
+                      No: 524/B, Ramanujar Nagar<br />
+                      Melpapanapattu, Neyveli-2<br />
+                      Vridhachalam (Tk), Cuddalore (Dt)<br />
+                      Pincode: 607802, TamilNadu, India
                     </p>
                   </div>
                 </div>
@@ -76,8 +95,8 @@ const Contact: React.FC = () => {
                   <div>
                     <p className="font-semibold text-gray-900">Business Hours</p>
                     <p className="text-gray-600">
-                      Monday - Saturday: 9:00 AM - 8:00 PM<br />
-                      Sunday: 10:00 AM - 6:00 PM
+                      Monday - Saturday: 9:30 AM - 6:00 PM<br />
+                      Sunday: 9:30 AM - 1:30 PM
                     </p>
                   </div>
                 </div>
@@ -194,7 +213,7 @@ const Contact: React.FC = () => {
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  placeholder="How can we help you?"
+                  placeholder="mention your reason (return/ damaged/ any other) like this..."
                 />
               </div>
 
@@ -209,11 +228,71 @@ const Contact: React.FC = () => {
                 ></textarea>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Upload Images (Min: 1, Max: 5)
+                </label>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <PhotoIcon className="w-8 h-8 mb-4 text-gray-500" />
+                        <p className="mb-2 text-sm text-gray-500">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-500">PNG, JPG, JPEG (MAX. 10MB each)</p>
+                      </div>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/png,image/jpg,image/jpeg"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        disabled={uploadedImages.length >= 5}
+                      />
+                    </label>
+                  </div>
+                  
+                  {uploadedImages.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {uploadedImages.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`Upload ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg border"
+                          />
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <XMarkIcon className="w-4 h-4" />
+                          </button>
+                          <div className="absolute bottom-1 left-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                            {file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <p className="text-sm text-gray-500">
+                    {uploadedImages.length}/5 images uploaded
+                    {uploadedImages.length === 0 && <span className="text-red-500"> (At least 1 image required)</span>}
+                  </p>
+                </div>
+              </div>
+
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200"
+                disabled={uploadedImages.length === 0}
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-200 ${
+                  uploadedImages.length === 0 
+                    ? 'bg-gray-400 cursor-not-allowed text-white' 
+                    : 'bg-orange-500 hover:bg-orange-600 text-white'
+                }`}
               >
                 Send Message
               </motion.button>
