@@ -4,7 +4,7 @@ run = "cd client && npm run dev"
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Start Development"
+runButton = "Full Development Stack"
 
 [[workflows.workflow]]
 name = "Development Server"
@@ -67,6 +67,19 @@ args = "cd client && npm install && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd server && npm install && npm run dev"
+
+[[workflows.workflow]]
+name = "Full Development Stack"
+author = 46821670
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm install && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client && npm install && npm run dev"
 
 [[ports]]
 localPort = 3000

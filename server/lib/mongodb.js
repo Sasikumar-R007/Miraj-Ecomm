@@ -1,37 +1,40 @@
 
-import mongoose from 'mongoose';
+// Mock MongoDB service for development
+const mockDatabase = {
+  products: [],
+  users: [],
+  orders: []
+};
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/miraj-candles';
+export const connectDB = async () => {
+  console.log('Connected to mock database');
+  return true;
+};
 
-let cached = global.mongoose;
+export const getProducts = async () => {
+  return mockDatabase.products;
+};
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
+export const addProduct = async (product) => {
+  const newProduct = { ...product, id: Date.now().toString() };
+  mockDatabase.products.push(newProduct);
+  return newProduct;
+};
 
-async function connectToDatabase() {
-  if (cached.conn) {
-    return cached.conn;
-  }
+export const getUsers = async () => {
+  return mockDatabase.users;
+};
 
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
+export const addUser = async (user) => {
+  const newUser = { ...user, id: Date.now().toString() };
+  mockDatabase.users.push(newUser);
+  return newUser;
+};
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
-  }
-
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
-  return cached.conn;
-}
-
-export default connectToDatabase;
+export default {
+  connectDB,
+  getProducts,
+  addProduct,
+  getUsers,
+  addUser
+};

@@ -1,4 +1,3 @@
-
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -10,7 +9,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5000', 'http://localhost:5001', 'https://*.replit.dev', 'https://*.repl.co'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Connect to MongoDB
@@ -21,7 +23,6 @@ app.get('/', (req, res) => {
   res.json({ message: 'Miraj Candles Server is running with MongoDB!' });
 });
 
-// API routes
 // API routes
 app.get('/api/products', async (req, res) => {
   try {
