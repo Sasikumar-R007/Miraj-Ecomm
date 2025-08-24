@@ -78,7 +78,70 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     features: ["Character designs", "Spacious storage", "Durable material", "Kid-friendly"]
   },
   
-  // Religious Items
+  {
+    name: "Rainbow Art Supplies Bundle",
+    title: "Rainbow Art Supplies Bundle",
+    description: "Complete art bundle with crayons, colored pencils, markers, and sketch pad. Perfect for creative expression.",
+    price: 28.99,
+    originalPrice: 36.99,
+    discount: 22,
+    imageUrl: "/images/candles/candle-collection-6.jpg",
+    category: "Kids Stationaries",
+    stock: 18,
+    features: ["Complete art set", "Rainbow colors", "Sketch pad included", "Creative tools"]
+  },
+  {
+    name: "School Essentials Starter Pack",
+    title: "School Essentials Starter Pack",
+    description: "Everything needed for school success including notebooks, pens, erasers, ruler, and pencil sharpener.",
+    price: 21.99,
+    originalPrice: 28.99,
+    discount: 24,
+    imageUrl: "/images/candles/candle-collection-7.jpg",
+    category: "Kids Stationaries",
+    stock: 32,
+    features: ["School essentials", "Quality materials", "Organized pack", "Value bundle"]
+  },
+
+  // Religious Products
+  {
+    name: "Sacred Prayer Candle Set",
+    title: "Sacred Prayer Candle Set",
+    description: "Beautiful set of prayer candles for meditation and spiritual practices. Made with natural wax and blessed oils.",
+    price: 34.99,
+    originalPrice: 42.99,
+    discount: 19,
+    imageUrl: "/images/candles/candle-collection-8.jpg",
+    category: "Religious Products",
+    stock: 15,
+    features: ["Prayer candles", "Natural wax", "Blessed oils", "Spiritual use"]
+  },
+  {
+    name: "Meditation Incense Collection",
+    title: "Meditation Incense Collection",
+    description: "Premium incense sticks in sacred fragrances including sandalwood, frankincense, and myrrh for spiritual meditation.",
+    price: 26.99,
+    originalPrice: 34.99,
+    discount: 23,
+    imageUrl: "/images/candles/candle-collection-9.jpg",
+    category: "Religious Products",
+    stock: 22,
+    features: ["Sacred fragrances", "Premium quality", "Meditation aid", "Spiritual wellness"]
+  },
+  {
+    name: "Blessed Essential Oils Set",
+    title: "Blessed Essential Oils Set",
+    description: "Collection of blessed essential oils including lavender, rose, and sandalwood for spiritual healing and prayer.",
+    price: 39.99,
+    originalPrice: 49.99,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-10.jpg",
+    category: "Religious Products",
+    stock: 12,
+    features: ["Blessed oils", "Spiritual healing", "Pure essentials", "Prayer enhancement"]
+  },
+
+  // Religious Items (keeping original name for compatibility)
   {
     name: "Sacred Oil Lamp",
     title: "Sacred Oil Lamp",
