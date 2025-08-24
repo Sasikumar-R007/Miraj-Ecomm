@@ -63,7 +63,7 @@ const Cart: React.FC = () => {
               <AnimatePresence>
                 {state.items.map((item, index) => (
                   <motion.div
-                    key={item.id}
+                    key={item.product.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -100 }}
@@ -94,7 +94,7 @@ const Cart: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                          onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
                           className="p-1 rounded-full hover:bg-gray-100 transition-colors"
                         >
                           <MinusIcon className="w-4 h-4" />
@@ -107,7 +107,7 @@ const Cart: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                          onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
                           className="p-1 rounded-full hover:bg-gray-100 transition-colors"
                         >
                           <PlusIcon className="w-4 h-4" />
@@ -118,7 +118,7 @@ const Cart: React.FC = () => {
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.product.id)}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
                       >
                         <TrashIcon className="w-5 h-5" />
