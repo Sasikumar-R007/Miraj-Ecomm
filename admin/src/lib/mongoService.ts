@@ -1,7 +1,7 @@
 
 const API_BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:3000/api' 
-  : `https://${window.location.hostname.replace('-5000', '-3000')}/api`;
+  : `https://${window.location.hostname.replace('-80', '-3003')}/api`;
 
 export class MongoService {
   // Products

@@ -1,8 +1,6 @@
 
-import mongoose from 'mongoose';
+import connectDB from './lib/mongodb.js';
 import Product from './models/Product.js';
-
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://your-username:your-password@cluster0.mongodb.net/miraj-candles?retryWrites=true&w=majority';
 
 const sampleProducts = [
   {
@@ -41,82 +39,83 @@ const sampleProducts = [
     dimensions: "9cm x 7cm",
     materials: ["Soy wax", "Cotton wick", "Vanilla extract", "Spice oils"],
     careInstructions: "Keep away from drafts. Extinguish flame when 1/2 inch of wax remains.",
-    tags: ["vanilla", "spice", "cozy", "bestseller"]
+    tags: ["vanilla", "spice", "warm", "bestseller"]
   },
   {
-    name: "French Lavender Elegance",
-    title: "French Lavender Elegance",
-    description: "Premium French lavender scented candles for relaxation and stress relief.",
-    price: 48.99,
-    originalPrice: 58.99,
-    discount: 17,
+    name: "Citrus Fresh Collection",
+    title: "Citrus Fresh Collection",
+    description: "Energizing citrus candles that brighten any space with fresh, uplifting fragrances.",
+    price: 42.99,
+    originalPrice: 52.99,
+    discount: 19,
     imageUrl: "/images/candles/candle-collection-3.png",
     category: "Candles",
     subcategory: "Aromatherapy",
     stock: 22,
-    features: ["French lavender", "Aromatherapy benefits", "Stress relief", "Premium quality"],
+    features: ["Citrus blend", "Energizing", "Natural oils", "Eco-friendly"],
     status: "new",
-    weight: "600g",
-    dimensions: "12cm x 9cm",
-    materials: ["Natural wax", "Organic cotton wick", "French lavender oil"],
-    careInstructions: "Best used in well-ventilated areas. Allow to cool completely before moving.",
-    tags: ["lavender", "aromatherapy", "relaxation", "french"]
+    weight: "400g",
+    dimensions: "8cm x 9cm",
+    materials: ["Soy wax", "Cotton wick", "Citrus oils"],
+    careInstructions: "Burn in well-ventilated area. Keep wick centered.",
+    tags: ["citrus", "fresh", "energizing", "natural"]
   },
   {
-    name: "Cute Animal Multi-Color Pens",
-    title: "Cute Animal Multi-Color Pens",
-    description: "Adorable animal-shaped multi-color pens with owl, avocado, flamingo, and pineapple designs. Perfect for kids' creative writing.",
-    price: 12.99,
-    originalPrice: 16.99,
-    discount: 24,
+    name: "Romantic Rose Garden",
+    title: "Romantic Rose Garden",
+    description: "Delicate rose-scented candles perfect for romantic evenings and special occasions.",
+    price: 48.99,
+    originalPrice: 59.99,
+    discount: 18,
     imageUrl: "/images/candles/candle-collection-4.png",
-    category: "Kids Stationaries",
-    stock: 30,
-    features: ["Multiple colors", "Cute animal designs", "Child-safe materials", "Easy grip"],
+    category: "Candles",
+    subcategory: "Romantic",
+    stock: 18,
+    features: ["Rose fragrance", "Romantic ambiance", "Premium quality", "Long-lasting"],
     status: "trending",
-    weight: "100g",
-    dimensions: "15cm x 2cm",
-    materials: ["Non-toxic plastic", "Smooth ink", "Ergonomic grip"],
-    careInstructions: "Keep caps on when not in use. Store in a cool, dry place.",
-    tags: ["kids", "pens", "animals", "colorful"]
+    weight: "520g",
+    dimensions: "11cm x 8cm",
+    materials: ["Soy wax", "Cotton wick", "Rose oil"],
+    careInstructions: "Perfect for dinner dates. Burn for 2-3 hours at a time.",
+    tags: ["rose", "romantic", "floral", "premium"]
   },
   {
-    name: "Complete Stationery Gift Set",
-    title: "Complete Stationery Gift Set",
-    description: "Comprehensive stationery set with cute bear characters. Includes rulers, scissors, glue stick, and various writing tools.",
-    price: 24.99,
-    originalPrice: 32.99,
-    discount: 24,
+    name: "Ocean Breeze Serenity",
+    title: "Ocean Breeze Serenity",
+    description: "Fresh ocean-inspired candles that bring the calming essence of sea breeze to your home.",
+    price: 39.99,
+    originalPrice: 49.99,
+    discount: 20,
     imageUrl: "/images/candles/candle-collection-5.png",
-    category: "Kids Stationaries",
-    stock: 20,
-    features: ["Complete set", "Bear character theme", "All essential tools", "Gift packaging"],
+    category: "Candles",
+    subcategory: "Aromatherapy",
+    stock: 25,
+    features: ["Ocean scent", "Calming", "Stress relief", "Natural ingredients"],
     status: "sale",
-    weight: "350g",
-    dimensions: "25cm x 20cm x 5cm",
-    materials: ["High-quality plastic", "Metal components", "Safe adhesives"],
-    careInstructions: "Adult supervision recommended for scissors. Keep small parts away from children under 3.",
-    tags: ["stationery", "gift set", "bears", "complete"]
+    weight: "380g",
+    dimensions: "9cm x 8cm",
+    materials: ["Soy wax", "Cotton wick", "Marine extracts"],
+    careInstructions: "Ideal for meditation and relaxation.",
+    tags: ["ocean", "calming", "aromatherapy", "natural"]
   }
 ];
 
 async function seedDatabase() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('Connected to MongoDB');
-
+    await connectDB();
+    
     // Clear existing products
     await Product.deleteMany({});
     console.log('Cleared existing products');
-
+    
     // Insert sample products
     await Product.insertMany(sampleProducts);
-    console.log('Sample products added successfully!');
-
-    mongoose.disconnect();
+    console.log('Sample products added successfully');
+    
+    process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);
-    mongoose.disconnect();
+    process.exit(1);
   }
 }
 
