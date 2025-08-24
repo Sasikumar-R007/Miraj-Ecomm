@@ -4,99 +4,109 @@ import Product from './models/Product.js';
 
 const sampleProducts = [
   {
-    name: "Luxury Gradient Candles",
-    title: "Luxury Gradient Candles",
-    description: "Elegant ombre candles with beautiful red-to-white gradient. Perfect for creating a warm and cozy atmosphere.",
-    price: 45.99,
-    originalPrice: 55.99,
-    discount: 18,
-    imageUrl: "/images/candles/candle-collection-1.png",
-    category: "Candles",
-    subcategory: "Scented Candles",
-    stock: 15,
-    features: ["Ombre design", "Long-lasting burn", "Premium wax", "Gift packaging"],
-    status: "featured",
-    weight: "500g",
-    dimensions: "10cm x 8cm",
-    materials: ["Soy wax", "Cotton wick", "Essential oils"],
-    careInstructions: "Trim wick to 1/4 inch before lighting. Do not burn for more than 4 hours at a time.",
-    tags: ["luxury", "gradient", "scented", "home decor"]
-  },
-  {
-    name: "Vanilla Spice Warmth",
-    title: "Vanilla Spice Warmth",
-    description: "Warm and inviting vanilla spice candles that fill your home with comfort and coziness.",
-    price: 38.99,
-    originalPrice: 47.99,
-    discount: 19,
-    imageUrl: "/images/candles/candle-collection-2.png",
-    category: "Candles",
-    subcategory: "Scented Candles",
-    stock: 30,
-    features: ["Vanilla scent", "Spice notes", "Clean burn", "40-hour burn time"],
-    status: "bestseller",
-    weight: "450g",
-    dimensions: "9cm x 7cm",
-    materials: ["Soy wax", "Cotton wick", "Vanilla extract", "Spice oils"],
-    careInstructions: "Keep away from drafts. Extinguish flame when 1/2 inch of wax remains.",
-    tags: ["vanilla", "spice", "warm", "bestseller"]
-  },
-  {
-    name: "Citrus Fresh Collection",
-    title: "Citrus Fresh Collection",
-    description: "Energizing citrus candles that brighten any space with fresh, uplifting fragrances.",
-    price: 42.99,
-    originalPrice: 52.99,
-    discount: 19,
-    imageUrl: "/images/candles/candle-collection-3.png",
+    name: "Lavender Bliss Candle",
+    description: "A calming lavender scented candle perfect for relaxation and aromatherapy. Hand-poured with natural soy wax.",
+    price: 24.99,
     category: "Candles",
     subcategory: "Aromatherapy",
-    stock: 22,
-    features: ["Citrus blend", "Energizing", "Natural oils", "Eco-friendly"],
-    status: "new",
-    weight: "400g",
-    dimensions: "8cm x 9cm",
-    materials: ["Soy wax", "Cotton wick", "Citrus oils"],
-    careInstructions: "Burn in well-ventilated area. Keep wick centered.",
-    tags: ["citrus", "fresh", "energizing", "natural"]
+    images: ["/images/candles/candle-collection-1.png"],
+    stock: 50,
+    featured: true,
+    bestSeller: true,
+    sales: 156,
+    rating: 4.8,
+    reviews: 23
   },
   {
-    name: "Romantic Rose Garden",
-    title: "Romantic Rose Garden",
-    description: "Delicate rose-scented candles perfect for romantic evenings and special occasions.",
-    price: 48.99,
-    originalPrice: 59.99,
-    discount: 18,
-    imageUrl: "/images/candles/candle-collection-4.png",
+    name: "Vanilla Dream Candle",
+    description: "Warm and inviting vanilla scented candle that creates a cozy atmosphere in any room.",
+    price: 22.99,
+    category: "Candles", 
+    subcategory: "Classic Scents",
+    images: ["/images/candles/candle-collection-2.png"],
+    stock: 35,
+    bestSeller: true,
+    sales: 134,
+    rating: 4.6,
+    reviews: 18
+  },
+  {
+    name: "Ocean Breeze Candle",
+    description: "Fresh and invigorating ocean scent that brings the seaside into your home.",
+    price: 26.99,
     category: "Candles",
-    subcategory: "Romantic",
-    stock: 18,
-    features: ["Rose fragrance", "Romantic ambiance", "Premium quality", "Long-lasting"],
-    status: "trending",
-    weight: "520g",
-    dimensions: "11cm x 8cm",
-    materials: ["Soy wax", "Cotton wick", "Rose oil"],
-    careInstructions: "Perfect for dinner dates. Burn for 2-3 hours at a time.",
-    tags: ["rose", "romantic", "floral", "premium"]
+    subcategory: "Fresh Scents",
+    images: ["/images/candles/candle-collection-3.png"],
+    stock: 42,
+    newArrival: true,
+    sales: 89,
+    rating: 4.7,
+    reviews: 15
   },
   {
-    name: "Ocean Breeze Serenity",
-    title: "Ocean Breeze Serenity",
-    description: "Fresh ocean-inspired candles that bring the calming essence of sea breeze to your home.",
-    price: 39.99,
-    originalPrice: 49.99,
-    discount: 20,
-    imageUrl: "/images/candles/candle-collection-5.png",
+    name: "Cinnamon Spice Candle",
+    description: "Warm and spicy cinnamon scented candle perfect for autumn and winter seasons.",
+    price: 23.99,
+    category: "Candles",
+    subcategory: "Seasonal",
+    images: ["/images/candles/candle-collection-4.png"],
+    stock: 28,
+    trending: true,
+    sales: 98,
+    rating: 4.5,
+    reviews: 12
+  },
+  {
+    name: "Rose Garden Candle",
+    description: "Elegant rose scented candle with a sophisticated floral fragrance.",
+    price: 28.99,
+    category: "Candles",
+    subcategory: "Floral",
+    images: ["/images/candles/candle-collection-5.png"],
+    stock: 31,
+    featured: true,
+    sales: 76,
+    rating: 4.9,
+    reviews: 19
+  },
+  {
+    name: "Eucalyptus Mint Candle",
+    description: "Refreshing eucalyptus and mint blend for a spa-like experience at home.",
+    price: 25.99,
     category: "Candles",
     subcategory: "Aromatherapy",
+    images: ["/images/candles/candle-collection-6.jpg"],
+    stock: 39,
+    newArrival: true,
+    sales: 67,
+    rating: 4.4,
+    reviews: 11
+  },
+  {
+    name: "Sandalwood Serenity",
+    description: "Rich and woody sandalwood scent for meditation and relaxation.",
+    price: 29.99,
+    category: "Candles",
+    subcategory: "Aromatherapy", 
+    images: ["/images/candles/candle-collection-7.jpg"],
     stock: 25,
-    features: ["Ocean scent", "Calming", "Stress relief", "Natural ingredients"],
-    status: "sale",
-    weight: "380g",
-    dimensions: "9cm x 8cm",
-    materials: ["Soy wax", "Cotton wick", "Marine extracts"],
-    careInstructions: "Ideal for meditation and relaxation.",
-    tags: ["ocean", "calming", "aromatherapy", "natural"]
+    trending: true,
+    sales: 45,
+    rating: 4.6,
+    reviews: 8
+  },
+  {
+    name: "Citrus Burst Candle",
+    description: "Energizing blend of orange, lemon, and grapefruit for a bright, uplifting atmosphere.",
+    price: 24.99,
+    category: "Candles",
+    subcategory: "Citrus",
+    images: ["/images/candles/candle-collection-8.jpg"],
+    stock: 44,
+    bestSeller: true,
+    sales: 123,
+    rating: 4.7,
+    reviews: 16
   }
 ];
 
@@ -106,11 +116,12 @@ async function seedDatabase() {
     
     // Clear existing products
     await Product.deleteMany({});
-    console.log('Cleared existing products');
     
     // Insert sample products
     await Product.insertMany(sampleProducts);
-    console.log('Sample products added successfully');
+    
+    console.log('Database seeded successfully!');
+    console.log(`Inserted ${sampleProducts.length} products`);
     
     process.exit(0);
   } catch (error) {
