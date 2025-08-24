@@ -80,20 +80,6 @@ const Products: React.FC = () => {
       description: 'Personalized gifts for special moments',
       icon: '🎨',
       count: 0
-    },
-    {
-      name: 'Kitchenware',
-      color: 'bg-gradient-to-br from-cyan-400 to-cyan-600',
-      description: 'Essential tools for culinary adventures',
-      icon: '🍳',
-      count: 0
-    },
-    {
-      name: 'Electronics',
-      color: 'bg-gradient-to-br from-slate-400 to-slate-600',
-      description: 'Latest gadgets and tech accessories',
-      icon: '📱',
-      count: 0
     }
   ];
 
