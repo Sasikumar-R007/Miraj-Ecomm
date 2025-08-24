@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlusIcon, PencilIcon, TrashIcon, TagIcon, ArrowDownTrayIcon, FunnelIcon } from '@heroicons/react/24/outline';
-import { collection, getDocs, deleteDoc, doc, query, orderBy, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, query, orderBy, updateDoc, limit } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import AdminLayout from './AdminLayout';
@@ -124,11 +123,11 @@ const AdminProducts: React.FC = () => {
   const filteredProducts = products.filter(product => {
     const matchesSearch = (product.title || product.name).toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.category.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     if (filterStatus === 'all') return matchesSearch;
     if (filterStatus === 'low-stock') return matchesSearch && product.stock < 10;
     if (filterStatus === 'out-of-stock') return matchesSearch && product.stock === 0;
-    
+
     return matchesSearch && product.status === filterStatus;
   });
 
