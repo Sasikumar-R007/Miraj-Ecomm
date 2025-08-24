@@ -80,6 +80,55 @@ const Products: React.FC = () => {
       description: 'Special gifts for every occasion',
       icon: '🎈',
       count: 0
+    },
+    {
+      name: 'Accessories',
+      color: 'bg-gradient-to-br from-teal-400 to-teal-600',
+      description: 'Stylish accessories for every lifestyle',
+      icon: '👜',
+      count: 0
+    },
+    {
+      name: 'Beauty Products',
+      color: 'bg-gradient-to-br from-rose-400 to-rose-600',
+      description: 'Premium beauty and skincare essentials',
+      icon: '💄',
+      count: 0
+    },
+    {
+      name: 'Pet Supplies',
+      color: 'bg-gradient-to-br from-emerald-400 to-emerald-600',
+      description: 'Everything your pets need and love',
+      icon: '🐾',
+      count: 0
+    },
+    {
+      name: 'Home Decor',
+      color: 'bg-gradient-to-br from-amber-400 to-amber-600',
+      description: 'Transform your space with style',
+      icon: '🏡',
+      count: 0
+    },
+    {
+      name: 'Customized Gifts',
+      color: 'bg-gradient-to-br from-violet-400 to-violet-600',
+      description: 'Personalized gifts for special moments',
+      icon: '🎨',
+      count: 0
+    },
+    {
+      name: 'Kitchenware',
+      color: 'bg-gradient-to-br from-cyan-400 to-cyan-600',
+      description: 'Essential tools for culinary adventures',
+      icon: '🍳',
+      count: 0
+    },
+    {
+      name: 'Electronics',
+      color: 'bg-gradient-to-br from-slate-400 to-slate-600',
+      description: 'Latest gadgets and tech accessories',
+      icon: '📱',
+      count: 0
     }
   ];
 

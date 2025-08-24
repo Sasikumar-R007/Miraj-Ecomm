@@ -306,18 +306,18 @@ const Home: React.FC = () => {
           </AnimatePresence>
 
           {/* Navigation Controls */}
-          <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
+          <div className="absolute top-1/2 -left-6 transform -translate-y-1/2 z-10">
             <button
               onClick={prevSlide}
-              className="bg-white/80 hover:bg-white text-gray-700 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
+              className="bg-white/90 hover:bg-white text-gray-700 p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-gray-200"
             >
               <ChevronLeftIcon className="w-6 h-6" />
             </button>
           </div>
-          <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+          <div className="absolute top-1/2 -right-6 transform -translate-y-1/2 z-10">
             <button
               onClick={nextSlide}
-              className="bg-white/80 hover:bg-white text-gray-700 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
+              className="bg-white/90 hover:bg-white text-gray-700 p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-gray-200"
             >
               <ChevronRightIcon className="w-6 h-6" />
             </button>
@@ -487,7 +487,7 @@ const Home: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                to="/categories"
+                to="/products"
                 className="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 <motion.span
