@@ -5,10 +5,9 @@ import { motion } from 'framer-motion';
 import { EyeIcon, EyeSlashIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
 import { useLoading } from '../context/LoadingContext';
-import toast from 'react-hot-toast';
 
 const UserRegister: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { register, currentUser } = useAuth();
   const { setLoading } = useLoading();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -20,6 +19,7 @@ const UserRegister: React.FC = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Redirect if already logged in
   React.useEffect(() => {
@@ -28,28 +28,62 @@ const UserRegister: React.FC = () => {
     }
   }, [currentUser, navigate]);
 
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+    if (!validateForm()) {
       return;
     }
 
     setLoading(true);
 
     try {
-      // For demo purposes, we'll use mock registration
-      toast.success('Registration successful! Welcome to Miraj Candles!');
+      await register(formData);
       navigate('/');
     } catch (error: any) {
       console.error('Registration error:', error);
-      toast.error(error.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -94,9 +128,12 @@ const UserRegister: React.FC = () => {
                   required
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  className="mt-1 appearance-none relative block w-full px-4 py-3 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`mt-1 appearance-none relative block w-full px-4 py-3 border ${
+                    errors.firstName ? 'border-red-500' : 'border-gray-300'
+                  } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   placeholder="First name"
                 />
+                {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>}
               </div>
               <div>
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
@@ -109,9 +146,12 @@ const UserRegister: React.FC = () => {
                   required
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className="mt-1 appearance-none relative block w-full px-4 py-3 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`mt-1 appearance-none relative block w-full px-4 py-3 border ${
+                    errors.lastName ? 'border-red-500' : 'border-gray-300'
+                  } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   placeholder="Last name"
                 />
+                {errors.lastName && <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>}
               </div>
             </div>
 
@@ -127,9 +167,12 @@ const UserRegister: React.FC = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="mt-1 appearance-none relative block w-full px-4 py-3 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`mt-1 appearance-none relative block w-full px-4 py-3 border ${
+                  errors.email ? 'border-red-500' : 'border-gray-300'
+                } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 placeholder="Enter your email"
               />
+              {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
             </div>
 
             <div>
@@ -145,7 +188,9 @@ const UserRegister: React.FC = () => {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="appearance-none relative block w-full px-4 py-3 pr-12 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`appearance-none relative block w-full px-4 py-3 pr-12 border ${
+                    errors.password ? 'border-red-500' : 'border-gray-300'
+                  } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   placeholder="Create a password"
                 />
                 <button
@@ -160,6 +205,7 @@ const UserRegister: React.FC = () => {
                   )}
                 </button>
               </div>
+              {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
             </div>
 
             <div>
@@ -175,7 +221,9 @@ const UserRegister: React.FC = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className="appearance-none relative block w-full px-4 py-3 pr-12 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`appearance-none relative block w-full px-4 py-3 pr-12 border ${
+                    errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                  } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   placeholder="Confirm your password"
                 />
                 <button
@@ -190,6 +238,7 @@ const UserRegister: React.FC = () => {
                   )}
                 </button>
               </div>
+              {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>}
             </div>
           </div>
 
