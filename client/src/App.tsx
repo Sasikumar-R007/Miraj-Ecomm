@@ -29,6 +29,12 @@ import Contact from './pages/Contact';
 import UserLogin from './pages/UserLogin'; // Import UserLogin page
 import UserRegister from './pages/UserRegister'; // Import UserRegister page
 
+// New Product Pages
+import NewArrivals from './pages/NewArrivals';
+import SaleProducts from './pages/SaleProducts';
+import TrendingProducts from './pages/TrendingProducts';
+import GiftProducts from './pages/GiftProducts';
+
 
 // Admin Pages
 import AdminLogin from './admin/AdminLogin';
@@ -62,6 +68,10 @@ const App: React.FC = () => {
                     <Route path="/products/:id" element={<ProductDetail />} />
                     <Route path="/categories" element={<Categories />} />
                     <Route path="/candles-subcategories" element={<CandleSubcategories />} />
+                    <Route path="/new-arrivals" element={<NewArrivals />} />
+                    <Route path="/sale" element={<SaleProducts />} />
+                    <Route path="/trending" element={<TrendingProducts />} />
+                    <Route path="/gifts" element={<GiftProducts />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/checkout" element={<Checkout />} />

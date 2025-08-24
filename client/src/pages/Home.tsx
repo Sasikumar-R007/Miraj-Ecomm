@@ -106,7 +106,8 @@ const Home: React.FC = () => {
       description: "Discover our latest collection of artisan candles, crafted with love and the finest natural ingredients.",
       image: "/images/candles/candle-collection-1.png",
       buttonText: "Shop New Collection",
-      badge: "NEW"
+      badge: "NEW",
+      link: "/new-arrivals"
     },
     {
       title: "On Discount",
@@ -114,7 +115,8 @@ const Home: React.FC = () => {
       description: "Limited time offer! Experience the clean burn and extended life of our premium soy wax candles.",
       image: "/images/candles/candle-collection-2.png",
       buttonText: "Shop Sale",
-      badge: "SALE"
+      badge: "SALE",
+      link: "/sale"
     },
     {
       title: "Trending Now",
@@ -122,7 +124,8 @@ const Home: React.FC = () => {
       description: "Our most loved aromatherapy candles trending among thousands of customers worldwide.",
       image: "/images/candles/candle-collection-4.png",
       buttonText: "Shop Trending",
-      badge: "TRENDING"
+      badge: "TRENDING",
+      link: "/trending"
     },
     {
       title: "Premium Gift Sets",
@@ -130,7 +133,8 @@ const Home: React.FC = () => {
       description: "Beautifully packaged candle gift sets that create lasting memories for your loved ones.",
       image: "/images/candles/candle-collection-5.png",
       buttonText: "Browse Gifts",
-      badge: "GIFT"
+      badge: "GIFT",
+      link: "/gifts"
     }
   ];
 
@@ -275,7 +279,7 @@ const Home: React.FC = () => {
                   transition={{ delay: 0.6 }}
                 >
                   <Link
-                    to="/products"
+                    to={heroSlides[currentSlide].link}
                     className="inline-flex items-center bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-10 py-5 rounded-2xl font-medium text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
                   >
                     {heroSlides[currentSlide].buttonText}
