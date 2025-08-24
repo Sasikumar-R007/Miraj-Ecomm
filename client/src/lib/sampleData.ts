@@ -18,6 +18,18 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     features: ["Multiple colors", "Cute animal designs", "Child-safe materials", "Easy grip"]
   },
   {
+    name: "Rainbow Sketch Pens Set",
+    title: "Rainbow Sketch Pens Set",
+    description: "Complete set of colorful sketch pens in a handy case. Perfect for school projects and creative artwork.",
+    price: 16.99,
+    originalPrice: 22.99,
+    discount: 26,
+    imageUrl: "/images/candles/candle-collection-2.png",
+    category: "Kids Stationaries",
+    stock: 25,
+    features: ["36 vibrant colors", "Washable ink", "Storage case included", "Non-toxic"]
+  },
+  {
     name: "Complete Stationery Gift Set",
     title: "Complete Stationery Gift Set",
     description: "Comprehensive stationery set with cute bear characters. Includes rulers, scissors, glue stick, and various writing tools.",
@@ -78,6 +90,18 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
     category: "Religious Items",
     stock: 10,
     features: ["Brass construction", "Traditional design", "Spiritual practices", "Handcrafted"]
+  },
+  {
+    name: "Sacred Prayer Beads",
+    title: "Sacred Prayer Beads",
+    description: "Handcrafted wooden prayer beads for meditation and spiritual practices. Made from sacred sandalwood.",
+    price: 28.00,
+    originalPrice: 35.00,
+    discount: 20,
+    imageUrl: "/images/candles/candle-collection-7.jpg",
+    category: "Religious Items",
+    stock: 15,
+    features: ["Sandalwood beads", "Traditional count", "Meditation aid", "Blessed by priests"]
   },
   {
     name: "Temple Incense Set",

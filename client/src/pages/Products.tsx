@@ -132,7 +132,8 @@ const Products: React.FC = () => {
     // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(product =>
-        product.category.toLowerCase() === selectedCategory.toLowerCase()
+        product.category.toLowerCase() === selectedCategory.toLowerCase() ||
+        product.category.toLowerCase().includes(selectedCategory.toLowerCase())
       );
     }
 
