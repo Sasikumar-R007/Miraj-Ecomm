@@ -26,41 +26,6 @@ const Products: React.FC = () => {
 
   const categories = [
     {
-      name: 'Scented Candles',
-      color: 'bg-gradient-to-br from-orange-400 to-orange-600',
-      description: 'Luxurious fragrances for every mood',
-      icon: '🕯️',
-      count: 0
-    },
-    {
-      name: 'Soy Wax',
-      color: 'bg-gradient-to-br from-green-400 to-green-600',
-      description: 'Natural and eco-friendly options',
-      icon: '🌿',
-      count: 0
-    },
-    {
-      name: 'Gift Sets',
-      color: 'bg-gradient-to-br from-red-400 to-red-600',
-      description: 'Perfect presents for loved ones',
-      icon: '🎁',
-      count: 0
-    },
-    {
-      name: 'Decor Candles',
-      color: 'bg-gradient-to-br from-purple-400 to-purple-600',
-      description: 'Beautiful designs for home styling',
-      icon: '🏠',
-      count: 0
-    },
-    {
-      name: 'Aromatherapy',
-      color: 'bg-gradient-to-br from-blue-400 to-blue-600',
-      description: 'Therapeutic scents for wellness',
-      icon: '💧',
-      count: 0
-    },
-    {
       name: 'Kids Stationaries',
       color: 'bg-gradient-to-br from-pink-400 to-pink-600',
       description: 'Fun and colorful stationery for kids',
