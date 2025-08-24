@@ -201,98 +201,57 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
 
-      {/* Hero Slider Section */}
-      <section className="relative h-screen overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, x: 300 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -300 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 bg-gradient-to-r from-orange-900 to-orange-700"
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-            <div className="relative h-full flex items-center">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-white"
-                  >
-                    <div className="flex items-center mb-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        heroSlides[currentSlide].badge === 'NEW' ? 'bg-green-500' :
-                        heroSlides[currentSlide].badge === 'SALE' ? 'bg-red-500' :
-                        heroSlides[currentSlide].badge === 'TRENDING' ? 'bg-blue-500' :
-                        'bg-purple-500'
-                      } text-white`}>
-                        {heroSlides[currentSlide].badge}
-                      </span>
-                    </div>
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                      {heroSlides[currentSlide].title}
-                      <span className="block text-orange-300 text-3xl md:text-4xl mt-2">
-                        {heroSlides[currentSlide].subtitle}
-                      </span>
-                    </h1>
-                    <p className="text-xl text-orange-100 mb-8 max-w-lg">
-                      {heroSlides[currentSlide].description}
-                    </p>
-                    <Link
-                      to="/products"
-                      className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg transition-colors duration-200"
-                    >
-                      {heroSlides[currentSlide].buttonText}
-                      <ArrowRightIcon className="w-5 h-5 ml-2" />
-                    </Link>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="relative"
-                  >
-                    <img
-                      src={heroSlides[currentSlide].image}
-                      alt="Miraj Candles"
-                      className="rounded-lg shadow-2xl"
-                    />
-                  </motion.div>
-                </div>
+      {/* Promotional Banner Section */}
+      <section className="bg-gray-100 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+              <div className="text-sm text-gray-600 font-medium">
+                #Big Candle Sale
               </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                Limited Time Offer!
+                <br />
+                <span className="text-orange-500">Up to 50% OFF!</span>
+              </h1>
+              <p className="text-lg text-gray-600">
+                Illuminate Your Everyday Space
+              </p>
+              <Link
+                to="/products"
+                className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg transition-colors duration-200"
+              >
+                Shop Now
+                <ArrowRightIcon className="w-5 h-5 ml-2" />
+              </Link>
+            </motion.div>
 
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-200"
-        >
-          <ChevronLeftIcon className="w-6 h-6" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-200"
-        >
-          <ChevronRightIcon className="w-6 h-6" />
-        </button>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative"
+            >
+              <img
+                src="/images/candles/candle-collection-1.png"
+                alt="Miraj Candles Collection"
+                className="w-full h-auto object-contain"
+              />
+            </motion.div>
+          </div>
 
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                index === currentSlide ? 'bg-orange-500' : 'bg-white bg-opacity-50'
-              }`}
-            />
-          ))}
+          {/* Promotional indicators */}
+          <div className="flex justify-center mt-8 space-x-2">
+            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+          </div>
         </div>
       </section>
 
@@ -309,10 +268,6 @@ const Home: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Our Categories
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From handcrafted soy wax to luxury scented candles, discover our complete range
-              of premium candles designed to illuminate and inspire your space.
-            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -503,7 +458,7 @@ const Home: React.FC = () => {
           {isLoadingBestSellers ? (
             <BagLoader size="large" text="Loading bestsellers..." />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {bestSellers.map((product, index) => (
                 <motion.div
                   key={product.id}
@@ -516,6 +471,15 @@ const Home: React.FC = () => {
               ))}
             </div>
           )}
+          <div className="text-center">
+            <Link
+              to="/products"
+              className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              View All Products
+              <ArrowRightIcon className="w-5 h-5 ml-2" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -625,35 +589,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="py-16 bg-orange-500 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Stay Illuminated
-            </h2>
-            <p className="text-lg text-orange-100 mb-8">
-              Subscribe to our newsletter for exclusive offers, new collection launches,
-              and candle care tips delivered to your inbox.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-              />
-              <button className="px-6 py-3 bg-white text-orange-500 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">
-                Subscribe
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      
     </div>
   );
 };
