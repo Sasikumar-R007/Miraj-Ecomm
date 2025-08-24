@@ -1,4 +1,3 @@
-
 // Mock MongoDB service for development
 const mockDatabase = {
   products: [],

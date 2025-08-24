@@ -1,5 +1,5 @@
 
-import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query } from './firebase';
 import { db } from './firebase';
 import { Product } from '../types';
 
@@ -359,25 +359,19 @@ export const sampleProducts: Omit<Product, 'id' | 'createdAt'>[] = [
 
 export const addSampleProducts = async (): Promise<void> => {
   try {
-    // Check if products already exist
-    const existingProductsQuery = query(collection(db, 'products'));
-    const existingProducts = await getDocs(existingProductsQuery);
+    console.log('Mock: Adding sample products...');
     
-    if (existingProducts.empty) {
-      console.log('Adding sample products...');
-      
-      for (const product of sampleProducts) {
-        await addDoc(collection(db, 'products'), {
-          ...product,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        });
-      }
-      
-      console.log('Sample products added successfully!');
-    } else {
-      console.log('Products already exist in database');
+    // Since we're using mock Firebase, just log success
+    for (const product of sampleProducts.slice(0, 5)) {
+      await addDoc(collection(db, 'products'), {
+        ...product,
+        id: `sample_${Date.now()}_${Math.random()}`,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
     }
+    
+    console.log('Mock: Sample products added successfully!');
   } catch (error) {
     console.error('Error adding sample products:', error);
   }
