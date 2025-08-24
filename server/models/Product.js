@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 const ProductSchema = new mongoose.Schema({
@@ -66,7 +65,6 @@ const ProductSchema = new mongoose.Schema({
 });
 
 export default mongoose.models.Product || mongoose.model('Product', ProductSchema);
-import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema({
   name: {

@@ -491,7 +491,7 @@ const Home: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                to="/products"
+                to="/categories"
                 className="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 <motion.span
