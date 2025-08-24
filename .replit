@@ -4,7 +4,7 @@ run = "node index.js"
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Full Stack Development"
+runButton = "Start Development"
 
 [[workflows.workflow]]
 name = "Development Server"
@@ -45,6 +45,19 @@ args = "cd client && npm install && npm run dev"
 [[workflows.workflow]]
 name = "Full Stack Development"
 author = 46804835
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client && npm install && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm install && npm run dev"
+
+[[workflows.workflow]]
+name = "Start Development"
+author = 46821510
 mode = "parallel"
 
 [[workflows.workflow.tasks]]
