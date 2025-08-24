@@ -12,7 +12,7 @@ const Categories: React.FC = () => {
       image: '/images/candles/candle-collection-6.jpg',
       color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
       description: 'Fun and colorful stationery for kids',
-      icon: '📝',
+      icon: <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>,
       productCount: 25,
       hasSubcategories: false
     },
@@ -21,7 +21,7 @@ const Categories: React.FC = () => {
       image: '/images/candles/candle-collection-7.jpg',
       color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600',
       description: 'Sacred items for spiritual practices',
-      icon: '🕉️',
+      icon: <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>,
       productCount: 18,
       hasSubcategories: false
     },
@@ -30,7 +30,7 @@ const Categories: React.FC = () => {
       image: '/images/candles/candle-collection-8.jpg',
       color: 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600',
       description: 'Premium handcrafted candles',
-      icon: '🕯️',
+      icon: <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M9.5 2C8.67 2 8 2.67 8 3.5V5H4v14h16V5h-4V3.5C16 2.67 15.33 2 14.5 2h-5zm0 2h5V7h-5V4zm-3.5 5h12v10h-12V9z"/></svg>,
       productCount: 98,
       hasSubcategories: true
     },
@@ -39,7 +39,7 @@ const Categories: React.FC = () => {
       image: '/images/candles/candle-collection-10.jpg',
       color: 'bg-gradient-to-br from-purple-400 via-indigo-500 to-blue-600',
       description: 'Perfect presents for loved ones',
-      icon: '🎁',
+      icon: <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg>,
       productCount: 15,
       hasSubcategories: false
     }
@@ -91,7 +91,7 @@ const Categories: React.FC = () => {
                   <div className={`${category.color} h-48 relative`}>
                     <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl transform group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-white transform group-hover:scale-110 transition-transform duration-300">
                         {category.icon}
                       </div>
                     </div>

@@ -176,7 +176,7 @@ const Home: React.FC = () => {
     {
       name: 'Kids Stationaries',
       image: '/images/candles/candle-collection-6.jpg',
-      categoryImage: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=100&h=100&fit=crop&crop=center',
+      categoryImage: '/images/categories/kids-stationery.jpg',
       color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
       description: 'Fun and colorful stationery for kids',
       hasSubcategories: false
@@ -184,7 +184,7 @@ const Home: React.FC = () => {
     {
       name: 'Religious Products',
       image: '/images/candles/candle-collection-7.jpg',
-      categoryImage: 'https://images.unsplash.com/photo-1569982175971-d92b01cf8694?w=100&h=100&fit=crop&crop=center',
+      categoryImage: '/images/categories/religious-products.jpg',
       color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600',
       description: 'Sacred items for spiritual practices',
       hasSubcategories: false
@@ -192,7 +192,7 @@ const Home: React.FC = () => {
     {
       name: 'Candles',
       image: '/images/candles/candle-collection-8.jpg',
-      categoryImage: 'https://images.unsplash.com/photo-1602874801006-52c7282d2138?w=100&h=100&fit=crop&crop=center',
+      categoryImage: '/images/categories/candles.jpg',
       color: 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600',
       description: 'Premium handcrafted candles',
       hasSubcategories: true,
@@ -206,7 +206,7 @@ const Home: React.FC = () => {
     {
       name: 'Gifts',
       image: '/images/candles/candle-collection-10.jpg',
-      categoryImage: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=100&h=100&fit=crop&crop=center',
+      categoryImage: '/images/categories/gifts.jpg',
       color: 'bg-gradient-to-br from-purple-400 via-indigo-500 to-blue-600',
       description: 'Perfect presents for loved ones',
       hasSubcategories: false

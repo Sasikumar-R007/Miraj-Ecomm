@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -13,7 +12,7 @@ const CandleSubcategories: React.FC = () => {
       image: '/images/candles/candle-collection-1.png',
       color: 'bg-gradient-to-br from-orange-400 to-orange-600',
       description: 'Luxurious fragrances for every mood and occasion',
-      icon: '🌸',
+      icon: <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
       productCount: 12
     },
     {
@@ -21,7 +20,7 @@ const CandleSubcategories: React.FC = () => {
       image: '/images/candles/candle-collection-2.png',
       color: 'bg-gradient-to-br from-green-400 to-green-600',
       description: 'Natural and eco-friendly candle options',
-      icon: '🌿',
+      icon: <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66C7.84 16.67 9 13.34 12 13.34s4.16 3.33 6.29 8.66l1.89-.66C18.1 16.17 16 10 17 8z"/></svg>,
       productCount: 8
     },
     {
@@ -29,7 +28,7 @@ const CandleSubcategories: React.FC = () => {
       image: '/images/candles/candle-collection-3.png',
       color: 'bg-gradient-to-br from-purple-400 to-purple-600',
       description: 'Beautiful designs for home styling',
-      icon: '🏠',
+      icon: <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>,
       productCount: 6
     },
     {
@@ -37,7 +36,7 @@ const CandleSubcategories: React.FC = () => {
       image: '/images/candles/candle-collection-4.png',
       color: 'bg-gradient-to-br from-blue-400 to-blue-600',
       description: 'Therapeutic scents for wellness and relaxation',
-      icon: '💧',
+      icon: <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v2.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5v-2.5c-.6-.35-1-.98-1-1.72 0-1.1.9-2 2-2zm0 7c-.83 0-1.5.67-1.5 1.5 0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-.83-.67-1.5-1.5-1.5z"/></svg>,
       productCount: 8
     },
     {
@@ -45,7 +44,7 @@ const CandleSubcategories: React.FC = () => {
       image: '/images/candles/candle-collection-5.png',
       color: 'bg-gradient-to-br from-yellow-400 to-yellow-600',
       description: 'Premium handcrafted luxury candles',
-      icon: '✨',
+      icon: <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>,
       productCount: 4
     },
     {
@@ -53,8 +52,8 @@ const CandleSubcategories: React.FC = () => {
       image: '/images/candles/candle-collection-10.jpg',
       color: 'bg-gradient-to-br from-red-400 to-red-600',
       description: 'Curated candle gift sets for special occasions',
-      icon: '🎁',
-      productCount: 3
+      icon: <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg>,
+      productCount: 5
     }
   ];
 
@@ -140,12 +139,12 @@ const CandleSubcategories: React.FC = () => {
                       whileHover={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.1 }}
                     >
-                      <div className="bg-white bg-opacity-20 rounded-full p-2">
+                      <div className="bg-white rounded-full p-2">
                         <ArrowRightIcon className="w-5 h-5 text-white" />
                       </div>
                     </motion.div>
                   </div>
-                  
+
                   <div className="p-6">
                     <motion.h3 
                       className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300"
