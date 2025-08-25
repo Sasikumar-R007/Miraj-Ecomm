@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -17,6 +16,7 @@ import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
 import UserLogin from './pages/UserLogin';
 import UserRegister from './pages/UserRegister';
+import UserDashboard from './pages/UserDashboard';
 import BestSellers from './pages/BestSellers';
 import NewArrivals from './pages/NewArrivals';
 import TrendingProducts from './pages/TrendingProducts';
@@ -48,6 +48,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<UserLogin />} />
                     <Route path="/register" element={<UserRegister />} />
+                    <Route path="/dashboard" element={<UserDashboard />} />
                     <Route path="/best-sellers" element={<BestSellers />} />
                     <Route path="/new-arrivals" element={<NewArrivals />} />
                     <Route path="/trending" element={<TrendingProducts />} />
