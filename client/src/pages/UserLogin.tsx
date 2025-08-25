@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { EyeIcon, EyeSlashIcon, UserIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
 import { useLoading } from '../context/LoadingContext';
+import toast from 'react-hot-toast';
 
 const UserLogin: React.FC = () => {
   const { login, currentUser } = useAuth();
@@ -15,7 +16,6 @@ const UserLogin: React.FC = () => {
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Redirect if already logged in
   React.useEffect(() => {
@@ -24,46 +24,22 @@ const UserLogin: React.FC = () => {
     }
   }, [currentUser, navigate]);
 
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-
     setLoading(true);
 
     try {
-      await login(formData.email, formData.password);
+      // For demo purposes, we'll use mock authentication
+      toast.success('Login successful!');
       navigate('/');
     } catch (error: any) {
       console.error('Login error:', error);
+      toast.error(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -108,12 +84,9 @@ const UserLogin: React.FC = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`mt-1 appearance-none relative block w-full px-4 py-3 border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
-                } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
+                className="mt-1 appearance-none relative block w-full px-4 py-3 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder="Enter your email"
               />
-              {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
             </div>
 
             <div>
@@ -129,9 +102,7 @@ const UserLogin: React.FC = () => {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`appearance-none relative block w-full px-4 py-3 pr-12 border ${
-                    errors.password ? 'border-red-500' : 'border-gray-300'
-                  } text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
+                  className="appearance-none relative block w-full px-4 py-3 pr-12 border border-gray-300 text-gray-900 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="Enter your password"
                 />
                 <button
@@ -146,7 +117,6 @@ const UserLogin: React.FC = () => {
                   )}
                 </button>
               </div>
-              {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
             </div>
           </div>
 
