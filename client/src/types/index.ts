@@ -1,4 +1,3 @@
-
 export interface Product {
   id: string;
   name: string;
@@ -44,30 +43,10 @@ export interface Order {
 
 export interface User {
   id: string;
+  name: string;
   firstName: string;
-  lastName: string;
   email: string;
-  phone?: string;
-  dateOfBirth?: Date;
-  address?: {
-    street?: string;
-    city?: string;
-    state?: string;
-    zipCode?: string;
-    country?: string;
-  };
   role: 'user' | 'admin';
-  profilePicture?: string;
-  preferences?: {
-    newsletter?: boolean;
-    smsUpdates?: boolean;
-    currency?: string;
-    language?: string;
-  };
-  orders?: Order[];
-  wishlist?: Product[];
-  createdAt?: Date;
-  lastLogin?: Date;
 }
 
 export interface StoreSettings {
