@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,8 +7,7 @@ import {
   UserIcon, 
   Bars3Icon, 
   XMarkIcon,
-  MagnifyingGlassIcon,
-  HeartIcon
+  MagnifyingGlassIcon
 } from '@heroicons/react/24/outline';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -18,12 +18,10 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const { state: cartState } = useCart();
+  const { state } = useCart();
   const { state: wishlistState } = useWishlist();
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
 
   const handleLogout = async () => {
@@ -138,95 +136,41 @@ const Navbar: React.FC = () => {
                 </span>
               )}
             </Link>
-
+            
             <Link to="/cart" className="relative p-3 group rounded-xl hover:bg-orange-50 transition-all duration-300 hover:shadow-lg">
               <ShoppingBagIcon className="w-6 h-6 text-gray-600 group-hover:text-orange-500 transition-colors duration-300" />
-              {cartState.items.length > 0 && (
+              {state.items.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-medium">
-                  {cartState.items.length}
+                  {state.items.length}
                 </span>
               )}
             </Link>
 
-            {/* User menu */}
-          <div className="relative">
-            <button
-              onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center space-x-2 p-2 text-gray-700 hover:text-black transition-colors"
-            >
-              {currentUser ? (
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                  {currentUser.firstName.charAt(0)}{currentUser.lastName.charAt(0)}
-                </div>
-              ) : (
-                <UserIcon className="h-6 w-6" />
-              )}
-            </button>
-
-            {showUserMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                <div className="py-2">
-                  {currentUser ? (
-                    <>
-                      <div className="px-4 py-2 border-b border-gray-100">
-                        <p className="text-sm font-medium text-gray-900">
-                          {currentUser.firstName} {currentUser.lastName}
-                        </p>
-                        <p className="text-xs text-gray-600">{currentUser.email}</p>
-                      </div>
-                      <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        My Dashboard
-                      </Link>
-                      <Link
-                        to="/orders"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        My Orders
-                      </Link>
-                      <Link
-                        to="/wishlist"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        Wishlist
-                      </Link>
-                      <button
-                        onClick={() => {
-                          logout();
-                          setShowUserMenu(false);
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Sign Out
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        to="/user/login"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        Login
-                      </Link>
-                      <Link
-                        to="/user/register"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        Register
-                      </Link>
-                    </>
-                  )}
-                </div>
+            {currentUser ? (
+              <div className="flex items-center space-x-3">
+                {currentUser.role === 'admin' && (
+                  <Link 
+                    to="/admin/dashboard" 
+                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Logout
+                </button>
               </div>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="p-3 rounded-xl hover:bg-blue-50 transition-all duration-300 hover:shadow-lg group"
+              >
+                <UserIcon className="w-6 h-6 text-gray-600 group-hover:text-blue-500 transition-colors duration-300" />
+              </button>
             )}
-          </div>
           </div>
 
           {/* Mobile menu button */}
@@ -286,7 +230,7 @@ const Navbar: React.FC = () => {
                   {item.name}
                 </Link>
               ))}
-
+              
               <Link
                 to="/wishlist"
                 className="flex items-center px-4 py-3 text-gray-600 hover:text-red-500 hover:bg-gray-50 rounded-lg transition-colors duration-200"
@@ -297,16 +241,16 @@ const Navbar: React.FC = () => {
                 </svg>
                 Wishlist ({wishlistState.items.length})
               </Link>
-
+              
               <Link
                 to="/cart"
                 className="flex items-center px-4 py-3 text-gray-600 hover:text-orange-500 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                 onClick={() => setIsOpen(false)}
               >
                 <ShoppingBagIcon className="w-5 h-5 mr-3" />
-                Cart ({cartState.items.length})
+                Cart ({state.items.length})
               </Link>
-
+              
               {currentUser ? (
                 <>
                   {currentUser.role === 'admin' && (
