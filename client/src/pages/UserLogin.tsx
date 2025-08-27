@@ -34,7 +34,8 @@ const UserLogin: React.FC = () => {
     setLoading(true);
 
     try {
-      // For demo purposes, we'll use mock authentication
+      // Use the login method from AuthContext
+      await login(formData.email, formData.password);
       toast.success('Login successful!');
       navigate('/');
     } catch (error: any) {
