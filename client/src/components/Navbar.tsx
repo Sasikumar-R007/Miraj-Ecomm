@@ -7,7 +7,8 @@ import {
   UserIcon, 
   Bars3Icon, 
   XMarkIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
+  CogIcon
 } from '@heroicons/react/24/outline';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -147,21 +148,118 @@ const Navbar: React.FC = () => {
             </Link>
 
             {currentUser ? (
-              <div className="flex items-center space-x-3">
-                {currentUser.role === 'admin' && (
-                  <Link 
-                    to="/admin/dashboard" 
-                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    Admin
-                  </Link>
-                )}
+              <div className="relative">
                 <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  onClick={() => setShowLoginModal(!showLoginModal)}
+                  className="flex items-center space-x-2 p-2 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
                 >
-                  Logout
+                  <div className="h-8 w-8 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                    {currentUser.profilePicture ? (
+                      <img
+                        src={currentUser.profilePicture}
+                        alt="Profile"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <UserIcon className="h-4 w-4 text-gray-600" />
+                    )}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 hidden lg:block">
+                    {currentUser.name || 'User'}
+                  </span>
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
+
+                {/* Profile Dropdown */}
+                <AnimatePresence>
+                  {showLoginModal && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                      className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-50"
+                    >
+                      <div className="p-4 border-b border-gray-100">
+                        <div className="flex items-center space-x-3">
+                          <div className="h-12 w-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                            {currentUser.profilePicture ? (
+                              <img
+                                src={currentUser.profilePicture}
+                                alt="Profile"
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <UserIcon className="h-6 w-6 text-gray-600" />
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900">{currentUser.name || 'User'}</p>
+                            <p className="text-sm text-gray-600">{currentUser.email}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-2">
+                        <Link
+                          to="/user/dashboard"
+                          onClick={() => setShowLoginModal(false)}
+                          className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                          <UserIcon className="h-5 w-5 mr-3 text-gray-400" />
+                          My Dashboard
+                        </Link>
+                        
+                        <Link
+                          to="/cart"
+                          onClick={() => setShowLoginModal(false)}
+                          className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                          <ShoppingBagIcon className="h-5 w-5 mr-3 text-gray-400" />
+                          My Cart ({state.items.length})
+                        </Link>
+
+                        <Link
+                          to="/wishlist"
+                          onClick={() => setShowLoginModal(false)}
+                          className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                          <svg className="h-5 w-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                          My Wishlist ({wishlistState.items.length})
+                        </Link>
+
+                        {currentUser.role === 'admin' && (
+                          <Link
+                            to="/admin/dashboard"
+                            onClick={() => setShowLoginModal(false)}
+                            className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                          >
+                            <CogIcon className="h-5 w-5 mr-3 text-gray-400" />
+                            Admin Dashboard
+                          </Link>
+                        )}
+
+                        <div className="border-t border-gray-100 mt-2 pt-2">
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              setShowLoginModal(false);
+                            }}
+                            className="flex items-center w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Logout
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               <button

@@ -28,6 +28,7 @@ import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
 import UserLogin from './pages/UserLogin'; // Import UserLogin page
 import UserRegister from './pages/UserRegister'; // Import UserRegister page
+import UserDashboard from './pages/UserDashboard'; // Import UserDashboard component
 
 // New Product Pages
 import NewArrivals from './pages/NewArrivals';
@@ -83,6 +84,7 @@ const App: React.FC = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/user/login" element={<UserLogin />} />
                     <Route path="/user/register" element={<UserRegister />} />
+                    <Route path="/user/dashboard" element={<UserDashboard />} />
 
                     {/* Admin Routes */}
                     <Route path="/admin/login" element={<AdminLogin />} />
