@@ -9,7 +9,7 @@ import {
   MapPinIcon,
   CreditCardIcon,
   BellIcon,
-  LogoutIcon,
+  ArrowRightOnRectangleIcon,
   CameraIcon,
   EyeIcon,
   EyeSlashIcon
@@ -564,7 +564,7 @@ const UserDashboard: React.FC = () => {
                   onClick={handleLogout}
                   className="w-full flex items-center px-3 py-2 text-left rounded-lg text-red-600 hover:bg-red-50 transition-colors"
                 >
-                  <LogoutIcon className="h-5 w-5 mr-3" />
+                  <ArrowRightOnRectangleIcon className="h-5 w-5 mr-3" />
                   Logout
                 </button>
               </nav>
