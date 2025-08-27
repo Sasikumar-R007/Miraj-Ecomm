@@ -6,6 +6,7 @@ interface AuthContextType {
   currentUser: User | null;
   user: User | null; // Add user alias for compatibility
   login: (email: string, password: string) => Promise<void>;
+  register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
 }
@@ -18,6 +19,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (email: string, password: string) => {
     const user = await mockAuth.signIn(email, password);
+    setCurrentUser(user);
+  };
+
+  const register = async (firstName: string, lastName: string, email: string, password: string) => {
+    const user = await mockAuth.signUp(firstName, lastName, email, password);
     setCurrentUser(user);
   };
 
@@ -37,6 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     currentUser,
     user: currentUser, // Add user alias for compatibility
     login,
+    register,
     logout,
     loading
   };

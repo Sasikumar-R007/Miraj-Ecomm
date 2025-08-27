@@ -8,7 +8,7 @@ import { useLoading } from '../context/LoadingContext';
 import toast from 'react-hot-toast';
 
 const UserRegister: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { register, currentUser } = useAuth();
   const { setLoading } = useLoading();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -44,7 +44,8 @@ const UserRegister: React.FC = () => {
     setLoading(true);
 
     try {
-      // For demo purposes, we'll use mock registration
+      // Use the register method from AuthContext
+      await register(formData.firstName, formData.lastName, formData.email, formData.password);
       toast.success('Registration successful! Welcome to Miraj Candles!');
       navigate('/');
     } catch (error: any) {
