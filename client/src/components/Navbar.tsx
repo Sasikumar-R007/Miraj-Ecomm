@@ -19,11 +19,32 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const { state } = useCart();
   const { state: wishlistState } = useWishlist();
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Close profile dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showProfileDropdown) {
+        const target = event.target as Element;
+        const profileButton = document.querySelector('[data-profile-button]');
+        const profileDropdown = document.querySelector('[data-profile-dropdown]');
+        
+        if (profileButton && profileDropdown && 
+            !profileButton.contains(target) && 
+            !profileDropdown.contains(target)) {
+          setShowProfileDropdown(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showProfileDropdown]);
 
   const handleLogout = async () => {
     try {
@@ -150,7 +171,8 @@ const Navbar: React.FC = () => {
             {currentUser ? (
               <div className="relative">
                 <button
-                  onClick={() => setShowLoginModal(!showLoginModal)}
+                  data-profile-button
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
                   className="flex items-center space-x-2 p-2 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
                 >
                   <div className="h-8 w-8 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
@@ -174,8 +196,9 @@ const Navbar: React.FC = () => {
 
                 {/* Profile Dropdown */}
                 <AnimatePresence>
-                  {showLoginModal && (
+                  {showProfileDropdown && (
                     <motion.div
+                      data-profile-dropdown
                       initial={{ opacity: 0, scale: 0.95, y: -10 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95, y: -10 }}
@@ -204,7 +227,7 @@ const Navbar: React.FC = () => {
                       <div className="p-2">
                         <Link
                           to="/user/dashboard"
-                          onClick={() => setShowLoginModal(false)}
+                          onClick={() => setShowProfileDropdown(false)}
                           className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
                           <UserIcon className="h-5 w-5 mr-3 text-gray-400" />
@@ -213,7 +236,7 @@ const Navbar: React.FC = () => {
                         
                         <Link
                           to="/cart"
-                          onClick={() => setShowLoginModal(false)}
+                          onClick={() => setShowProfileDropdown(false)}
                           className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
                           <ShoppingBagIcon className="h-5 w-5 mr-3 text-gray-400" />
@@ -222,7 +245,7 @@ const Navbar: React.FC = () => {
 
                         <Link
                           to="/wishlist"
-                          onClick={() => setShowLoginModal(false)}
+                          onClick={() => setShowProfileDropdown(false)}
                           className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
                           <svg className="h-5 w-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,7 +257,7 @@ const Navbar: React.FC = () => {
                         {currentUser.role === 'admin' && (
                           <Link
                             to="/admin/dashboard"
-                            onClick={() => setShowLoginModal(false)}
+                            onClick={() => setShowProfileDropdown(false)}
                             className="flex items-center w-full px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                           >
                             <CogIcon className="h-5 w-5 mr-3 text-gray-400" />
@@ -246,7 +269,7 @@ const Navbar: React.FC = () => {
                           <button
                             onClick={() => {
                               handleLogout();
-                              setShowLoginModal(false);
+                              setShowProfileDropdown(false);
                             }}
                             className="flex items-center w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           >
