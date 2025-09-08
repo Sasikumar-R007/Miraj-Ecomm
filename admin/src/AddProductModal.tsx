@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-import { MongoService } from './lib/mongoService';
+import { mongoService } from './lib/mongoService';
 import { Product } from './types';
 
 interface AddProductModalProps {

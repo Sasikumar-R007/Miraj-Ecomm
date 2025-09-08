@@ -4,7 +4,7 @@ run = "npm run dev"
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Full Development Environment"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Development Server"
@@ -102,6 +102,27 @@ args = "cd server && npm install && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd client && npm install && npm run dev"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Miraj Candles Dev Server"
+
+[[workflows.workflow]]
+name = "Miraj Candles Dev Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[ports]]
 localPort = 3000
