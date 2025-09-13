@@ -527,7 +527,7 @@ const Home: React.FC = () => {
           {isLoadingFeatured ? (
             <BagLoader size="large" text="Loading featured products..." />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {featuredProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
@@ -564,7 +564,7 @@ const Home: React.FC = () => {
           {isLoadingBestSellers ? (
             <BagLoader size="large" text="Loading bestsellers..." />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {bestSellers.map((product, index) => (
                 <motion.div
                   key={product.id}
