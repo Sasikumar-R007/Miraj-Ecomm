@@ -14,23 +14,8 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import { Product } from '../types';
+import { MongoService } from '../services/mongoService';
 import toast from 'react-hot-toast';
-
-// Sample products for search suggestions (same as Home page)
-const searchProducts: Product[] = [
-  { id: 's1', name: 'Aromatic Lavender Candle', title: 'Aromatic Lavender Candle', price: 25, description: 'Calming lavender scent', imageUrl: '/images/samples/lavender.jpg', category: 'Scented Candles', stock: 10, sales: 150 },
-  { id: 's2', name: 'Energizing Citrus Candle', title: 'Energizing Citrus Candle', price: 28, description: 'Uplifting citrus aroma', imageUrl: '/images/samples/citrus.jpg', category: 'Scented Candles', stock: 8, sales: 120 },
-  { id: 's3', name: 'Soothing Vanilla Candle', title: 'Soothing Vanilla Candle', price: 22, description: 'Warm and comforting vanilla', imageUrl: '/images/samples/vanilla.jpg', category: 'Scented Candles', stock: 12, sales: 200 },
-  { id: 's4', name: 'Eucalyptus Mint Soy Wax Candle', title: 'Eucalyptus Mint Soy Wax Candle', price: 30, description: 'Refreshing and clean scent', imageUrl: '/images/samples/eucalyptus.jpg', category: 'Soy Wax', stock: 15, sales: 180 },
-  { id: 's5', name: 'Rose Garden Soy Wax Candle', title: 'Rose Garden Soy Wax Candle', price: 32, description: 'Delicate floral fragrance', imageUrl: '/images/samples/rose.jpg', category: 'Soy Wax', stock: 10, sales: 160 },
-  { id: 's6', name: 'Sandalwood Bliss Soy Wax Candle', title: 'Sandalwood Bliss Soy Wax Candle', price: 35, description: 'Rich and woody aroma', imageUrl: '/images/samples/sandalwood.jpg', category: 'Soy Wax', stock: 7, sales: 220 },
-  { id: 's7', name: 'Birthday Wish Candle Set', title: 'Birthday Wish Candle Set', price: 50, description: 'Set of 3 celebratory candles', imageUrl: '/images/samples/gift-set-1.jpg', category: 'Gift Sets', stock: 20, sales: 90 },
-  { id: 's8', name: 'Relaxation Gift Box', title: 'Relaxation Gift Box', price: 65, description: 'Includes candle, diffuser, and bath bomb', imageUrl: '/images/samples/gift-set-2.jpg', category: 'Gift Sets', stock: 5, sales: 110 },
-  { id: 's9', name: 'Minimalist White Pillar Candle', title: 'Minimalist White Pillar Candle', price: 18, description: 'Elegant design for decor', imageUrl: '/images/samples/decor-1.jpg', category: 'Decor Candles', stock: 25, sales: 70 },
-  { id: 's10', name: 'Geometric Scented Candle', title: 'Geometric Scented Candle', price: 20, description: 'Modern and stylish decor', imageUrl: '/images/samples/decor-2.jpg', category: 'Decor Candles', stock: 18, sales: 85 },
-  { id: 's11', name: 'Citrus Burst Aromatherapy Candle', title: 'Citrus Burst Aromatherapy Candle', price: 33, description: 'Invigorating and mood-lifting', imageUrl: '/images/samples/aromatherapy-1.jpg', category: 'Aromatherapy', stock: 9, sales: 130 },
-  { id: 's12', name: 'Lavender Dream Aromatherapy Candle', title: 'Lavender Dream Aromatherapy Candle', price: 33, description: 'Promotes relaxation and sleep', imageUrl: '/images/samples/aromatherapy-2.jpg', category: 'Aromatherapy', stock: 11, sales: 140 },
-];
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +24,7 @@ const Navbar: React.FC = () => {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const { state } = useCart();
   const { state: wishlistState } = useWishlist();
   const { currentUser, logout } = useAuth();
@@ -46,10 +32,23 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Search functionality with live suggestions
+  // Load products from API on component mount
   useEffect(() => {
-    if (searchQuery.trim().length > 0) {
-      const filtered = searchProducts.filter(product =>
+    const loadProducts = async () => {
+      try {
+        const products = await MongoService.getProducts();
+        setAllProducts(products);
+      } catch (error) {
+        console.error('Error loading products for search:', error);
+      }
+    };
+    loadProducts();
+  }, []);
+
+  // Search functionality with live suggestions using real products
+  useEffect(() => {
+    if (searchQuery.trim().length > 0 && allProducts.length > 0) {
+      const filtered = allProducts.filter(product =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -60,7 +59,7 @@ const Navbar: React.FC = () => {
       setSearchResults([]);
       setShowSearchDropdown(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, allProducts]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
