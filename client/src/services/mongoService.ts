@@ -1,21 +1,72 @@
 
+import { sampleProducts } from '../lib/sampleData';
+
 const API_BASE_URL = (import.meta.env?.VITE_API_BASE_URL as string) || '/api';
 
 export class MongoService {
   // Products
   static async getProducts() {
-    const response = await fetch(`${API_BASE_URL}/products`);
-    return response.json();
+    try {
+      const response = await fetch(`${API_BASE_URL}/products`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.log('API not available, using sample data');
+        // Transform sample products to include missing fields
+        return sampleProducts.map((product, index) => ({
+          ...product,
+          id: (index + 1).toString(),
+          createdAt: new Date(),
+          status: 'featured'
+        }));
+      }
+      return response.json();
+    } catch (error) {
+      console.log('API error, falling back to sample data:', error);
+      // Transform sample products to include missing fields
+      return sampleProducts.map((product, index) => ({
+        ...product,
+        id: (index + 1).toString(),
+        createdAt: new Date(),
+        status: 'featured'
+      }));
+    }
   }
 
   static async getProductById(productId: string) {
-    const response = await fetch(`${API_BASE_URL}/products/${productId}`);
-    if (response.ok) {
-      return response.json();
-    } else if (response.status === 404) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/products/${productId}`);
+      if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          return response.json();
+        }
+      }
+      // Fallback to sample data
+      const sampleProduct = sampleProducts.find((p, index) => (index + 1).toString() === productId);
+      if (sampleProduct) {
+        return {
+          ...sampleProduct,
+          id: productId,
+          createdAt: new Date(),
+          status: 'featured'
+        };
+      }
       return null;
-    } else {
-      throw new Error('Failed to fetch product');
+    } catch (error) {
+      console.log('API error, searching sample data:', error);
+      const sampleProduct = sampleProducts.find((p, index) => (index + 1).toString() === productId);
+      if (sampleProduct) {
+        return {
+          ...sampleProduct,
+          id: productId,
+          createdAt: new Date(),
+          status: 'featured'
+        };
+      }
+      return null;
     }
   }
 
