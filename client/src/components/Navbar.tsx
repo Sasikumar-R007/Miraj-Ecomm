@@ -48,11 +48,35 @@ const Navbar: React.FC = () => {
   // Search functionality with live suggestions using real products
   useEffect(() => {
     if (searchQuery.trim().length > 0 && allProducts.length > 0) {
-      const filtered = allProducts.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 6); // Limit to 6 suggestions
+      const query = searchQuery.toLowerCase();
+      const filtered = allProducts.filter(product => {
+        // Safe property access to avoid errors
+        const name = (product.name || '').toLowerCase();
+        const category = (product.category || '').toLowerCase();
+        const description = (product.description || '').toLowerCase();
+        
+        return name.includes(query) || 
+               category.includes(query) || 
+               description.includes(query);
+      })
+      // Sort by relevance: exact matches first, then partial matches
+      .sort((a, b) => {
+        const aName = (a.name || '').toLowerCase();
+        const bName = (b.name || '').toLowerCase();
+        
+        // Exact name matches first
+        if (aName === query && bName !== query) return -1;
+        if (bName === query && aName !== query) return 1;
+        
+        // Then name starts with query
+        if (aName.startsWith(query) && !bName.startsWith(query)) return -1;
+        if (bName.startsWith(query) && !aName.startsWith(query)) return 1;
+        
+        // Finally, alphabetical order
+        return aName.localeCompare(bName);
+      })
+      .slice(0, 6); // Limit to 6 suggestions
+      
       setSearchResults(filtered);
       setShowSearchDropdown(filtered.length > 0);
     } else {
@@ -199,16 +223,16 @@ const Navbar: React.FC = () => {
                     >
                       <img
                         src={product.imageUrl || '/images/candles/candle-collection-1.png'}
-                        alt={product.name}
+                        alt={product.name || 'Product'}
                         className="w-12 h-12 object-cover rounded-lg mr-3"
                         onError={(e) => {
                           e.currentTarget.src = '/images/candles/candle-collection-1.png';
                         }}
                       />
                       <div className="flex-1">
-                        <h4 className="text-sm font-medium text-gray-900">{product.name}</h4>
-                        <p className="text-xs text-gray-500">{product.category}</p>
-                        <p className="text-sm font-semibold text-orange-600">₹{(product.price * 80).toFixed(0)}</p>
+                        <h4 className="text-sm font-medium text-gray-900">{product.name || 'Unknown Product'}</h4>
+                        <p className="text-xs text-gray-500">{product.category || 'Uncategorized'}</p>
+                        <p className="text-sm font-semibold text-orange-600">${product.price?.toFixed(2) || '0.00'}</p>
                       </div>
                     </div>
                   ))}

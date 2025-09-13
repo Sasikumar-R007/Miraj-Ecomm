@@ -71,6 +71,19 @@ const UserDashboard: React.FC = () => {
     }
   ]);
 
+  // Address management state
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+  const [addressForm, setAddressForm] = useState({
+    type: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: '',
+    isDefault: false
+  });
+
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -118,6 +131,12 @@ const UserDashboard: React.FC = () => {
       setProfile(parsedProfile);
       setPreviewImage(parsedProfile.profilePicture || '');
     }
+
+    // Load saved addresses
+    const savedAddresses = localStorage.getItem('userAddresses');
+    if (savedAddresses) {
+      setAddresses(JSON.parse(savedAddresses));
+    }
   }, []);
 
   const tabs = [
@@ -130,8 +149,101 @@ const UserDashboard: React.FC = () => {
   ];
 
   const handleProfileSave = () => {
+    // Validate required fields
+    if (!profile.firstName || !profile.lastName || !profile.email) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(profile.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
     localStorage.setItem('userProfile', JSON.stringify(profile));
     toast.success('Profile updated successfully!');
+  };
+
+  // Address management functions
+  const handleAddAddress = () => {
+    setEditingAddress(null);
+    setAddressForm({
+      type: '',
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      isDefault: false
+    });
+    setShowAddressModal(true);
+  };
+
+  const handleEditAddress = (address: Address) => {
+    setEditingAddress(address);
+    setAddressForm({
+      type: address.type,
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      zipCode: address.zipCode,
+      country: address.country,
+      isDefault: address.isDefault
+    });
+    setShowAddressModal(true);
+  };
+
+  const handleDeleteAddress = (addressId: string) => {
+    const updatedAddresses = addresses.filter(addr => addr.id !== addressId);
+    setAddresses(updatedAddresses);
+    localStorage.setItem('userAddresses', JSON.stringify(updatedAddresses));
+    toast.success('Address deleted successfully!');
+  };
+
+  const handleSetDefaultAddress = (addressId: string) => {
+    const updatedAddresses = addresses.map(addr => ({
+      ...addr,
+      isDefault: addr.id === addressId
+    }));
+    setAddresses(updatedAddresses);
+    localStorage.setItem('userAddresses', JSON.stringify(updatedAddresses));
+    toast.success('Default address updated!');
+  };
+
+  const handleSaveAddress = () => {
+    // Validate required fields
+    if (!addressForm.type || !addressForm.street || !addressForm.city || !addressForm.state || !addressForm.zipCode || !addressForm.country) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    if (editingAddress) {
+      // Update existing address
+      const updatedAddresses = addresses.map(addr => 
+        addr.id === editingAddress.id 
+          ? { ...addressForm, id: editingAddress.id, isDefault: editingAddress.isDefault }
+          : addr
+      );
+      setAddresses(updatedAddresses);
+      localStorage.setItem('userAddresses', JSON.stringify(updatedAddresses));
+      toast.success('Address updated successfully!');
+    } else {
+      // Add new address
+      const newAddress = {
+        ...addressForm,
+        id: Date.now().toString(),
+        isDefault: addresses.length === 0 // First address is default
+      };
+      const updatedAddresses = [...addresses, newAddress];
+      setAddresses(updatedAddresses);
+      localStorage.setItem('userAddresses', JSON.stringify(updatedAddresses));
+      toast.success('Address added successfully!');
+    }
+
+    setShowAddressModal(false);
+    setEditingAddress(null);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -459,7 +571,10 @@ const UserDashboard: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900">Saved Addresses</h3>
-              <button className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+              <button 
+                onClick={handleAddAddress}
+                className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+              >
                 Add New Address
               </button>
             </div>
@@ -481,8 +596,26 @@ const UserDashboard: React.FC = () => {
                       </p>
                     </div>
                     <div className="flex space-x-2">
-                      <button className="px-3 py-1 text-sm text-orange-600 hover:bg-orange-50 rounded">Edit</button>
-                      <button className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded">Delete</button>
+                      <button 
+                        onClick={() => handleEditAddress(address)}
+                        className="px-3 py-1 text-sm text-orange-600 hover:bg-orange-50 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteAddress(address.id)}
+                        className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded"
+                      >
+                        Delete
+                      </button>
+                      {!address.isDefault && (
+                        <button 
+                          onClick={() => handleSetDefaultAddress(address.id)}
+                          className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded"
+                        >
+                          Set Default
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
