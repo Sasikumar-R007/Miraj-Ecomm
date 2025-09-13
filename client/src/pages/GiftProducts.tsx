@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,63 +5,29 @@ import { ArrowLeftIcon, GiftIcon } from '@heroicons/react/24/outline';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import BagLoader from '../components/BagLoader';
+import { MongoService } from '../services/mongoService';
 
 const GiftProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Sample gift products
-  const giftProducts: Product[] = [
-    {
-      id: 'gift_1',
-      name: 'Luxury Gift Box Deluxe',
-      title: 'Luxury Gift Box Deluxe',
-      description: 'The ultimate gift experience with premium candles, elegant packaging, and personalized note.',
-      price: 125.00,
-      originalPrice: 150.00,
-      discount: 17,
-      imageUrl: '/images/candles/candle-collection-10.jpg',
-      category: 'Gift Sets',
-      stock: 12,
-      createdAt: new Date(),
-      features: ['Premium packaging', 'Personalized note', 'Multiple candles', 'Gift ready']
-    },
-    {
-      id: 'gift_2',
-      name: 'Anniversary Romance Set',
-      title: 'Anniversary Romance Set',
-      description: 'Perfect for celebrating love with romantic scents and elegant presentation.',
-      price: 89.99,
-      originalPrice: 109.99,
-      discount: 18,
-      imageUrl: '/images/candles/candle-collection-1.png',
-      category: 'Gift Sets',
-      stock: 8,
-      createdAt: new Date(),
-      features: ['Romantic scents', 'Couple themed', 'Anniversary card', 'Elegant box']
-    },
-    {
-      id: 'gift_3',
-      name: 'Birthday Celebration Bundle',
-      title: 'Birthday Celebration Bundle',
-      description: 'Make birthdays special with this festive candle collection and celebration accessories.',
-      price: 67.99,
-      originalPrice: 84.99,
-      discount: 20,
-      imageUrl: '/images/candles/candle-collection-2.png',
-      category: 'Gift Sets',
-      stock: 15,
-      createdAt: new Date(),
-      features: ['Birthday themed', 'Festive scents', 'Party accessories', 'Celebration ready']
-    }
-  ];
-
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => {
-      setProducts(giftProducts);
-      setIsLoading(false);
-    }, 500);
+    const loadProducts = async () => {
+      try {
+        setIsLoading(true);
+        const allProducts = await MongoService.getProducts();
+        // Filter for gift products by category
+        const gifts = allProducts?.filter(p => p.category === 'Gifts' || p.category === 'Gift Sets') || [];
+        setProducts(gifts);
+      } catch (error) {
+        console.error('Error loading gift products:', error);
+        setProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadProducts();
   }, []);
 
   if (isLoading) {
@@ -116,35 +81,30 @@ const GiftProducts: React.FC = () => {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Thoughtfully Curated
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Gift Collection</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Give the gift of ambiance and luxury with our specially designed gift collections
+              Beautiful gift sets perfect for birthdays, anniversaries, holidays, and special occasions
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              to="/products"
-              className="inline-flex items-center bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              View All Products
-            </Link>
-          </div>
+          {products.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">No gift products available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {products.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

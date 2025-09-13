@@ -9,7 +9,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import { LoadingProvider } from './context/LoadingContext';
 
 // Lib
-import { addSampleProducts } from './lib/sampleData';
+// import { addSampleProducts } from './lib/sampleData'; // Commented out since using MongoDB API
 
 // Components
 import Navbar from './components/Navbar';
@@ -51,10 +51,11 @@ import ProtectedRoute from './admin/ProtectedRoute';
 import './index.css';
 
 const App: React.FC = () => {
-  useEffect(() => {
-    // Initialize sample products when app loads
-    addSampleProducts();
-  }, []);
+  // Commented out sample data loading since we're now using MongoDB API
+  // useEffect(() => {
+  //   // Initialize sample products when app loads
+  //   addSampleProducts();
+  // }, []);
 
   return (
     <LoadingProvider>

@@ -1,5 +1,5 @@
 
-import connectDB from './lib/mongodb.js';
+import { connectDB } from './lib/mongodb.js';
 import Product from './models/Product.js';
 
 const sampleProducts = [

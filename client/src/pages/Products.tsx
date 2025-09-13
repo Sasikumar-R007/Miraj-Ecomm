@@ -2,15 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FunnelIcon, MagnifyingGlassIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
 import BagLoader from '../components/BagLoader';
-
-// Import sample products from data file
-import { sampleProducts as importedSampleProducts } from '../lib/sampleData';
+import { MongoService } from '../services/mongoService';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -107,16 +103,21 @@ const Products: React.FC = () => {
       setSearchTerm(search);
     }
 
-    // Map imported sample products to Product type with consistent IDs
-    const mappedProducts: Product[] = importedSampleProducts.map((product, index) => ({
-      ...product,
-      id: `s${index + 1}`, // Use consistent ID format matching ProductDetail
-      createdAt: new Date(),
-      sales: product.sales ?? Math.floor(Math.random() * 300) + 50 // Random sales number
-    }));
+    // Load products from API
+    const loadProducts = async () => {
+      try {
+        setIsLoading(true);
+        const apiProducts = await MongoService.getProducts();
+        setProducts(apiProducts || []);
+      } catch (error) {
+        console.error('Error loading products:', error);
+        setProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    setProducts(mappedProducts);
-    setIsLoading(false);
+    loadProducts();
   }, [searchParams]);
 
   const filteredAndSortedProducts = useMemo(() => {

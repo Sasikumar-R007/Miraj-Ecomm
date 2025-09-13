@@ -2,6 +2,7 @@ modules = ["nodejs-20", "web"]
 run = "npm run dev"
 [nix]
 channel = "stable-25_05"
+packages = ["mongodb"]
 
 [workflows]
 runButton = "Project"
@@ -112,6 +113,10 @@ author = "agent"
 task = "workflow.run"
 args = "Miraj Candles Client"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Miraj Candles Server"
+
 [[workflows.workflow]]
 name = "Miraj Candles Client"
 author = "agent"
@@ -124,9 +129,21 @@ task = "shell.exec"
 args = "cd client && npx vite --host 0.0.0.0 --port 5000"
 waitForPort = 5000
 
+[[workflows.workflow]]
+name = "Miraj Candles Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && npm run dev"
+waitForPort = 3000
+
+[workflows.workflow.metadata]
+outputType = "console"
+
 [[ports]]
 localPort = 3000
-externalPort = 3003
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
@@ -137,7 +154,7 @@ localPort = 5003
 externalPort = 3002
 
 [[ports]]
-localPort = 41321
+localPort = 37807
 externalPort = 3001
 
 [[ports]]
@@ -145,9 +162,9 @@ localPort = 44095
 externalPort = 3000
 
 [deployment]
-run = ["bash", "-c", "cd client && npx vite preview --host 0.0.0.0 --port $PORT"]
+run = ["bash", "-c", "npx serve -s client/dist -l 5000"]
 deploymentTarget = "autoscale"
-build = ["npm", "run", "build:client"]
+build = ["bash", "-c", "cd client && npm run build"]
 
 [agent]
 expertMode = true

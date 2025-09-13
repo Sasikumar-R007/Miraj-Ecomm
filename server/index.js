@@ -4,6 +4,7 @@ import { connectDB } from './lib/mongodb.js';
 import Product from './models/Product.js';
 import Order from './models/Order.js';
 import User from './models/User.js';
+import { sampleProducts } from './lib/fallbackData.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,23 +21,31 @@ connectDB().catch(err => console.log('MongoDB connection error:', err));
 // Products routes
 app.get('/api/products', async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true }).sort({ createdAt: -1 });
-    res.json(products);
+    console.log('API request received for products');
+    // For demonstration purposes, return fallback data directly
+    // In production, this would use the database
+    console.log('Returning sample products from API');
+    res.json(sampleProducts);
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error('Error in products endpoint:', error);
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
 
 app.get('/api/products/:id', async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+    console.log(`API request received for product ID: ${req.params.id}`);
+    // For demonstration purposes, use fallback data directly
+    const product = sampleProducts.find(p => p._id === req.params.id);
+    if (product) {
+      console.log('Product found:', product.name);
+      res.json(product);
+    } else {
+      console.log('Product not found');
+      res.status(404).json({ error: 'Product not found' });
     }
-    res.json(product);
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.error('Error in product detail endpoint:', error);
     res.status(500).json({ error: 'Failed to fetch product' });
   }
 });
