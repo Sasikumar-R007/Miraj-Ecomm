@@ -23,7 +23,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [imageError, setImageError] = useState(false);
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const { addToWishlist, isInWishlist } = useWishlist();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   const sampleImages = [
     '/images/candles/candle-collection-1.png',
@@ -50,7 +50,12 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const toggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addToWishlist(product);
+    
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   const handleProductClick = () => {

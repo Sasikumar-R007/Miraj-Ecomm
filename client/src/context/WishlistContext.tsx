@@ -57,8 +57,7 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
   const addToWishlist = (product: Product) => {
     const isAlreadyInWishlist = state.items.some(item => item.id === product.id);
     if (isAlreadyInWishlist) {
-      toast.error('Already in wishlist!');
-      return;
+      return; // Don't show error, let the toggle handle it
     }
     dispatch({ type: 'ADD_TO_WISHLIST', payload: product });
     toast.success('Added to wishlist!');

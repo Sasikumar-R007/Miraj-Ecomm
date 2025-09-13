@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -13,11 +13,30 @@ import {
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
+import { Product } from '../types';
 import toast from 'react-hot-toast';
+
+// Sample products for search suggestions (same as Home page)
+const searchProducts: Product[] = [
+  { id: 's1', name: 'Aromatic Lavender Candle', title: 'Aromatic Lavender Candle', price: 25, description: 'Calming lavender scent', imageUrl: '/images/samples/lavender.jpg', category: 'Scented Candles', stock: 10, sales: 150 },
+  { id: 's2', name: 'Energizing Citrus Candle', title: 'Energizing Citrus Candle', price: 28, description: 'Uplifting citrus aroma', imageUrl: '/images/samples/citrus.jpg', category: 'Scented Candles', stock: 8, sales: 120 },
+  { id: 's3', name: 'Soothing Vanilla Candle', title: 'Soothing Vanilla Candle', price: 22, description: 'Warm and comforting vanilla', imageUrl: '/images/samples/vanilla.jpg', category: 'Scented Candles', stock: 12, sales: 200 },
+  { id: 's4', name: 'Eucalyptus Mint Soy Wax Candle', title: 'Eucalyptus Mint Soy Wax Candle', price: 30, description: 'Refreshing and clean scent', imageUrl: '/images/samples/eucalyptus.jpg', category: 'Soy Wax', stock: 15, sales: 180 },
+  { id: 's5', name: 'Rose Garden Soy Wax Candle', title: 'Rose Garden Soy Wax Candle', price: 32, description: 'Delicate floral fragrance', imageUrl: '/images/samples/rose.jpg', category: 'Soy Wax', stock: 10, sales: 160 },
+  { id: 's6', name: 'Sandalwood Bliss Soy Wax Candle', title: 'Sandalwood Bliss Soy Wax Candle', price: 35, description: 'Rich and woody aroma', imageUrl: '/images/samples/sandalwood.jpg', category: 'Soy Wax', stock: 7, sales: 220 },
+  { id: 's7', name: 'Birthday Wish Candle Set', title: 'Birthday Wish Candle Set', price: 50, description: 'Set of 3 celebratory candles', imageUrl: '/images/samples/gift-set-1.jpg', category: 'Gift Sets', stock: 20, sales: 90 },
+  { id: 's8', name: 'Relaxation Gift Box', title: 'Relaxation Gift Box', price: 65, description: 'Includes candle, diffuser, and bath bomb', imageUrl: '/images/samples/gift-set-2.jpg', category: 'Gift Sets', stock: 5, sales: 110 },
+  { id: 's9', name: 'Minimalist White Pillar Candle', title: 'Minimalist White Pillar Candle', price: 18, description: 'Elegant design for decor', imageUrl: '/images/samples/decor-1.jpg', category: 'Decor Candles', stock: 25, sales: 70 },
+  { id: 's10', name: 'Geometric Scented Candle', title: 'Geometric Scented Candle', price: 20, description: 'Modern and stylish decor', imageUrl: '/images/samples/decor-2.jpg', category: 'Decor Candles', stock: 18, sales: 85 },
+  { id: 's11', name: 'Citrus Burst Aromatherapy Candle', title: 'Citrus Burst Aromatherapy Candle', price: 33, description: 'Invigorating and mood-lifting', imageUrl: '/images/samples/aromatherapy-1.jpg', category: 'Aromatherapy', stock: 9, sales: 130 },
+  { id: 's12', name: 'Lavender Dream Aromatherapy Candle', title: 'Lavender Dream Aromatherapy Candle', price: 33, description: 'Promotes relaxation and sleep', imageUrl: '/images/samples/aromatherapy-2.jpg', category: 'Aromatherapy', stock: 11, sales: 140 },
+];
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const { state } = useCart();
@@ -25,12 +44,36 @@ const Navbar: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const searchRef = useRef<HTMLDivElement>(null);
 
-  // Close profile dropdown when clicking outside
-  React.useEffect(() => {
+  // Search functionality with live suggestions
+  useEffect(() => {
+    if (searchQuery.trim().length > 0) {
+      const filtered = searchProducts.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 6); // Limit to 6 suggestions
+      setSearchResults(filtered);
+      setShowSearchDropdown(filtered.length > 0);
+    } else {
+      setSearchResults([]);
+      setShowSearchDropdown(false);
+    }
+  }, [searchQuery]);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      
+      // Close search dropdown
+      if (searchRef.current && !searchRef.current.contains(target)) {
+        setShowSearchDropdown(false);
+      }
+      
+      // Close profile dropdown
       if (showProfileDropdown) {
-        const target = event.target as Element;
         const profileButton = document.querySelector('[data-profile-button]');
         const profileDropdown = document.querySelector('[data-profile-dropdown]');
         
@@ -61,7 +104,14 @@ const Navbar: React.FC = () => {
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
+      setShowSearchDropdown(false);
     }
+  };
+
+  const handleProductClick = (productId: string) => {
+    navigate(`/products/${productId}`);
+    setSearchQuery('');
+    setShowSearchDropdown(false);
   };
 
   const navigation = [
@@ -123,7 +173,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-lg mx-8">
+          <div className="hidden md:flex flex-1 max-w-lg mx-8" ref={searchRef}>
             <form onSubmit={handleSearch} className="relative w-full">
               <input
                 type="text"
@@ -138,6 +188,33 @@ const Navbar: React.FC = () => {
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
               </button>
+              
+              {/* Search Dropdown */}
+              {showSearchDropdown && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg max-h-96 overflow-y-auto z-50">
+                  {searchResults.map((product) => (
+                    <div
+                      key={product.id}
+                      onClick={() => handleProductClick(product.id)}
+                      className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                    >
+                      <img
+                        src={product.imageUrl || '/images/candles/candle-collection-1.png'}
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded-lg mr-3"
+                        onError={(e) => {
+                          e.currentTarget.src = '/images/candles/candle-collection-1.png';
+                        }}
+                      />
+                      <div className="flex-1">
+                        <h4 className="text-sm font-medium text-gray-900">{product.name}</h4>
+                        <p className="text-xs text-gray-500">{product.category}</p>
+                        <p className="text-sm font-semibold text-orange-600">₹{(product.price * 80).toFixed(0)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </form>
           </div>
 

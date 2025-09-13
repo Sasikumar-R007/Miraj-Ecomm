@@ -234,7 +234,7 @@ const Home: React.FC = () => {
     <div className="min-h-screen">
 
       {/* Auto-Sliding Hero Banner Section */}
-      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 py-10 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <AnimatePresence mode="wait">
             <motion.div
