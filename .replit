@@ -110,19 +110,19 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Miraj Candles Dev Server"
+args = "Miraj Candles Client"
 
 [[workflows.workflow]]
-name = "Miraj Candles Dev Server"
+name = "Miraj Candles Client"
 author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-waitForPort = 5000
 
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client && npx vite --host 0.0.0.0 --port 5000"
+waitForPort = 5000
 
 [[ports]]
 localPort = 3000
@@ -133,16 +133,12 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 5001
-externalPort = 3000
-
-[[ports]]
-localPort = 5002
-externalPort = 3001
-
-[[ports]]
 localPort = 5003
 externalPort = 3002
+
+[[ports]]
+localPort = 42751
+externalPort = 3000
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
