@@ -172,8 +172,8 @@ const Home: React.FC = () => {
 
   const categories = [
     {
-      name: 'Kids Stationaries',
-      displayName: 'Kids Stationaries', // Added displayName for correct URL
+      name: 'Kids Stationery',
+      displayName: 'Kids Stationery', // Fixed spelling to match product category
       image: '/images/candles/candle-collection-6.jpg',
       categoryImage: '/images/categories/kids-stationery.jpg',
       color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
