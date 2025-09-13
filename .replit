@@ -146,3 +146,6 @@ externalPort = 3002
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
+
+[agent]
+expertMode = true
