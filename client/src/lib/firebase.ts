@@ -24,7 +24,7 @@ export const mockAuth = {
 };
 
 // Mock Firestore functions
-export const collection = (name: string) => ({ name, _collection: true });
+export const collection = (db: any, name: string) => ({ name, _collection: true });
 
 export const getDocs = async (query: any) => {
   return {

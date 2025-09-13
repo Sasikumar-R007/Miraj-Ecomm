@@ -17,7 +17,7 @@ const NewArrivals: React.FC = () => {
         setIsLoading(true);
         const allProducts = await MongoService.getProducts();
         // Filter for new arrivals or products marked as new
-        const newArrivals = allProducts?.filter(p => p.status === 'new') || [];
+        const newArrivals = allProducts?.filter((p: Product) => p.status === 'new') || [];
         setProducts(newArrivals);
       } catch (error) {
         console.error('Error loading new arrivals:', error);

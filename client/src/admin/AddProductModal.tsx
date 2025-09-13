@@ -6,6 +6,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import toast from 'react-hot-toast';
 import BagLoader from '../components/BagLoader';
+import { Product } from '../types';
 
 interface AddProductModalProps {
   isOpen: boolean;

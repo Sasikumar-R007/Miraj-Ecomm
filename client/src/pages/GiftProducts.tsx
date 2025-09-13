@@ -17,7 +17,7 @@ const GiftProducts: React.FC = () => {
         setIsLoading(true);
         const allProducts = await MongoService.getProducts();
         // Filter for gift products by category
-        const gifts = allProducts?.filter(p => p.category === 'Gifts' || p.category === 'Gift Sets') || [];
+        const gifts = allProducts?.filter((p: Product) => p.category === 'Gifts' || p.category === 'Gift Sets') || [];
         setProducts(gifts);
       } catch (error) {
         console.error('Error loading gift products:', error);

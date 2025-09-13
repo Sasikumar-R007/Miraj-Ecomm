@@ -17,7 +17,7 @@ const BestSellers: React.FC = () => {
         setIsLoading(true);
         const allProducts = await MongoService.getProducts();
         // Filter for best selling products or products marked as bestseller
-        const bestSellers = allProducts?.filter(p => p.status === 'bestseller') || [];
+        const bestSellers = allProducts?.filter((p: Product) => p.status === 'bestseller') || [];
         setProducts(bestSellers);
       } catch (error) {
         console.error('Error loading best sellers:', error);

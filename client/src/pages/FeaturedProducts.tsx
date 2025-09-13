@@ -17,7 +17,7 @@ const FeaturedProducts: React.FC = () => {
         setIsLoading(true);
         const allProducts = await MongoService.getProducts();
         // Filter for featured products or products marked as featured
-        const featured = allProducts?.filter(p => p.status === 'featured') || [];
+        const featured = allProducts?.filter((p: Product) => p.status === 'featured') || [];
         setProducts(featured);
       } catch (error) {
         console.error('Error loading featured products:', error);
