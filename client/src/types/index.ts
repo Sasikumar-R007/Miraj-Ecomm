@@ -11,6 +11,7 @@ export interface Product {
   stock: number;
   sales?: number;
   features?: string[];
+  status?: 'featured' | 'bestseller' | 'new' | 'sale' | 'trending';
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -47,6 +48,7 @@ export interface User {
   firstName: string;
   email: string;
   role: 'user' | 'admin';
+  profilePicture?: string;
 }
 
 export interface StoreSettings {

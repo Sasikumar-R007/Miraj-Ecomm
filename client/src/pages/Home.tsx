@@ -232,7 +232,7 @@ const Home: React.FC = () => {
     <div className="min-h-screen">
 
       {/* Auto-Sliding Hero Banner Section */}
-      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 h-96 relative overflow-hidden flex items-center">
+      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 h-[600px] relative overflow-hidden flex items-center pt-16 md:pt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <AnimatePresence mode="wait">
             <motion.div
@@ -311,8 +311,8 @@ const Home: React.FC = () => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Controls */}
-          <div className="absolute top-1/2 -left-6 transform -translate-y-1/2 z-10">
+          {/* Navigation Controls - Hidden on Mobile */}
+          <div className="hidden md:block absolute top-1/2 -left-6 transform -translate-y-1/2 z-10">
             <button
               onClick={prevSlide}
               className="bg-white/90 hover:bg-white text-gray-700 p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-gray-200"
@@ -320,7 +320,7 @@ const Home: React.FC = () => {
               <ChevronLeftIcon className="w-6 h-6" />
             </button>
           </div>
-          <div className="absolute top-1/2 -right-6 transform -translate-y-1/2 z-10">
+          <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10">
             <button
               onClick={nextSlide}
               className="bg-white/90 hover:bg-white text-gray-700 p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-gray-200"

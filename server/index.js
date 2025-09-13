@@ -1,10 +1,16 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { connectDB } from './lib/mongodb.js';
 import Product from './models/Product.js';
 import Order from './models/Order.js';
 import User from './models/User.js';
 import { sampleProducts } from './lib/fallbackData.js';
+
+// ES modules require this for __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +21,10 @@ app.use(express.json());
 
 // Connect to MongoDB
 connectDB().catch(err => console.log('MongoDB connection error:', err));
+
+// Serve static files from the React app build directory
+const clientPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientPath));
 
 // API Routes
 
@@ -167,13 +177,14 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({ message: 'Miraj Candles API Server' });
+// Catch-all route: serve React app for client-side routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
 });
 
 // Start server
-app.listen(PORT, 'localhost', () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
   console.log('Connected to MongoDB');
+  console.log(`Serving React app from: ${clientPath}`);
 });
