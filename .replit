@@ -157,10 +157,6 @@ externalPort = 3002
 localPort = 44095
 externalPort = 3000
 
-[[ports]]
-localPort = 44913
-externalPort = 3001
-
 [deployment]
 run = ["bash", "-c", "npx serve -s client/dist -l 5000"]
 deploymentTarget = "autoscale"
