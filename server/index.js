@@ -23,9 +23,13 @@ app.get('/api/products', async (req, res) => {
   try {
     console.log('API request received for products');
     // For demonstration purposes, return fallback data directly
-    // In production, this would use the database
+    // Transform _id to id for frontend compatibility
+    const productsWithId = sampleProducts.map(product => ({
+      ...product,
+      id: product._id
+    }));
     console.log('Returning sample products from API');
-    res.json(sampleProducts);
+    res.json(productsWithId);
   } catch (error) {
     console.error('Error in products endpoint:', error);
     res.status(500).json({ error: 'Failed to fetch products' });
@@ -39,7 +43,12 @@ app.get('/api/products/:id', async (req, res) => {
     const product = sampleProducts.find(p => p._id === req.params.id);
     if (product) {
       console.log('Product found:', product.name);
-      res.json(product);
+      // Transform _id to id for frontend compatibility
+      const productWithId = {
+        ...product,
+        id: product._id
+      };
+      res.json(productWithId);
     } else {
       console.log('Product not found');
       res.status(404).json({ error: 'Product not found' });
