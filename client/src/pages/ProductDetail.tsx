@@ -158,10 +158,10 @@ const ProductDetail: React.FC = () => {
 
     setLoading(true);
 
-    // Create products with proper IDs from sample data
+    // Create products with proper IDs from sample data (consistent with Home page format)
     const productsWithIds = sampleProducts.map((product, index) => ({
       ...product,
-      id: `sample_${index + 1}`,
+      id: `s${index + 1}`,
       createdAt: new Date()
     }));
 
