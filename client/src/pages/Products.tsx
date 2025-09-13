@@ -109,10 +109,9 @@ const Products: React.FC = () => {
 
     // Map imported sample products to Product type
     const mappedProducts: Product[] = importedSampleProducts.map((product, index) => ({
-      id: `product_${index + 1}`,
       ...product,
       createdAt: new Date(),
-      sales: Math.floor(Math.random() * 300) + 50 // Random sales number
+      sales: product.sales ?? Math.floor(Math.random() * 300) + 50 // Random sales number
     }));
 
     setProducts(mappedProducts);

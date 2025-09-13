@@ -242,9 +242,9 @@ const Home: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center"
             >
-              <div className="space-y-8">
+              <div className="space-y-4">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -258,7 +258,7 @@ const Home: React.FC = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-5xl lg:text-7xl font-bold text-gray-900 leading-tight"
+                  className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
                 >
                   {heroSlides[currentSlide].title}
                   <br />
@@ -271,7 +271,7 @@ const Home: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="text-xl text-gray-600 leading-relaxed"
+                  className="text-lg text-gray-600 leading-relaxed"
                 >
                   {heroSlides[currentSlide].description}
                 </motion.p>
@@ -283,7 +283,7 @@ const Home: React.FC = () => {
                 >
                   <Link
                     to={heroSlides[currentSlide].link}
-                    className="inline-flex items-center bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-10 py-5 rounded-2xl font-medium text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+                    className="inline-flex items-center bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-medium text-base transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
                   >
                     {heroSlides[currentSlide].buttonText}
                     <motion.div
