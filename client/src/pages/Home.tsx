@@ -233,7 +233,7 @@ const Home: React.FC = () => {
     <div className="min-h-screen">
 
       {/* Auto-Sliding Hero Banner Section */}
-      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 py-10 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 h-96 relative overflow-hidden flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <AnimatePresence mode="wait">
             <motion.div
@@ -300,13 +300,13 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="relative"
+                className="relative h-64"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-200 to-pink-200 rounded-full opacity-30 blur-3xl"></div>
                 <img
                   src={heroSlides[currentSlide].image}
                   alt="Miraj Candles Collection"
-                  className="w-full h-auto object-contain relative z-10 drop-shadow-2xl"
+                  className="w-full h-full object-cover relative z-10 drop-shadow-2xl rounded-2xl"
                 />
               </motion.div>
             </motion.div>

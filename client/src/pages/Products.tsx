@@ -107,9 +107,10 @@ const Products: React.FC = () => {
       setSearchTerm(search);
     }
 
-    // Map imported sample products to Product type
+    // Map imported sample products to Product type with consistent IDs
     const mappedProducts: Product[] = importedSampleProducts.map((product, index) => ({
       ...product,
+      id: `s${index + 1}`, // Use consistent ID format matching ProductDetail
       createdAt: new Date(),
       sales: product.sales ?? Math.floor(Math.random() * 300) + 50 // Random sales number
     }));
@@ -172,7 +173,7 @@ const Products: React.FC = () => {
         break;
       case 'newest':
       default:
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        filtered.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
         break;
     }
 

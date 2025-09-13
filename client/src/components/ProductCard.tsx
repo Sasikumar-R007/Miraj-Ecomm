@@ -5,6 +5,7 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { Product } from '../types';
 import toast from 'react-hot-toast';
 
 interface ProductCardProps {
