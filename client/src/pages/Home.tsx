@@ -139,17 +139,16 @@ const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Create products with proper IDs
-    const productsWithIds = sampleProducts.map((product, index) => ({
+    // Use products with their original IDs to match ProductDetail expectations
+    const productsWithMeta = sampleProducts.map(product => ({
       ...product,
-      id: `sample_${index + 1}`,
       createdAt: new Date(),
-      sales: Math.floor(Math.random() * 300) + 50
+      sales: product.sales ?? Math.floor(Math.random() * 300) + 50
     }));
 
     // Use sample data immediately for faster loading
-    setFeaturedProducts(productsWithIds.slice(0, 4));
-    setBestSellers(productsWithIds.slice(4, 8));
+    setFeaturedProducts(productsWithMeta.slice(0, 4));
+    setBestSellers(productsWithMeta.slice(4, 8));
     setIsLoadingFeatured(false);
     setIsLoadingBestSellers(false);
   }, []);
