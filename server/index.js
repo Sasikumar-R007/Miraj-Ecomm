@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import connectDB from './lib/mongodb.js';
+import { connectDB } from './lib/mongodb.js';
 import Product from './models/Product.js';
 import Order from './models/Order.js';
 import User from './models/User.js';
