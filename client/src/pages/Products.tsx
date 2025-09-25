@@ -44,41 +44,6 @@ const Products: React.FC = () => {
       description: 'Special gifts for every occasion',
       icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg>,
       count: 0
-    },
-    {
-      name: 'Accessories',
-      color: 'bg-gradient-to-br from-teal-400 to-teal-600',
-      description: 'Stylish accessories for every lifestyle',
-      icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>,
-      count: 0
-    },
-    {
-      name: 'Beauty Products',
-      color: 'bg-gradient-to-br from-rose-400 to-rose-600',
-      description: 'Premium beauty and skincare essentials',
-      icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
-      count: 0
-    },
-    {
-      name: 'Pet Supplies',
-      color: 'bg-gradient-to-br from-emerald-400 to-emerald-600',
-      description: 'Everything your pets need and love',
-      icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M4.5 12.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5S6.83 11 6 11s-1.5.67-1.5 1.5zM9 16c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5S9 15.17 9 16zm3-8c0 .83.67 1.5 1.5 1.5S15 8.83 15 8s-.67-1.5-1.5-1.5S12 7.17 12 8zm4.5 4.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zM12 22c3.86-5.86 7-9.43 7-13.5C19 4.46 15.54 1 12 1S5 4.46 5 8.5c0 4.07 3.14 7.64 7 13.5z"/></svg>,
-      count: 0
-    },
-    {
-      name: 'Home Decor',
-      color: 'bg-gradient-to-br from-amber-400 to-amber-600',
-      description: 'Transform your space with style',
-      icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>,
-      count: 0
-    },
-    {
-      name: 'Customized Gifts',
-      color: 'bg-gradient-to-br from-violet-400 to-violet-600',
-      description: 'Personalized gifts for special moments',
-      icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l.09 1.26L12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0 2C7.58 4 4 7.58 4 12s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8m0 2c3.31 0 6 2.69 6 6 0 1.66-.67 3.16-1.76 4.24l-1.42-1.42C15.59 14.05 16 13.07 16 12c0-2.21-1.79-4-4-4v4l-3-3 3-3z"/></svg>,
-      count: 0
     }
   ];
 

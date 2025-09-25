@@ -200,7 +200,7 @@ const Navbar: React.FC = () => {
             <form onSubmit={handleSearch} className="relative w-full">
               <input
                 type="text"
-                placeholder="Search for candles..."
+                placeholder="search for products"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-4 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50 hover:bg-white transition-colors duration-200"
@@ -412,7 +412,7 @@ const Navbar: React.FC = () => {
           <form onSubmit={handleSearch} className="relative">
             <input
               type="text"
-              placeholder="Search for candles..."
+              placeholder="search for products"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-4 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50"

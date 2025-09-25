@@ -172,24 +172,6 @@ const Home: React.FC = () => {
 
   const categories = [
     {
-      name: 'Kids Stationery',
-      displayName: 'Kids Stationery', // Fixed spelling to match product category
-      image: '/images/candles/candle-collection-6.jpg',
-      categoryImage: '/images/categories/kids-stationery.jpg',
-      color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
-      description: 'Fun and colorful stationery for kids',
-      hasSubcategories: false
-    },
-    {
-      name: 'Religious Products',
-      displayName: 'Religious Products', // Added displayName for correct URL
-      image: '/images/candles/candle-collection-7.jpg',
-      categoryImage: '/images/categories/religious-products.jpg',
-      color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600',
-      description: 'Sacred items for spiritual practices',
-      hasSubcategories: false
-    },
-    {
       name: 'Candles',
       displayName: 'Candles',
       image: '/images/candles/candle-collection-8.jpg',
@@ -203,6 +185,24 @@ const Home: React.FC = () => {
         { name: 'Decor Candles', description: 'Beautiful designs for home styling' },
         { name: 'Aromatherapy', description: 'Therapeutic scents for wellness' }
       ]
+    },
+    {
+      name: 'Religious Products',
+      displayName: 'Religious Products',
+      image: '/images/candles/candle-collection-7.jpg',
+      categoryImage: '/images/categories/religious-products.jpg',
+      color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600',
+      description: 'Sacred items for spiritual practices',
+      hasSubcategories: false
+    },
+    {
+      name: 'Kids Stationery',
+      displayName: 'Kids Stationery',
+      image: '/images/candles/candle-collection-6.jpg',
+      categoryImage: '/images/categories/kids-stationery.jpg',
+      color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-purple-600',
+      description: 'Fun and colorful stationery for kids',
+      hasSubcategories: false
     },
     {
       name: 'Gifts',
@@ -231,286 +231,176 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
 
-      {/* Auto-Sliding Hero Banner Section */}
-      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 h-[600px] relative overflow-hidden flex items-center pt-16 md:pt-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      {/* Modern Hero Banner Section */}
+      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 py-16 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="text-center"
             >
-              <div className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="inline-block bg-gradient-to-r from-orange-100 to-pink-100 text-orange-700 px-4 py-2 rounded-full text-sm font-semibold"
-                >
-                  {heroSlides[currentSlide].badge}
-                </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="inline-block bg-gradient-to-r from-orange-100 to-pink-100 text-orange-700 px-6 py-2 rounded-full text-sm font-semibold mb-6"
+              >
+                {heroSlides[currentSlide].badge}
+              </motion.div>
 
-                <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
-                >
-                  {heroSlides[currentSlide].title}
-                  <br />
-                  <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-                    {heroSlides[currentSlide].subtitle}
-                  </span>
-                </motion.h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-4"
+              >
+                {heroSlides[currentSlide].title}
+                <br />
+                <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                  {heroSlides[currentSlide].subtitle}
+                </span>
+              </motion.h1>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="text-lg text-gray-600 leading-relaxed"
-                >
-                  {heroSlides[currentSlide].description}
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <Link
-                    to={heroSlides[currentSlide].link}
-                    className="inline-flex items-center bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-medium text-base transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
-                  >
-                    {heroSlides[currentSlide].buttonText}
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRightIcon className="w-6 h-6 ml-3" />
-                    </motion.div>
-                  </Link>
-                </motion.div>
-              </div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl mx-auto"
+              >
+                {heroSlides[currentSlide].description}
+              </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-                className="relative h-64"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mb-12"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-200 to-pink-200 rounded-full opacity-30 blur-3xl"></div>
-                <img
-                  src={heroSlides[currentSlide].image}
-                  alt="Miraj Candles Collection"
-                  className="w-full h-full object-cover relative z-10 drop-shadow-2xl rounded-2xl"
-                />
+                <Link
+                  to={heroSlides[currentSlide].link}
+                  className="inline-flex items-center bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-medium text-base transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+                >
+                  {heroSlides[currentSlide].buttonText}
+                  <ArrowRightIcon className="w-5 h-5 ml-2" />
+                </Link>
               </motion.div>
+
+              {/* Modern Product Grid */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto"
+              >
+                {heroSlides.map((slide, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    className={`relative rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 ${currentSlide === index ? 'ring-4 ring-orange-500' : ''}`}
+                    onClick={() => setCurrentSlide(index)}
+                  >
+                    <div className="aspect-square">
+                      <img
+                        src={slide.image}
+                        alt={slide.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                      <div className="absolute bottom-2 left-2 right-2">
+                        <p className="text-white text-sm font-medium truncate">{slide.badge}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Square Indicators */}
+              <div className="flex justify-center mt-8 space-x-2">
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-3 h-3 transition-all duration-300 ${
+                      currentSlide === index
+                        ? 'bg-gradient-to-r from-orange-500 to-pink-500 rounded-sm'
+                        : 'bg-gray-300 hover:bg-gray-400 rounded-sm'
+                    }`}
+                  />
+                ))}
+              </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Navigation Controls - Hidden on Mobile */}
-          <div className="hidden md:block absolute top-1/2 -left-6 transform -translate-y-1/2 z-10">
-            <button
-              onClick={prevSlide}
-              className="bg-white/90 hover:bg-white text-gray-700 p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-gray-200"
-            >
-              <ChevronLeftIcon className="w-6 h-6" />
-            </button>
-          </div>
-          <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10">
-            <button
-              onClick={nextSlide}
-              className="bg-white/90 hover:bg-white text-gray-700 p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-gray-200"
-            >
-              <ChevronRightIcon className="w-6 h-6" />
-            </button>
-          </div>
-
-          {/* Slide Indicators */}
-          <div className="flex justify-center mt-12 space-x-3">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index
-                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 w-8'
-                    : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-              />
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Modern Categories Section */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Our Categories
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Categories</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Shop by category</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category, index) => (
               <motion.div
                 key={category.name}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.15,
-                  type: "spring",
-                  stiffness: 100
-                }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{
-                  y: -20,
-                  scale: 1.05,
-                  transition: { duration: 0.3 }
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="relative overflow-hidden rounded-3xl shadow-xl group cursor-pointer transform"
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="group cursor-pointer"
               >
                 {category.hasSubcategories ? (
-                  <div onClick={() => navigate('/candles-subcategories')}>
-                    <div className="relative h-80 bg-white">
-                      {/* Gradient Background */}
-                      <div className={`absolute inset-0 ${category.color} opacity-90`}></div>
-
-                      {/* Category Image */}
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2">
-                        <motion.div
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg border-4 border-white/30"
-                        >
+                  <div onClick={() => navigate('/candles-subcategories')} className="text-center">
+                    <div className="relative mb-4 mx-auto w-32 h-32 lg:w-40 lg:h-40">
+                      <div className={`w-full h-full rounded-3xl ${category.color} p-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                        <div className="w-full h-full bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
                           <img
                             src={category.categoryImage}
                             alt={category.name}
-                            className="w-full h-full object-cover"
+                            className="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-xl shadow-md"
                           />
-                        </motion.div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pt-24">
-                        <motion.h3
-                          className="text-white text-2xl font-bold mb-3"
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          {category.displayName}
-                        </motion.h3>
-                        <p className="text-white/90 text-sm mb-4 leading-relaxed">
-                          {category.description}
-                        </p>
-                        <motion.div
-                          className="text-xs text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/30"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileHover={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.2 }}
-                        >
-                          Has Subcategories
-                        </motion.div>
-                      </div>
-
-                      {/* Arrow */}
-                      <motion.div
-                        className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100"
-                        initial={{ x: 10, opacity: 0 }}
-                        whileHover={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                          <ArrowRightIcon className="w-5 h-5 text-white" />
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
+                      {category.displayName}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{category.description}</p>
                   </div>
                 ) : (
-                  <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`}>
-                    <div className="relative h-80 bg-white">
-                      {/* Gradient Background */}
-                      <div className={`absolute inset-0 ${category.color} opacity-90`}></div>
-
-                      {/* Category Image */}
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2">
-                        <motion.div
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg border-4 border-white/30"
-                        >
+                  <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`} className="text-center block">
+                    <div className="relative mb-4 mx-auto w-32 h-32 lg:w-40 lg:h-40">
+                      <div className={`w-full h-full rounded-3xl ${category.color} p-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                        <div className="w-full h-full bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
                           <img
                             src={category.categoryImage}
                             alt={category.name}
-                            className="w-full h-full object-cover"
+                            className="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-xl shadow-md"
                           />
-                        </motion.div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pt-24">
-                        <motion.h3
-                          className="text-white text-2xl font-bold mb-3"
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          {category.displayName}
-                        </motion.h3>
-                        <p className="text-white/90 text-sm leading-relaxed">
-                          {category.description}
-                        </p>
-                      </div>
-
-                      {/* Arrow */}
-                      <motion.div
-                        className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100"
-                        initial={{ x: 10, opacity: 0 }}
-                        whileHover={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                          <ArrowRightIcon className="w-5 h-5 text-white" />
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
+                      {category.displayName}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{category.description}</p>
                   </Link>
                 )}
               </motion.div>
             ))}
-          </div>
-
-          <div className="text-center">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                to="/categories"
-                className="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-              >
-                <motion.span
-                  initial={{ x: -5 }}
-                  animate={{ x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  All Categories
-                </motion.span>
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRightIcon className="w-5 h-5 ml-2" />
-                </motion.div>
-              </Link>
-            </motion.div>
           </div>
         </div>
       </section>
