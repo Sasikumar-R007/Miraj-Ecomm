@@ -7,12 +7,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5001,
-    allowedHosts: [
-      '.replit.dev',
-      '.repl.co',
-      '.pike.replit.dev',
-      'localhost'
-    ]
+    allowedHosts: true
   },
   build: {
     outDir: 'dist'
