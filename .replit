@@ -162,8 +162,8 @@ localPort = 44095
 externalPort = 3000
 
 [deployment]
-run = ["bash", "-c", "cd server && npm start & cd ../client && npx vite preview --host 0.0.0.0 --port 5000"]
-deploymentTarget = "vm"
+run = ["npm", "start"]
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build:client"]
 
 [agent]
