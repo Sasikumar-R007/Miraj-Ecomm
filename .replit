@@ -146,7 +146,15 @@ localPort = 3000
 externalPort = 3000
 
 [[ports]]
-localPort = 37321
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
+
+[[ports]]
+localPort = 36179
 externalPort = 3002
 
 [[ports]]
@@ -164,14 +172,6 @@ externalPort = 80
 [[ports]]
 localPort = 44095
 externalPort = 3000
-
-[[ports]]
-localPort = 8000
-externalPort = 8000
-
-[[ports]]
-localPort = 5000
-externalPort = 80
 
 [deployment]
 run = ["npm", "start"]

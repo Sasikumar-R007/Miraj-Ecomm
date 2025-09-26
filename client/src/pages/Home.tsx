@@ -83,40 +83,94 @@ const Home: React.FC = () => {
 
   const heroSlides = [
     {
-      title: "New Arrivals",
-      subtitle: "Premium Handcrafted Candles",
-      description: "Discover our latest collection of artisan candles, crafted with love and the finest natural ingredients.",
-      image: "/images/candles/candle-collection-1.png",
-      buttonText: "Shop New Collection",
-      badge: "NEW",
-      link: "/new-arrivals"
+      id: 1,
+      mainTitle: "100% Natural",
+      subtitle: "Candles & Aromatherapy",
+      description: "Free shipping on all your orders. We deliver, you enjoy!",
+      discount: "43%",
+      buttonText: "Shop Now",
+      link: "/products",
+      mainImage: "/images/candles/candle-collection-1.png",
+      promoCards: [
+        {
+          title: "25% OFF",
+          subtitle: "Orange Zest Candles",
+          description: "Starting at $9.99",
+          image: "/images/candles/candle-collection-2.png",
+          buttonText: "Shop Now",
+          bgColor: "bg-gradient-to-br from-orange-100 to-orange-200",
+          link: "/products?category=candles&scent=citrus"
+        },
+        {
+          title: "BEST DEAL",
+          subtitle: "Coconut Soy Candles",
+          description: "Natural & Pure",
+          image: "/images/candles/candle-collection-4.png",
+          buttonText: "Shop Now",
+          bgColor: "bg-gradient-to-br from-green-700 to-green-800 text-white",
+          link: "/products?category=candles&type=soy"
+        }
+      ]
     },
     {
-      title: "On Discount",
-      subtitle: "Up to 30% Off Soy Wax Collection",
-      description: "Limited time offer! Experience the clean burn and extended life of our premium soy wax candles.",
-      image: "/images/candles/candle-collection-2.png",
-      buttonText: "Shop Sale",
-      badge: "SALE",
-      link: "/sale"
+      id: 2,
+      mainTitle: "Premium Quality",
+      subtitle: "Handcrafted Soy Candles", 
+      description: "Experience the finest natural ingredients in every candle!",
+      discount: "30%",
+      buttonText: "Shop Now",
+      link: "/products",
+      mainImage: "/images/candles/candle-collection-3.png",
+      promoCards: [
+        {
+          title: "LIMITED TIME",
+          subtitle: "Lavender Dreams",
+          description: "Starting at $12.99",
+          image: "/images/candles/candle-collection-5.png",
+          buttonText: "Shop Now",
+          bgColor: "bg-gradient-to-br from-purple-100 to-purple-200",
+          link: "/products?category=candles&scent=lavender"
+        },
+        {
+          title: "NEW ARRIVAL",
+          subtitle: "Vanilla Essence",
+          description: "Pure & Organic",
+          image: "/images/candles/candle-collection-6.jpg",
+          buttonText: "Shop Now", 
+          bgColor: "bg-gradient-to-br from-yellow-600 to-yellow-700 text-white",
+          link: "/products?category=candles&scent=vanilla"
+        }
+      ]
     },
     {
-      title: "Trending Now",
+      id: 3,
+      mainTitle: "Trending Now",
       subtitle: "Customer Favorites",
-      description: "Our most loved aromatherapy candles trending among thousands of customers worldwide.",
-      image: "/images/candles/candle-collection-4.png",
+      description: "Most loved aromatherapy candles trending worldwide!",
+      discount: "25%",
       buttonText: "Shop Trending",
-      badge: "TRENDING",
-      link: "/trending"
-    },
-    {
-      title: "Premium Gift Sets",
-      subtitle: "Perfect for Every Occasion",
-      description: "Beautifully packaged candle gift sets that create lasting memories for your loved ones.",
-      image: "/images/candles/candle-collection-5.png",
-      buttonText: "Browse Gifts",
-      badge: "GIFT",
-      link: "/gifts"
+      link: "/trending",
+      mainImage: "/images/candles/candle-collection-7.jpg",
+      promoCards: [
+        {
+          title: "HOT DEAL",
+          subtitle: "Rose Garden",
+          description: "Starting at $8.99",
+          image: "/images/candles/candle-collection-8.jpg",
+          buttonText: "Shop Now",
+          bgColor: "bg-gradient-to-br from-pink-100 to-rose-200",
+          link: "/products?category=candles&scent=floral"
+        },
+        {
+          title: "BESTSELLER",
+          subtitle: "Ocean Breeze",
+          description: "Fresh & Clean",
+          image: "/images/candles/candle-collection-9.jpg",
+          buttonText: "Shop Now",
+          bgColor: "bg-gradient-to-br from-blue-600 to-blue-700 text-white",
+          link: "/products?category=candles&scent=ocean"
+        }
+      ]
     }
   ];
 
@@ -231,9 +285,9 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
 
-      {/* Modern Hero Banner Section */}
-      <section className="bg-gradient-to-br from-gray-50 via-orange-50 to-pink-50 py-16 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      {/* Hero Banner Section - Shopery Style */}
+      <section className="bg-white py-8 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -241,105 +295,208 @@ const Home: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="text-center"
+              className="grid lg:grid-cols-2 gap-8 items-center"
             >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-block bg-gradient-to-r from-orange-100 to-pink-100 text-orange-700 px-6 py-2 rounded-full text-sm font-semibold mb-6"
-              >
-                {heroSlides[currentSlide].badge}
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-4"
-              >
-                {heroSlides[currentSlide].title}
-                <br />
-                <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-                  {heroSlides[currentSlide].subtitle}
-                </span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl mx-auto"
-              >
-                {heroSlides[currentSlide].description}
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="mb-12"
-              >
-                <Link
-                  to={heroSlides[currentSlide].link}
-                  className="inline-flex items-center bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-medium text-base transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+              {/* Left Side - Main Content */}
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="relative"
                 >
-                  {heroSlides[currentSlide].buttonText}
-                  <ArrowRightIcon className="w-5 h-5 ml-2" />
-                </Link>
-              </motion.div>
+                  {/* Discount Badge */}
+                  <div className="absolute -top-4 left-8 bg-orange-500 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold text-lg shadow-lg z-10">
+                    {heroSlides[currentSlide].discount}
+                  </div>
+                  
+                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                    {heroSlides[currentSlide].mainTitle}
+                    <br />
+                    <span className="text-2xl lg:text-3xl text-gray-600 font-normal">
+                      {heroSlides[currentSlide].subtitle}
+                    </span>
+                  </h1>
+                </motion.div>
 
-              {/* Modern Product Grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto"
-              >
-                {heroSlides.map((slide, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    className={`relative rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 ${currentSlide === index ? 'ring-4 ring-orange-500' : ''}`}
-                    onClick={() => setCurrentSlide(index)}
+                <motion.p
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-lg text-gray-600 leading-relaxed"
+                >
+                  {heroSlides[currentSlide].description}
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <Link
+                    to={heroSlides[currentSlide].link}
+                    className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
-                    <div className="aspect-square">
-                      <img
-                        src={slide.image}
-                        alt={slide.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                      <div className="absolute bottom-2 left-2 right-2">
-                        <p className="text-white text-sm font-medium truncate">{slide.badge}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                    {heroSlides[currentSlide].buttonText}
+                    <ArrowRightIcon className="w-5 h-5 ml-2" />
+                  </Link>
+                </motion.div>
 
-              {/* Square Indicators */}
-              <div className="flex justify-center mt-8 space-x-2">
-                {heroSlides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 transition-all duration-300 ${
-                      currentSlide === index
-                        ? 'bg-gradient-to-r from-orange-500 to-pink-500 rounded-sm'
-                        : 'bg-gray-300 hover:bg-gray-400 rounded-sm'
-                    }`}
+                {/* Main Product Image */}
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="relative lg:hidden"
+                >
+                  <img
+                    src={heroSlides[currentSlide].mainImage}
+                    alt={heroSlides[currentSlide].mainTitle}
+                    className="w-full max-w-md mx-auto h-72 object-cover rounded-2xl shadow-lg"
                   />
-                ))}
+                </motion.div>
+              </div>
+
+              {/* Right Side - Product Grid & Main Image */}
+              <div className="hidden lg:block">
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  {/* Promo Cards */}
+                  {heroSlides[currentSlide].promoCards.map((card, index) => (
+                    <Link key={index} to={card.link}>
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 + index * 0.1 }}
+                        className={`${card.bgColor} p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer`}
+                      >
+                        <div className="flex items-start justify-between mb-4">
+                          <div>
+                            <p className="text-sm font-semibold mb-1 opacity-90">{card.title}</p>
+                            <h3 className="text-lg font-bold mb-2">{card.subtitle}</h3>
+                            <p className="text-sm opacity-80 mb-3">{card.description}</p>
+                            <span className="text-sm font-medium underline hover:no-underline transition-all">
+                              {card.buttonText} →
+                            </span>
+                          </div>
+                          <img
+                            src={card.image}
+                            alt={card.subtitle}
+                            className="w-16 h-16 object-cover rounded-xl"
+                          />
+                        </div>
+                      </motion.div>
+                    </Link>
+                  ))}
+                </div>
+                
+                {/* Main Product Display */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 shadow-lg"
+                >
+                  <img
+                    src={heroSlides[currentSlide].mainImage}
+                    alt={heroSlides[currentSlide].mainTitle}
+                    className="w-full h-64 object-contain"
+                  />
+                </motion.div>
               </div>
             </motion.div>
           </AnimatePresence>
+
+          {/* Slide Indicators */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 transition-all duration-300 ${
+                  currentSlide === index
+                    ? 'bg-green-600 rounded-sm'
+                    : 'bg-gray-300 hover:bg-gray-400 rounded-sm'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Feature Icons Row */}
+        <div className="mt-16 bg-gray-50 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center space-x-3"
+              >
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <BsBoxSeam className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Free Shipping</h4>
+                  <p className="text-sm text-gray-600">Free shipping on all your order</p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="flex items-center space-x-3"
+              >
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Customer Support 24/7</h4>
+                  <p className="text-sm text-gray-600">Instant access to support</p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex items-center space-x-3"
+              >
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <BsShieldFillCheck className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">100% Secure Payment</h4>
+                  <p className="text-sm text-gray-600">We ensure your money is save</p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex items-center space-x-3"
+              >
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Money-Back Guarantee</h4>
+                  <p className="text-sm text-gray-600">30 days money-back guarantee</p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Modern Categories Section */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Choose Your Category Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -347,60 +504,162 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Categories</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Shop by category</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Category</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category, index) => (
+          {/* Category Icons Row */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 mb-12">
+            {categories.slice(0, 4).map((category, index) => (
               <motion.div
                 key={category.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className="group cursor-pointer"
+                className={`text-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${
+                  index === 0 
+                    ? 'bg-orange-500 text-white border-orange-500' 
+                    : 'bg-white border-gray-200 hover:border-orange-300'
+                }`}
+                onClick={() => {
+                  if (category.hasSubcategories) {
+                    navigate('/candles-subcategories');
+                  } else {
+                    navigate(`/products?category=${category.name.toLowerCase().replace(' ', '-')}`);
+                  }
+                }}
               >
-                {category.hasSubcategories ? (
-                  <div onClick={() => navigate('/candles-subcategories')} className="text-center">
-                    <div className="relative mb-4 mx-auto w-32 h-32 lg:w-40 lg:h-40">
-                      <div className={`w-full h-full rounded-3xl ${category.color} p-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
-                        <div className="w-full h-full bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                          <img
-                            src={category.categoryImage}
-                            alt={category.name}
-                            className="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-xl shadow-md"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
-                      {category.displayName}
-                    </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{category.description}</p>
-                  </div>
-                ) : (
-                  <Link to={`/products?category=${category.name.toLowerCase().replace(' ', '-')}`} className="text-center block">
-                    <div className="relative mb-4 mx-auto w-32 h-32 lg:w-40 lg:h-40">
-                      <div className={`w-full h-full rounded-3xl ${category.color} p-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
-                        <div className="w-full h-full bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                          <img
-                            src={category.categoryImage}
-                            alt={category.name}
-                            className="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-xl shadow-md"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
-                      {category.displayName}
-                    </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{category.description}</p>
-                  </Link>
-                )}
+                <div className="w-12 h-12 mx-auto mb-2 rounded-lg overflow-hidden">
+                  <img
+                    src={category.categoryImage}
+                    alt={category.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="font-semibold mb-1">{category.displayName}</h3>
+                <p className={`text-sm ${index === 0 ? 'text-orange-100' : 'text-gray-500'}`}>
+                  {category.name === 'Candles' ? '98 Items' : 
+                   category.name === 'Religious Products' ? '18 Items' :
+                   category.name === 'Kids Stationery' ? '25 Items' : '15 Items'}
+                </p>
               </motion.div>
             ))}
+          </div>
+
+          {/* Promotional Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-6">
+              {/* Aromatherapy Collection Card */}
+              <Link to="/products?category=candles&subcategory=aromatherapy">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="relative bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl overflow-hidden p-8 text-white cursor-pointer hover:scale-105 transition-transform duration-300"
+                >
+                  <div className="relative z-10">
+                    <p className="text-sm font-medium text-gray-300 mb-2">UP TO 20% OFF</p>
+                    <h3 className="text-2xl font-bold mb-2">Aromatherapy Collection</h3>
+                    <p className="text-gray-300 mb-6">Don't miss week long savings on wellness candles</p>
+                    <span className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition-colors inline-block">
+                      Shop Now →
+                    </span>
+                  </div>
+                  <img
+                    src="/images/candles/candle-collection-3.png"
+                    alt="Aromatherapy candles"
+                    className="absolute right-0 bottom-0 w-32 h-32 object-cover opacity-80"
+                  />
+                </motion.div>
+              </Link>
+
+              {/* Soy Wax Sale Card */}
+              <Link to="/sale">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="relative bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl overflow-hidden p-8 cursor-pointer hover:scale-105 transition-transform duration-300"
+                >
+                  <div className="relative z-10">
+                    <p className="text-sm font-medium text-gray-700 mb-2">UP TO 30% OFF</p>
+                    <h3 className="text-2xl font-bold mb-2 text-gray-900">Save On Soy Wax</h3>
+                    <p className="text-gray-700 mb-6">Natural, eco-friendly candles at unbeatable prices</p>
+                    <span className="bg-gray-900 hover:bg-black text-white px-6 py-2 rounded-lg font-medium transition-colors inline-block">
+                      Shop Now →
+                    </span>
+                  </div>
+                  <img
+                    src="/images/candles/candle-collection-5.png"
+                    alt="Soy wax candles"
+                    className="absolute right-4 bottom-4 w-28 h-28 object-cover"
+                  />
+                </motion.div>
+              </Link>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-6">
+              {/* New Arrivals Card */}
+              <Link to="/new-arrivals">
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="relative bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl overflow-hidden p-8 cursor-pointer hover:scale-105 transition-transform duration-300"
+                >
+                  <div className="relative z-10">
+                    <p className="text-sm font-medium text-orange-700 mb-2">NEW ARRIVALS</p>
+                    <h3 className="text-2xl font-bold mb-2 text-gray-900">Fresh Candle Collections</h3>
+                    <p className="text-gray-700 mb-6">Discover our latest handcrafted candle designs</p>
+                    <span className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors inline-block">
+                      Shop Now →
+                    </span>
+                  </div>
+                  <img
+                    src="/images/candles/candle-collection-7.jpg"
+                    alt="New candle arrivals"
+                    className="absolute right-0 bottom-0 w-32 h-32 object-cover rounded-xl"
+                  />
+                  <div className="absolute right-8 top-4">
+                    <img
+                      src="/images/candles/candle-collection-8.jpg"
+                      alt="Decorative candle"
+                      className="w-16 h-20 object-cover rounded-lg"
+                    />
+                  </div>
+                </motion.div>
+              </Link>
+
+              {/* Gift Sets Showcase Card */}
+              <Link to="/gifts">
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden h-64 cursor-pointer hover:scale-105 transition-transform duration-300"
+                >
+                  <img
+                    src="/images/candles/candle-collection-9.jpg"
+                    alt="Premium candle gift sets"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <p className="text-sm font-medium mb-2">SPECIAL COLLECTION</p>
+                    <h3 className="text-xl font-bold mb-2">Premium Gift Sets</h3>
+                    <span className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-4 py-2 rounded-lg font-medium transition-colors border border-white/30 inline-block">
+                      Explore →
+                    </span>
+                  </div>
+                </motion.div>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
