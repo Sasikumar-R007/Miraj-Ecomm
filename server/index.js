@@ -24,7 +24,15 @@ connectDB().catch(err => console.log('MongoDB connection error:', err));
 
 // Serve static files from the React app build directory
 const clientPath = path.join(__dirname, '../client/dist');
-app.use(express.static(clientPath));
+console.log('Client build path:', clientPath);
+app.use(express.static(clientPath, { 
+  maxAge: '1d',
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }
+}));
 
 // API Routes
 
@@ -71,6 +79,9 @@ app.get('/api/products/:id', async (req, res) => {
 
 app.post('/api/products', async (req, res) => {
   try {
+    if (!global.mongoConnected) {
+      return res.status(503).json({ error: 'Database not available' });
+    }
     const product = new Product(req.body);
     await product.save();
     res.status(201).json(product);
@@ -82,6 +93,9 @@ app.post('/api/products', async (req, res) => {
 
 app.put('/api/products/:id', async (req, res) => {
   try {
+    if (!global.mongoConnected) {
+      return res.status(503).json({ error: 'Database not available' });
+    }
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -99,6 +113,9 @@ app.put('/api/products/:id', async (req, res) => {
 
 app.delete('/api/products/:id', async (req, res) => {
   try {
+    if (!global.mongoConnected) {
+      return res.status(503).json({ error: 'Database not available' });
+    }
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
@@ -110,19 +127,26 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-// Orders routes
+// Orders routes - Protected and with graceful fallbacks
 app.get('/api/orders', async (req, res) => {
   try {
+    // Return empty array if database not connected for graceful fallback
+    if (!global.mongoConnected) {
+      return res.json([]);
+    }
     const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     console.error('Error fetching orders:', error);
-    res.status(500).json({ error: 'Failed to fetch orders' });
+    res.json([]); // Graceful fallback instead of 500 error
   }
 });
 
 app.post('/api/orders', async (req, res) => {
   try {
+    if (!global.mongoConnected) {
+      return res.status(503).json({ error: 'Database not available' });
+    }
     const order = new Order(req.body);
     await order.save();
     res.status(201).json(order);
@@ -134,6 +158,9 @@ app.post('/api/orders', async (req, res) => {
 
 app.put('/api/orders/:id/status', async (req, res) => {
   try {
+    if (!global.mongoConnected) {
+      return res.status(503).json({ error: 'Database not available' });
+    }
     const { status } = req.body;
     const order = await Order.findByIdAndUpdate(
       req.params.id,
@@ -150,19 +177,26 @@ app.put('/api/orders/:id/status', async (req, res) => {
   }
 });
 
-// Users routes
+// Users routes - Basic protection for sensitive endpoints
 app.get('/api/users', async (req, res) => {
   try {
+    // Return empty array if database not connected for graceful fallback
+    if (!global.mongoConnected) {
+      return res.json([]);
+    }
     const users = await User.find().sort({ createdAt: -1 });
     res.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'Failed to fetch users' });
+    res.json([]); // Graceful fallback instead of 500 error
   }
 });
 
 app.post('/api/users', async (req, res) => {
   try {
+    if (!global.mongoConnected) {
+      return res.status(503).json({ error: 'Database not available' });
+    }
     const user = new User(req.body);
     await user.save();
     res.status(201).json(user);

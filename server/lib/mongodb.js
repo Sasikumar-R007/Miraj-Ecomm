@@ -7,8 +7,10 @@ export const connectDB = async () => {
 
     const conn = await mongoose.connect(MONGODB_URI);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
+    global.mongoConnected = true;
   } catch (error) {
     console.log('MongoDB connection failed, continuing without database:', error.message);
+    global.mongoConnected = false;
     // Don't exit process, allow server to run without DB for development
   }
 };
