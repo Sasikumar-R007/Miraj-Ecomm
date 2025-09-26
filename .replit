@@ -172,7 +172,7 @@ externalPort = 3000
 [deployment]
 run = ["npm", "start"]
 deploymentTarget = "autoscale"
-build = ["npm", "run", "build:client"]
+build = ["npm", "run", "build"]
 
 [agent]
 expertMode = true
