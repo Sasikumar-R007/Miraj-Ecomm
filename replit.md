@@ -1,50 +1,91 @@
 # Miraj Candles E-commerce Platform
 
-## Overview
-A modern e-commerce platform for Miraj Candles built with React, TypeScript, Tailwind CSS, and Express.js. The platform includes a customer-facing frontend, backend API, and admin panel for managing products and orders.
+## Project Overview
 
-## Recent Changes (September 25, 2025)
-- Successfully imported from GitHub repository
-- Configured all components for Replit environment
-- Fixed Vite configuration issues for proper host handling
-- Installed all dependencies and set up workflows
-- Configured deployment settings for production
-- Both frontend and backend are working correctly with API integration
+This is a modern, full-stack e-commerce platform built for Miraj Candles. The project features a React TypeScript frontend, Node.js/Express backend, and a separate admin panel for product management.
 
-## Project Architecture
+**Last Updated**: September 26, 2025
+**Status**: Successfully imported and configured for Replit environment
 
-### Client (Frontend)
-- **Technology**: React + TypeScript + Vite
-- **Port**: 5000 (configured for Replit proxy)
-- **Features**: Product catalog, shopping cart, user authentication, responsive design
-- **Configuration**: Properly configured to allow all hosts for Replit environment
+## Architecture
 
-### Server (Backend)
-- **Technology**: Node.js + Express
-- **Port**: 3000
-- **Features**: RESTful API, MongoDB integration, sample data fallback
-- **Database**: MongoDB (with graceful fallback to sample data)
+### Tech Stack
+- **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS + Framer Motion
+- **Backend**: Node.js + Express + Mongoose (MongoDB)
+- **Admin Panel**: Separate React app with admin functionality
+- **Database**: MongoDB (configured with fallback sample data for development)
+- **Authentication**: Firebase Auth integration ready
 
-### Admin Panel
-- **Technology**: React + TypeScript + Vite
-- **Port**: 5001 (separate application)
-- **Features**: Product management, order management, admin authentication
+### Project Structure
+```
+miraj-candles/
+├── client/          # Main frontend React application (port 5000)
+├── server/          # Backend Express API server (port 3000)
+├── admin/           # Admin panel React application (port 8000)
+├── package.json     # Root workspace configuration
+└── README.md        # Original project documentation
+```
 
-## Current State
-- ✅ All dependencies installed successfully
-- ✅ Frontend running on port 5000 with proper host configuration
-- ✅ Backend API running on port 3000 serving sample data
-- ✅ API integration working (frontend successfully calls backend)
-- ✅ Deployment configuration set up for production
-- ✅ Graceful fallback to sample data when database unavailable
+## Development Configuration
 
-## User Preferences
-- Project follows existing code structure and conventions
-- Uses sample data for demonstration when database not connected
-- Maintains separation between client, server, and admin components
+### Workflows Configured
+1. **Frontend Client**: Runs `cd client && npm run dev` on port 5000 (webview)
+2. **Backend API**: Runs `cd server && npm run dev` on port 3000 (console)
 
-## Deployment Notes
-- Configured for autoscale deployment
-- Build process compiles client assets
-- Server serves both API endpoints and static frontend files
-- Ready for production deployment on Replit
+### Key Configuration Changes for Replit
+- Frontend configured with `host: '0.0.0.0'` and `allowedHosts: true` in vite.config.ts
+- Backend configured to run on `localhost:3000` to avoid conflicts
+- API proxy configured from frontend to backend at `/api` endpoint
+
+## Deployment Configuration
+
+- **Deployment Target**: Autoscale (suitable for stateless e-commerce)
+- **Build Command**: `npm run build` (builds client application)
+- **Run Command**: `node server/index.js` (serves both API and built frontend)
+
+## Features
+
+### Customer Features
+- Product catalog with filtering and search
+- Shopping cart and wishlist functionality
+- User authentication (Firebase integration ready)
+- Responsive design optimized for all devices
+- Product categories and subcategories
+- Best sellers and new arrivals sections
+
+### Admin Features
+- Separate admin panel for product management
+- Order management system
+- User management
+- Dashboard with analytics
+
+## Database Setup
+
+The application is configured with MongoDB using Mongoose. For development:
+- Uses fallback sample data when database is unavailable
+- MongoDB URI: `mongodb://localhost:27017/miraj-candles` (configurable via env)
+- Graceful degradation when database connection fails
+
+## Environment Variables
+
+The application supports the following environment variables:
+- `MONGODB_URI`: MongoDB connection string
+- `PORT`: Server port (defaults to 3000)
+
+## Development Status
+
+✅ **Completed Setup Tasks**:
+1. All dependencies installed for client, server, and admin
+2. Frontend workflow configured and running on port 5000
+3. Backend workflow configured and running on port 3000  
+4. Both frontend and backend tested and working properly
+5. Deployment configuration completed
+6. Project successfully imported to Replit environment
+
+## Notes
+
+- The project includes extensive sample data for development testing
+- Admin panel runs separately on port 8000 when needed
+- Frontend successfully proxies API requests to backend
+- All components are properly configured for the Replit environment
+- Ready for production deployment through Replit's publish feature
