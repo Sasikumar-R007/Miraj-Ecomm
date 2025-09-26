@@ -111,27 +111,11 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Client Frontend"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
 args = "Backend Server"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Admin Panel"
-
-[[workflows.workflow]]
-name = "Client Frontend"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd client && npm run dev"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
+args = "Client Frontend"
 
 [[workflows.workflow]]
 name = "Backend Server"
@@ -146,24 +130,20 @@ waitForPort = 3000
 outputType = "console"
 
 [[workflows.workflow]]
-name = "Admin Panel"
+name = "Client Frontend"
 author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd admin && npm run dev"
-waitForPort = 8000
+args = "cd client && npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[ports]]
 localPort = 3000
 externalPort = 3000
-
-[[ports]]
-localPort = 5000
-externalPort = 5000
 
 [[ports]]
 localPort = 37321
@@ -188,6 +168,10 @@ externalPort = 3000
 [[ports]]
 localPort = 8000
 externalPort = 8000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
 
 [deployment]
 run = ["npm", "start"]
