@@ -1,146 +1,72 @@
 
 import { sampleProducts } from '../lib/sampleData';
 
-const API_BASE_URL = (import.meta.env?.VITE_API_BASE_URL as string) || '/api';
-
 export class MongoService {
-  // Products
+  // Products - Now using local data only (no backend API calls)
   static async getProducts() {
-    try {
-      const response = await fetch(`${API_BASE_URL}/products`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        console.log('API not available, using sample data');
-        // Transform sample products to include missing fields
-        return sampleProducts.map((product, index) => ({
-          ...product,
-          id: (index + 1).toString(),
-          createdAt: new Date(),
-          status: 'featured'
-        }));
-      }
-      return response.json();
-    } catch (error) {
-      console.log('API error, falling back to sample data:', error);
-      // Transform sample products to include missing fields
-      return sampleProducts.map((product, index) => ({
-        ...product,
-        id: (index + 1).toString(),
-        createdAt: new Date(),
-        status: 'featured'
-      }));
-    }
+    // Return sample products directly
+    return sampleProducts.map((product, index) => ({
+      ...product,
+      id: (index + 1).toString(),
+      createdAt: new Date(),
+      status: 'featured'
+    }));
   }
 
   static async getProductById(productId: string) {
-    try {
-      const response = await fetch(`${API_BASE_URL}/products/${productId}`);
-      if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          return response.json();
-        }
-      }
-      // Fallback to sample data
-      const sampleProduct = sampleProducts.find((p, index) => (index + 1).toString() === productId);
-      if (sampleProduct) {
-        return {
-          ...sampleProduct,
-          id: productId,
-          createdAt: new Date(),
-          status: 'featured'
-        };
-      }
-      return null;
-    } catch (error) {
-      console.log('API error, searching sample data:', error);
-      const sampleProduct = sampleProducts.find((p, index) => (index + 1).toString() === productId);
-      if (sampleProduct) {
-        return {
-          ...sampleProduct,
-          id: productId,
-          createdAt: new Date(),
-          status: 'featured'
-        };
-      }
-      return null;
+    // Search sample products directly
+    const sampleProduct = sampleProducts.find((p, index) => (index + 1).toString() === productId);
+    if (sampleProduct) {
+      return {
+        ...sampleProduct,
+        id: productId,
+        createdAt: new Date(),
+        status: 'featured'
+      };
     }
+    return null;
   }
 
+  // Admin functions - These are for demo purposes only (no backend)
   static async createProduct(productData: any) {
-    const response = await fetch(`${API_BASE_URL}/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(productData),
-    });
-    return response.json();
+    console.log('Demo mode: Product creation not available without backend');
+    return { success: false, message: 'Backend not configured' };
   }
 
   static async updateProduct(productId: string, productData: any) {
-    const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(productData),
-    });
-    return response.json();
+    console.log('Demo mode: Product update not available without backend');
+    return { success: false, message: 'Backend not configured' };
   }
 
   static async deleteProduct(productId: string) {
-    const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
-      method: 'DELETE',
-    });
-    return response.json();
+    console.log('Demo mode: Product deletion not available without backend');
+    return { success: false, message: 'Backend not configured' };
   }
 
   // Orders
   static async getOrders() {
-    const response = await fetch(`${API_BASE_URL}/orders`);
-    return response.json();
+    console.log('Demo mode: No orders in frontend-only mode');
+    return [];
   }
 
   static async createOrder(orderData: any) {
-    const response = await fetch(`${API_BASE_URL}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(orderData),
-    });
-    return response.json();
+    console.log('Demo mode: Order created (not saved):', orderData);
+    return { success: true, message: 'Order received (demo mode)', data: orderData };
   }
 
   static async updateOrderStatus(orderId: string, status: string) {
-    const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ status }),
-    });
-    return response.json();
+    console.log('Demo mode: Order status update not available');
+    return { success: false, message: 'Backend not configured' };
   }
 
   // Users
   static async getUsers() {
-    const response = await fetch(`${API_BASE_URL}/users`);
-    return response.json();
+    console.log('Demo mode: No users in frontend-only mode');
+    return [];
   }
 
   static async createUser(userData: any) {
-    const response = await fetch(`${API_BASE_URL}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-    return response.json();
+    console.log('Demo mode: User created (not saved):', userData);
+    return { success: true, message: 'User registered (demo mode)', data: userData };
   }
 }
