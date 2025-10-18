@@ -15,11 +15,6 @@
     "start:all": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:admin\"",
     "dev": "npm run start:all"
   },
-  "workspaces": [
-    "client",
-    "server",
-    "admin"
-  ],
   "dependencies": {
     "concurrently": "^9.2.1"
   }
